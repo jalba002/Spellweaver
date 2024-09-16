@@ -1,0 +1,59 @@
+﻿<Window x:Class="Spellweaver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Spellweaver" 
+        xmlns:controls="clr-namespace:Spellweaver.Controls" 
+        xmlns:view="clr-namespace:Spellweaver.View"
+        xmlns:admin="clr-namespace:Spellweaver.Commands"
+        mc:Ignorable="d"
+        d:DesignWidth="700" d:DesignHeight="600"
+        WindowStyle="ThreeDBorderWindow"
+        Title="Spellweaver" Height="600" Width="800" FontSize="16"
+        Icon="/Images/BookIcon.png">
+    <!--<Window.InputBindings>
+        <KeyBinding Gesture="CTRL+N"
+                    Command="admin:CustomCommands.AddCommand" />
+    </Window.InputBindings>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <controls:MenuHeaderControl DataContext="{Binding SelectedViewModel}"/>
+        <controls:HeaderControl Grid.Row="1"/>
+        <view:SpellCreatorView Grid.Row="2" DataContext="{Binding SelectedViewModel}"/>
+        <StatusBar Grid.Row="3" Background="{StaticResource CaptionBackgroundBrush}">
+            <StatusBarItem>
+                <TextBlock>(c) Spellweaver.</TextBlock>
+            </StatusBarItem>
+            <!--<StatusBarItem>
+                <ProgressBar Width="100" Height="20"
+                 Name="progressBar1">
+                    <ProgressBar.Triggers>
+                        <EventTrigger RoutedEvent="ProgressBar.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                Storyboard.TargetName="progressBar1" 
+                Storyboard.TargetProperty="Value"
+                From="0" To="100" Duration="0:0:5"  />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ProgressBar.Triggers>
+                </ProgressBar>
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock>Online</TextBlock>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Image Source="Images/Add.png" Width="16" Height="16"/>
+            </StatusBarItem>-->
+        </StatusBar>
+    </Grid>
+</Window>

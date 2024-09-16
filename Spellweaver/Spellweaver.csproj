@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PackageIcon>BookIcon.png</PackageIcon>
+    <AssemblyVersion>0.2.*</AssemblyVersion>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\add.png" />
+    <None Remove="Images\ExportData.png" />
+    <None Remove="Images\ExportScript.png" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\move.png" />
+    <None Remove="Images\Remove.png" />
+    <None Remove="Images\RemoveFromDictionary.png" />
+    <None Remove="Images\Settings.png" />
+    <None Remove="Images\ShowAllConfigurations.png" />
+    <None Remove="Images\Visual Studio 2022 Image Library.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Resources\Styles\Spells.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\add.png" />
+    <Resource Include="Images\BookIcon.png" />
+    <Resource Include="Images\ExportData.png" />
+    <Resource Include="Images\ExportScript.png" />
+    <Resource Include="Images\Remove.png" />
+    <Resource Include="Images\RemoveFromDictionary.png" />
+    <Resource Include="Images\Settings.png" />
+    <Resource Include="Images\ShowAllConfigurations.png" />
+    <Resource Include="Resources\Styles\Spells.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\BookIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

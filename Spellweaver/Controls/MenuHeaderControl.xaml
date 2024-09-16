@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Spellweaver.Controls.MenuHeaderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Spellweaver.Controls"
+             xmlns:admin="clr-namespace:Spellweaver.Commands"
+             mc:Ignorable="d" 
+             d:DesignHeight="24" d:DesignWidth="500">
+    <Menu FontSize="16">
+        <MenuItem Header="_File">
+            <!--<MenuItem Header="Import Spell" Command="{Binding ImportSpellCommand}"/>
+            <MenuItem Header="Export Spell" Command="{Binding ExportSpellCommand}"/>
+            <Separator></Separator>
+            <MenuItem Header="Import Database" Command="{Binding ImportSpellsCommand}"/>
+            <MenuItem Header="Export Database" Command="{Binding ExportSpellsCommand}"/>-->
+        </MenuItem>
+        <MenuItem Header="_Edit">
+            <MenuItem Header="_New Spell" Command="{Binding AddCommand}"/>
+            <MenuItem Header="_Remove Spell" Command="{Binding RemoveCommand}"/>
+            <Separator></Separator>
+            <MenuItem Header="Cut" Command="ApplicationCommands.Cut"></MenuItem>
+            <MenuItem Header="Copy" Command="ApplicationCommands.Copy"></MenuItem>
+            <MenuItem Header="Paste" Command="ApplicationCommands.Paste"></MenuItem>
+        </MenuItem>
+        <MenuItem Header="_Download">
+            <MenuItem Header="All spells" Command="{Binding DownloadSpellsCommand}"/>
+        </MenuItem>
+        <MenuItem Header="_About">
+            <MenuItem Header="{Binding SpellweaverVersion, RelativeSource={RelativeSource AncestorType=Window}}"></MenuItem>
+            <!--<Separator/>
+            <MenuItem Header="Changelog"/>-->
+        </MenuItem>
+        <MenuItem Header="_Debugs">
+            <MenuItem Header="Debug Spell" Command="{Binding ShowSpellDebugCommand}"/>
+            <MenuItem Header="Open IE Menu" Command="{Binding OpenExportCommand}"/>
+        </MenuItem>
+    </Menu>
+</UserControl>

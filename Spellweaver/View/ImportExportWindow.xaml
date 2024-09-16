@@ -1,0 +1,61 @@
+﻿<Window x:Class="Spellweaver.View.ImportExportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Spellweaver.View"
+        xmlns:converter="clr-namespace:Spellweaver.Converter"
+        mc:Ignorable="d" Height="450" Width="400"
+        d:DesignWidth="250" d:DesignHeight="300"
+        WindowStyle="SingleBorderWindow" Title="Import/Export Menu">
+    <Window.Resources>
+        <converter:ExportableTypeToClassConverter x:Key="ExportTypeToClassConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.ColumnSpan="1">
+            <TextBlock Text="Select Format" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"></TextBlock>
+            <ListView Margin="5" 
+                      ItemsSource="{Binding ExportTypes}"
+                      SelectedItem="{Binding SelectedExportType}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <TextBlock Text="{Binding ExportationType}"></TextBlock>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Button Margin="3"
+                    Command="{Binding ExportSpellCommand}">
+                <TextBlock Text="Export" Margin="5,0,0,0"/>
+            </Button>
+            <Button Margin="3"
+                    Command="{Binding ImportSpellCommand}">
+                <TextBlock Text="Import" Margin="5,0,0,0"/>
+            </Button>
+            <Button Margin="3"
+                    Command="{Binding ImportSpellsCommand}">
+                <TextBlock Text="Import DB" Margin="5,0,0,0"/>
+            </Button>
+            <Button Margin="3"
+                    Command="{Binding ExportSpellsCommand}">
+                <TextBlock Text="Export DB" Margin="5,0,0,0"/>
+            </Button>
+        </StackPanel>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
