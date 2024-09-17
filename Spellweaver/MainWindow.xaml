@@ -4,56 +4,106 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spellweaver" 
-        xmlns:controls="clr-namespace:Spellweaver.Controls" 
-        xmlns:view="clr-namespace:Spellweaver.View"
+        xmlns:Controls="clr-namespace:Spellweaver.Controls"
+        xmlns:Views="clr-namespace:Spellweaver.View"
+        xmlns:ViewModels="clr-namespace:Spellweaver.ViewModel"
         xmlns:admin="clr-namespace:Spellweaver.Commands"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        d:DesignWidth="700" d:DesignHeight="600"
-        WindowStyle="ThreeDBorderWindow"
-        Title="Spellweaver" Height="600" Width="800" FontSize="16"
+        d:DesignWidth="900" d:DesignHeight="600"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         Icon="/Images/BookIcon.png">
     <!--<Window.InputBindings>
         <KeyBinding Gesture="CTRL+N"
                     Command="admin:CustomCommands.AddCommand" />
     </Window.InputBindings>-->
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type ViewModels:SpellEditorViewModel}">
+            <Views:SpellEditorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:SpellListViewModel}">
+            <Views:SpellListView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:TitleViewModel}">
+            <Views:TitleView/>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <controls:MenuHeaderControl DataContext="{Binding SelectedViewModel}"/>
-        <controls:HeaderControl Grid.Row="1"/>
-        <view:SpellCreatorView Grid.Row="2" DataContext="{Binding SelectedViewModel}"/>
-        <StatusBar Grid.Row="3" Background="{StaticResource CaptionBackgroundBrush}">
-            <StatusBarItem>
-                <TextBlock>(c) Spellweaver.</TextBlock>
-            </StatusBarItem>
-            <!--<StatusBarItem>
-                <ProgressBar Width="100" Height="20"
-                 Name="progressBar1">
-                    <ProgressBar.Triggers>
-                        <EventTrigger RoutedEvent="ProgressBar.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation
-                Storyboard.TargetName="progressBar1" 
-                Storyboard.TargetProperty="Value"
-                From="0" To="100" Duration="0:0:5"  />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </ProgressBar.Triggers>
-                </ProgressBar>
-            </StatusBarItem>
-            <Separator/>
-            <StatusBarItem>
-                <TextBlock>Online</TextBlock>
-            </StatusBarItem>
-            <StatusBarItem HorizontalAlignment="Right">
-                <Image Source="Images/Add.png" Width="16" Height="16"/>
-            </StatusBarItem>-->
-        </StatusBar>
+        <!--<Controls:MenuHeaderControl DataContext="{Binding SelectedViewModel}"/>-->
+        <!--<Controls:HeaderControl Grid.Row="1"/>-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Background="{StaticResource Color8}">
+                <StackPanel Width="auto">
+                    <StackPanel Orientation="Horizontal" Margin="20">
+                        <fa:IconImage Icon="Book"/>
+                        <TextBlock Style="{StaticResource Header.Title}"/>
+                    </StackPanel>
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadMainMenuCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Home" Style="{StaticResource MenuButtonIcon}"/>
+                            <TextBlock Text="Home" Style="{StaticResource MenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadSpellListCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="List" Style="{StaticResource MenuButtonIcon}"/>
+                            <TextBlock Text="Spells" Style="{StaticResource MenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadSpellEditorCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Pen" Style="{StaticResource MenuButtonIcon}"/>
+                            <TextBlock Text="Editor" Style="{StaticResource MenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <Separator/>
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Wheelchair" Style="{StaticResource MenuButtonIcon}"/>
+                            <TextBlock Text="Configuration" Style="{StaticResource MenuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
+            </Border>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel x:Name="controlBar"
+                            Grid.Row="0"
+                            Orientation="Horizontal"
+                            FlowDirection="RightToLeft"
+                            Background="Transparent">
+                    <Button Content="X"
+                            Style="{StaticResource ControlBarButton}"
+                            Tag="{StaticResource ControlBarButtonCancelColor}">
+                    </Button>
+                    <Button Content="O" 
+                            Style="{StaticResource ControlBarButton}"
+                            Tag="{StaticResource ControlBarHoverColor}"/>
+                    <Button Content="-" 
+                            Style="{StaticResource ControlBarButton}"
+                            Tag="{StaticResource ControlBarHoverColor}"/>
+                </StackPanel>
+                <Border Grid.Row="1">
+                    <ContentControl Grid.Column="1" Content="{Binding SelectedViewModel}"/>
+                </Border>
+            </Grid>
+            
+        </Grid>
     </Grid>
 </Window>

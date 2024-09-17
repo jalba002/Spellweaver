@@ -5,8 +5,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Brushes.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="Resources/Styles/Spells.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources/Styles/Brushes.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Spells.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/DataTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

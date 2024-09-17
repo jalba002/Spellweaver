@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataTemplate x:Key="SpellDataTemplate">
+        <StackPanel>
+            <DockPanel>
+                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Level, StringFormat=(Level {0})}" 
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                       Margin="5,0,0,0"/>
+            </DockPanel>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding School}" FontSize="11"/>
+                <TextBlock Text="{Binding Classes}" FontSize="11"/>
+                <TextBlock Text="{Binding Source}" FontSize="11" Foreground="Blue"/>
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

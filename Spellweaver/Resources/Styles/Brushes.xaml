@@ -4,4 +4,22 @@
     <SolidColorBrush x:Key="HeaderForegroundBrush" Color="Black"/>
     <SolidColorBrush x:Key="CaptionBackgroundBrush" Color="DarkGray"/>
     <SolidColorBrush x:Key="CaptionForegroundBrush" Color="Black"/>
+    
+    <!--Color palette-->
+    <SolidColorBrush x:Key="Color1" Color="#C7FFD8"/>
+    <SolidColorBrush x:Key="Color2" Color="#98DED9"/>
+    <SolidColorBrush x:Key="Color3" Color="#0B2F9F"/>
+    <SolidColorBrush x:Key="Color4" Color="#161D6F"/>
+    <SolidColorBrush x:Key="Color5" Color="#424242"/>
+    <SolidColorBrush x:Key="Color6" Color="#229799"/>
+    <SolidColorBrush x:Key="Color7" Color="#48CFCB"/>
+    <SolidColorBrush x:Key="Color8" Color="#F5F5F5"/>
+    
+    <!--Menu buttons colors-->
+    
+    <!--Control bar colors-->
+    <SolidColorBrush x:Key="ControlBarHoverColor" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="ControlBarButtonRestColor" Color="DarkGray"/>
+    <SolidColorBrush x:Key="ControlBarButtonCancelColor" Color="Red"/>
+
 </ResourceDictionary>

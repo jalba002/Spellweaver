@@ -16,24 +16,24 @@
             <MenuItem Header="Export Database" Command="{Binding ExportSpellsCommand}"/>-->
         </MenuItem>
         <MenuItem Header="_Edit">
-            <MenuItem Header="_New Spell" Command="{Binding AddCommand}"/>
-            <MenuItem Header="_Remove Spell" Command="{Binding RemoveCommand}"/>
-            <Separator></Separator>
+            <!--<MenuItem Header="_New Spell" Command="{Binding AddCommand}"/>-->
+            <!--<MenuItem Header="_Remove Spell" Command="{Binding RemoveCommand}"/>-->
+            <!--<Separator></Separator>-->
             <MenuItem Header="Cut" Command="ApplicationCommands.Cut"></MenuItem>
             <MenuItem Header="Copy" Command="ApplicationCommands.Copy"></MenuItem>
             <MenuItem Header="Paste" Command="ApplicationCommands.Paste"></MenuItem>
         </MenuItem>
-        <MenuItem Header="_Download">
+        <!--<MenuItem Header="_Download">
             <MenuItem Header="All spells" Command="{Binding DownloadSpellsCommand}"/>
-        </MenuItem>
+        </MenuItem>-->
         <MenuItem Header="_About">
             <MenuItem Header="{Binding SpellweaverVersion, RelativeSource={RelativeSource AncestorType=Window}}"></MenuItem>
             <!--<Separator/>
             <MenuItem Header="Changelog"/>-->
         </MenuItem>
-        <MenuItem Header="_Debugs">
+        <!--<MenuItem Header="_Debugs">
             <MenuItem Header="Debug Spell" Command="{Binding ShowSpellDebugCommand}"/>
             <MenuItem Header="Open IE Menu" Command="{Binding OpenExportCommand}"/>
-        </MenuItem>
+        </MenuItem>-->
     </Menu>
 </UserControl>

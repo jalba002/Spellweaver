@@ -23,7 +23,11 @@ namespace Spellweaver
 
             service.AddTransient<MainViewModel>();
 
-            service.AddTransient<SpellsViewModel>();
+            service.AddTransient<TitleViewModel>();
+
+            service.AddTransient<SpellEditorViewModel>();
+
+            service.AddTransient<SpellListViewModel>();
 
             service.AddTransient<IDBProvider<DNDDatabase>, DefaultDatabaseProvider>();
         }

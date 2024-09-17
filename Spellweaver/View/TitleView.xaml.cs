@@ -2,9 +2,9 @@
 
 namespace Spellweaver.View
 {
-    public partial class SpellCreatorView : UserControl
+    public partial class TitleView : UserControl
     {
-        public SpellCreatorView()
+        public TitleView()
         {
             InitializeComponent();
         }

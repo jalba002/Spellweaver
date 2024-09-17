@@ -27,9 +27,9 @@ namespace Spellweaver.ViewModel
         #endregion
 
         // a reference to the big one.
-        private readonly SpellsViewModel _mainViewModel;
+        private readonly SpellEditorViewModel _mainViewModel;
 
-        public ExportViewModel(SpellsViewModel mainViewModel)
+        public ExportViewModel(SpellEditorViewModel mainViewModel)
         {
             AddExportTypes();
 
@@ -58,7 +58,7 @@ namespace Spellweaver.ViewModel
         {
             // Show messagebox asking if it wants to replace current Database or Merge.
             List<Spell>? spells = SpellExporter.ImportSpells<Spell>() as List<Spell>;
-            _mainViewModel.ImportSpells(spells);
+            //_mainViewModel.ImportSpells(spells);
         }
         private void ExportSpell(object? parameter)
         {
@@ -73,7 +73,7 @@ namespace Spellweaver.ViewModel
         }
         private void ExportSpells(object? parameter)
         {
-            GenericExportSpell(_mainViewModel.Spells.ToList());
+            //GenericExportSpell(_mainViewModel.Spells.ToList());
         }
         private void GenericExportSpell(List<SpellItemViewModel> outSpells)
         {

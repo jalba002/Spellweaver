@@ -10,11 +10,13 @@
     </Style>
     <Style x:Key="Header.Title" TargetType="TextBlock">
         <Setter Property="Text" Value="Spellweaver"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Text" Value="SP311W34V3R"/>
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="{StaticResource Color3}"/>
+        <Setter Property="FontStyle" Value="Normal"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style x:Key="SpellStyles.CheckBox">
         <Setter Property="ItemsControl.IsManipulationEnabled" Value="True"></Setter>
