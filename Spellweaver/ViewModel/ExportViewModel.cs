@@ -62,14 +62,14 @@ namespace Spellweaver.ViewModel
         }
         private void ExportSpell(object? parameter)
         {
-            SpellItemViewModel? selectedSpell = _mainViewModel.SelectedSpell;
-            List<SpellItemViewModel> list = new List<SpellItemViewModel>();
-            if (selectedSpell is not null)
-            {
-                // Call backend for a spell exportation!
-                list.Add(selectedSpell);
-                GenericExportSpell(list);
-            }
+            //SpellItemViewModel? selectedSpell = _mainViewModel.SelectedSpell;
+            //List<SpellItemViewModel> list = new List<SpellItemViewModel>();
+            //if (selectedSpell is not null)
+            //{
+            //    // Call backend for a spell exportation!
+            //    list.Add(selectedSpell);
+            //    GenericExportSpell(list);
+            //}
         }
         private void ExportSpells(object? parameter)
         {

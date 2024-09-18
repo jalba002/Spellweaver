@@ -4,21 +4,25 @@ namespace Spellweaver.Data
 {
     public class DefaultDatabaseProvider : IDBProvider<DNDDatabase>
     {
+        private DNDDatabase? _database;
+
         public async Task<DNDDatabase?> GetAllAsync()
         {
             // Load everything into the DND database and return it.
-            var db = new DNDDatabase();
+            if (_database != null) return _database;
+
+            _database = new DNDDatabase();
             await Task.Delay(10);
 
-            // Load default shit into the DB.
-            db.Spells = (List<Spell>?)await new SpellDataProvider().GetAllAsync();
-            db.Schools = (List<School>?)await new SchoolDataProvider().GetAllAsync();
-            db.CastingTimes = (List<CastingTime>?)await new CastingTimeDataProvider().GetAllAsync();
-            db.Levels = (List<Level>?)await new LevelDataProvider().GetAllAsync();
+            // Load default stuff into the DB.
+            _database.Spells = (List<Spell>?)await new SpellDataProvider().GetAllAsync();
+            _database.Schools = (List<School>?)await new SchoolDataProvider().GetAllAsync();
+            _database.CastingTimes = (List<CastingTime>?)await new CastingTimeDataProvider().GetAllAsync();
+            _database.Levels = (List<Level>?)await new LevelDataProvider().GetAllAsync();
 
             // The SERVER delay LEMAO.
             await Task.Delay(10);
-            return db;
+            return _database;
         }
     }
 }

@@ -29,6 +29,9 @@
         <DataTemplate DataType="{x:Type ViewModels:TitleViewModel}">
             <Views:TitleView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:ConfigViewModel}">
+            <Views:ConfigView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -69,8 +72,10 @@
                             <TextBlock Text="Editor" Style="{StaticResource MenuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
-                    <Separator/>
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}">
+                    <Separator  VerticalAlignment="Bottom"
+                               />
+                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadConfigCommand}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Wheelchair" Style="{StaticResource MenuButtonIcon}"/>
                             <TextBlock Text="Configuration" Style="{StaticResource MenuButtonText}"/>

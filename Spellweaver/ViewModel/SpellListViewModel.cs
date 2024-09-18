@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Spellweaver.Backend;
 using Spellweaver.Commands;
-using Spellweaver.Data;
+using Spellweaver.Managers;
 using Spellweaver.Model;
 using Spellweaver.Model.Api;
-using Spellweaver.View;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -12,13 +11,11 @@ namespace Spellweaver.ViewModel
 {
     public class SpellListViewModel : ViewModelBase
     {
-        private readonly IDBProvider<DNDDatabase> _databaseProvider;
-        private SpellItemViewModel? _selectedSpell;
-        public SpellListViewModel(IDBProvider<DNDDatabase> databaseProvider)
+        private SpellManager _spellManager;
+        public SpellListViewModel(SpellManager spellManager)
         {
-            _databaseProvider = databaseProvider;
-
             // We must register all commands here as they are readonly.
+            _spellManager = spellManager;
             AddCommand = new DelegateCommand(Add);
             RemoveCommand = new DelegateCommand(Remove, CanRemove);
             ShowSpellDebugCommand = new DelegateCommand(ShowDebugSpell);
@@ -26,17 +23,16 @@ namespace Spellweaver.ViewModel
             DownloadSpellsCommand = new DelegateCommand(DownloadSpells);
         }
 
-
         #region Collections
         public ObservableCollection<SpellItemViewModel> Spells { get; } = new();
         #endregion
 
         public SpellItemViewModel? SelectedSpell
         {
-            get => _selectedSpell;
+            get => _spellManager.CurrentSpell;
             set
             {
-                _selectedSpell = value;
+                _spellManager.CurrentSpell = value;
                 RaisePropertyChanged();
                 RemoveCommand.RaiseCanExecuteChanged();
             }
@@ -44,14 +40,13 @@ namespace Spellweaver.ViewModel
 
         public async override Task LoadAsync()
         {
-            
+
         }
 
         #region Commands
         public DelegateCommand AddCommand { get; }
         public DelegateCommand RemoveCommand { get; }
         public DelegateCommand ShowSpellDebugCommand { get; }
-        public DelegateCommand OpenExportCommand { get; }
         public DelegateCommand DownloadSpellsCommand { get; }
 
         private void Add(object? parameter)

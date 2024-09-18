@@ -6,21 +6,22 @@ namespace Spellweaver.ViewModel
     {
         private ViewModelBase? _selectedViewModel;
 
+        private readonly TitleViewModel? _titleViewModel;
         private readonly SpellListViewModel? _listViewModel;
         private readonly SpellEditorViewModel? _editorViewModel;
-        private readonly TitleViewModel? _titleViewModel;
+        private readonly ConfigViewModel? _configViewModel;
 
-        public MainViewModel(TitleViewModel defaultView, SpellListViewModel spellList, SpellEditorViewModel spellEditor)
+        public MainViewModel(TitleViewModel defaultView, SpellListViewModel spellList, SpellEditorViewModel spellEditor, ConfigViewModel configView)
         {
             _titleViewModel = defaultView;
             _listViewModel = spellList;
             _editorViewModel = spellEditor;
-
-            SelectedViewModel = defaultView;
+            _configViewModel = configView;
 
             LoadSpellEditorCommand = new DelegateCommand(LoadSpellEditor);
             LoadSpellListCommand = new DelegateCommand(LoadSpellList);
             LoadMainMenuCommand = new DelegateCommand(LoadMainMenu);
+            LoadConfigCommand = new DelegateCommand(LoadConfig);
         }
 
         public ViewModelBase? SelectedViewModel
@@ -35,10 +36,10 @@ namespace Spellweaver.ViewModel
 
         public async override Task LoadAsync()
         {
-            if (SelectedViewModel is not null)
-            {
-                await SelectedViewModel.LoadAsync();
-            }
+            await _titleViewModel.LoadAsync();
+            await _listViewModel.LoadAsync();
+            await _editorViewModel.LoadAsync();
+            await _configViewModel.LoadAsync();
         }
 
         #region Commands
@@ -46,6 +47,7 @@ namespace Spellweaver.ViewModel
         public DelegateCommand LoadSpellEditorCommand { get; }
         public DelegateCommand LoadSpellListCommand { get; }
         public DelegateCommand LoadMainMenuCommand { get; }
+        public DelegateCommand LoadConfigCommand { get; }
 
         private void LoadSpellEditor(object? parameter)
         {
@@ -60,6 +62,11 @@ namespace Spellweaver.ViewModel
         private void LoadMainMenu(object? parameter)
         {
             SelectedViewModel = _titleViewModel;
+        }
+
+        public void LoadConfig(object? parameter)
+        {
+            SelectedViewModel = _configViewModel;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Spellweaver.Data;
+using Spellweaver.Managers;
 using Spellweaver.Model;
 using Spellweaver.ViewModel;
 using System.Windows;
@@ -21,13 +22,17 @@ namespace Spellweaver
         {
             service.AddTransient<MainWindow>();
 
-            service.AddTransient<MainViewModel>();
+            service.AddSingleton<MainViewModel>();
 
-            service.AddTransient<TitleViewModel>();
+            service.AddSingleton<TitleViewModel>();
 
-            service.AddTransient<SpellEditorViewModel>();
+            service.AddSingleton<SpellEditorViewModel>();
 
-            service.AddTransient<SpellListViewModel>();
+            service.AddSingleton<SpellListViewModel>();
+
+            service.AddSingleton<SpellManager>();
+
+            service.AddSingleton<ConfigViewModel>();
 
             service.AddTransient<IDBProvider<DNDDatabase>, DefaultDatabaseProvider>();
         }

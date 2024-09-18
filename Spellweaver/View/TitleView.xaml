@@ -8,6 +8,19 @@
              Width="auto"
              Height="auto">
     <!-- Header -->
-    <StackPanel Background="CadetBlue">
+    <StackPanel Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="/Images/BookIcon.png"
+                   Width="50"
+                   Height="50"></Image>
+            <TextBlock VerticalAlignment="Center" 
+                       Margin="5,0,0,0"
+                       Foreground="{StaticResource Color4}"
+                       FontFamily="Montserrat"
+                       FontSize="26"
+                       >Welcome Screen</TextBlock>
+        </StackPanel>
     </StackPanel>
 </UserControl>
