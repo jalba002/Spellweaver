@@ -1,19 +1,64 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="SpellListEntry" TargetType="DockPanel">
+        <Setter Property="TextBlock.FontSize" Value="12"/>
+    </Style>
+
+    <Style x:Key="SpellListHiddenButton" TargetType="Button">
+        <Setter Property="Visibility" Value="Hidden"/>
+        <Setter Property="Width" Value="0"/>
+        <Setter Property="Height" Value="0"/>
+        <Setter Property="IsEnabled" Value="False"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Setter Property="Width" Value="75"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="IsEnabled" Value="True"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <DataTemplate x:Key="SpellDataTemplate">
-        <StackPanel>
-            <DockPanel>
-                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                <TextBlock Text="{Binding Level, StringFormat=(Level {0})}" 
-                           FontSize="12"
-                           VerticalAlignment="Center"
-                       Margin="5,0,0,0"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="350"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Style="{StaticResource SpellListEntry}"
+                   LastChildFill="False">
+                <DockPanel DockPanel.Dock="Top">
+                    <TextBlock Text="{Binding Name}" 
+                               FontWeight="Bold"
+                               DockPanel.Dock="Left"/>
+                    <TextBlock Text="{Binding ComponentsString}"
+                               Margin="5,0,0,0"
+                               FontFamily="Montserrat"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="10"
+                               DockPanel.Dock="Left"/>
+                </DockPanel>
+                <TextBlock Text="{Binding LevelFormatted}" DockPanel.Dock="Top"/>
+                <TextBlock Text="{Binding School}" DockPanel.Dock="Top"/>
+                <TextBlock Text="{Binding Classes}" DockPanel.Dock="Top"/>
+                <TextBlock Text="{Binding Source}" Foreground="Blue" DockPanel.Dock="Top"/>
             </DockPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding School}" FontSize="11"/>
-                <TextBlock Text="{Binding Classes}" FontSize="11"/>
-                <TextBlock Text="{Binding Source}" FontSize="11" Foreground="Blue"/>
+            <StackPanel Orientation="Vertical" Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Button Style="{StaticResource SpellListHiddenButton}"
+                Margin="5"
+                Content="Delete" 
+                Foreground="Red" Background="Transparent" 
+                BorderBrush="DarkRed" BorderThickness="1"/>
+                <Button Style="{StaticResource SpellListHiddenButton}"
+                Margin="5"
+                Content="Copy" 
+                Foreground="Green" Background="Transparent" 
+                BorderBrush="DarkRed" BorderThickness="1"/>
             </StackPanel>
-        </StackPanel>
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

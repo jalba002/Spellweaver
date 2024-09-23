@@ -6,7 +6,6 @@ namespace Spellweaver.Data
     {
         public async Task<IEnumerable<School>?> GetAllAsync()
         {
-            await Task.Delay(25);
             return new List<School>
             {
                 new School() { Name = "Abjuration" },

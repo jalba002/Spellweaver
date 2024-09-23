@@ -6,8 +6,6 @@ namespace Spellweaver.Data
     {
         public async Task<IEnumerable<Spell>?> GetAllAsync()
         {
-            await Task.Delay(100);
-            // Simulate a server connection?
             return new List<Spell>
             {
                 new Spell()

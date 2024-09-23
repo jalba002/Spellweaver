@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Spellweaver.Backend;
 using Spellweaver.Data;
 using Spellweaver.Managers;
 using Spellweaver.Model;
@@ -34,7 +35,9 @@ namespace Spellweaver
 
             service.AddSingleton<ConfigViewModel>();
 
-            service.AddTransient<IDBProvider<DNDDatabase>, DefaultDatabaseProvider>();
+            service.AddTransient<DataHandler>();
+
+            service.AddSingleton<IDBProvider<DNDDatabase>, OnlineDatabaseProvider>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

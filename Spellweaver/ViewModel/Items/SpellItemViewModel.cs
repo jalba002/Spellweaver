@@ -1,4 +1,5 @@
-﻿using Spellweaver.Model;
+﻿using Spellweaver.Backend;
+using Spellweaver.Model;
 
 namespace Spellweaver.ViewModel
 {
@@ -164,6 +165,30 @@ namespace Spellweaver.ViewModel
             {
                 _model.IsRitual = value;
                 RaisePropertyChanged();
+            }
+        }
+
+        public string ComponentsString
+        {
+            get
+            {
+                string finalString = "(";
+                finalString += IsVocal ? "V," : "";
+                finalString += IsSomatic ? "S," : "";
+                finalString += IsMaterial ? "M," : "";
+                finalString += IsRitual ? "R," : "";
+                finalString += IsConcentration ? "C" : "";
+                if (finalString.Length <= 1) return "";
+                finalString += ")";
+                return finalString;
+            }
+        }
+
+        public string LevelFormatted
+        {
+            get
+            {
+                return string.IsNullOrEmpty(Level) ? "" : (Level == "0" ? "Cantrip" : $"{Utils.ToOrdinal(Level)} Level");
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Newtonsoft.Json;
+using Spellweaver.Model;
 using Spellweaver.Model.Exportables;
 using Spellweaver.ViewModel.Items;
 using System.Collections;
@@ -49,7 +50,7 @@ namespace Spellweaver.Backend
                 stream.Close();
             }
         }
-        public static T? ImportSpell<T>() where T : class
+        public static Spell? ImportSpell()
         {
             string? itemsString = GetFileText();
             if (itemsString == null) return null;
@@ -59,7 +60,7 @@ namespace Spellweaver.Backend
                 // Read the first line, if it looks like something weird make sure we know what the fuck is it.
                 //dynamic list = JsonConvert.DeserializeObject<dynamic>(itemsString);
                 //var spell = list[2].data;
-                T? newLoadedSpell = JsonConvert.DeserializeObject(itemsString, typeof(T)) as T;
+                Spell? newLoadedSpell = JsonConvert.DeserializeObject<Spell>(itemsString);
                 return newLoadedSpell;
             }
             catch (Exception e)
@@ -71,7 +72,7 @@ namespace Spellweaver.Backend
             }
             return null;
         }
-        public static IEnumerable<T>? ImportSpells<T>() where T : class
+        public static List<Spell>? ImportSpells()
         {
             string? itemsString = GetFileText();
             if (itemsString == null) return null;
@@ -79,7 +80,7 @@ namespace Spellweaver.Backend
             {
                 //dynamic list = JsonConvert.DeserializeObject<dynamic>(itemsString);
                 //var spell = list[2].data;
-                List<T>? newLoadedSpell = JsonConvert.DeserializeObject(itemsString, typeof(List<T>)) as List<T>;
+                List<Spell>? newLoadedSpell = JsonConvert.DeserializeObject(itemsString, typeof(List<Spell>)) as List<Spell>;
                 return newLoadedSpell;
             }
             catch (Exception e)

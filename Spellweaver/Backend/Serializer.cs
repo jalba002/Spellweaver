@@ -3,10 +3,9 @@ namespace Spellweaver.Backend
 {
     public class Serializer
     {
-        public static dynamic? Deserialize(string data)
+        public static T? Deserialize<T>(string data)
         {
-            var result = JsonConvert.DeserializeObject(data) as dynamic;
-            return result;
+            return JsonConvert.DeserializeObject<T>(data);
         }
     }
 }

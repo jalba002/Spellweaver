@@ -6,8 +6,6 @@ namespace Spellweaver.Data
     {
         public async Task<IEnumerable<CastingTime>?> GetAllAsync()
         {
-            await Task.Delay(100);
-            // Simulate a server connection?
             return new List<CastingTime>
             {
                 new CastingTime { Name = "Free action" },

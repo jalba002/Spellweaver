@@ -7,14 +7,31 @@ namespace Spellweaver.Backend
     {
         public static string RemoveSpecialCharacters(string str)
         {
-            return Regex.Replace(str, "[()]", "", RegexOptions.CultureInvariant);
+            // Regex is expensive, we can use a simpler approach with strng replacement.
+            //return Regex.Replace(str, "[()]", "", RegexOptions.CultureInvariant);
+            string filteredString = str.Replace("(", string.Empty).Replace(")", string.Empty);
+            filteredString = str.Replace("[", string.Empty).Replace("]", string.Empty);
+
+            return filteredString;
         }
 
-        public static string ToOrdinal(int number)
+        public static string? ToOrdinal(string number)
         {
-            if (number < 0) return number.ToString();
+            int.TryParse(number, out int result);
+            return ToOrdinal(result);
+        }
+
+        public static string? ToOrdinal(int number)
+        {
+            if (number < 0)
+            {
+                return number.ToString();
+            }
             long rem = number % 100;
-            if (rem >= 11 && rem <= 13) return number + "th";
+            if (rem >= 11 && rem <= 13)
+            {
+                return number + "th";
+            }
 
             switch (number % 10)
             {
