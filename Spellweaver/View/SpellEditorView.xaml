@@ -26,16 +26,12 @@
             </StackPanel>
         </DataTemplate>
         <ControlTemplate x:Key="BaseText" TargetType="ContentControl">
-            <StackPanel Orientation="Vertical" Margin="0,0,0,0">
-                <TextBox 
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
+            <TextBox 
                     VerticalScrollBarVisibility="Auto"
                     TextWrapping="Wrap"
                     Margin="0"
                     Padding="2"
                     Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"/>
-            </StackPanel>
         </ControlTemplate>
     </UserControl.Resources>
     <Grid Width="Auto" Height="auto">
@@ -46,135 +42,173 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Margin="0">
-            <StackPanel.Resources>
-                <ControlTemplate x:Key="BaseDockPanel" TargetType="ContentControl">
-                    <DockPanel>
-                        <Label Style="{StaticResource SpellStyles.EntryTitle}"
+        <Border BorderThickness="0,0,0.25,0"
+                BorderBrush="{StaticResource Color4}">
+            <Grid Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Padding="0,0,8,0"
+                            Text="Statistics"
+                            FontSize="14"
+                            FontFamily="Montserrat"
+                           HorizontalAlignment="Right"
+                            />
+                <Separator Grid.Row="1"/>
+                <StackPanel Grid.Row="2" Margin="0,3,0,0">
+                    <StackPanel.Resources>
+                        <ControlTemplate x:Key="BaseDockPanel" TargetType="ContentControl">
+                            <Border BorderBrush="{StaticResource Color8}"
+                                     BorderThickness="0,0,0,0.5">
+                                <DockPanel>
+                                    <Label Style="{StaticResource SpellStyles.EntryTitle}"
                                        Content ="{TemplateBinding Content}"
                                       />
-                        <TextBox Style="{StaticResource SpellStyles.SmallTextBox}"
-                                         Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"/>
-                    </DockPanel>
-                </ControlTemplate>
-                <ControlTemplate x:Key="BaseCheckboxLabeled" TargetType="ContentControl">
-                    <DockPanel>
-                        <Label Style="{StaticResource SpellStyles.EntryTitle}"
-                            Content ="{TemplateBinding Content}"
-                           />
-                        <CheckBox
-                            IsChecked="{Binding AllowDrop, RelativeSource={RelativeSource TemplatedParent}}"
-                            VerticalAlignment="Center"
-                            Margin="2"/>
-                    </DockPanel>
-                </ControlTemplate>
-                <!--<ControlTemplate x:Key="BaseDockPanelComboBox" TargetType="ContentControl">
+                                    <TextBox Style="{StaticResource SpellStyles.SmallTextBox}"
+                                 Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                        <ControlTemplate x:Key="BaseCheckboxLabeled" TargetType="ContentControl">
+                            <Border BorderBrush="{StaticResource Color8}"
+         BorderThickness="0,0,0,0.5">
+                                <DockPanel>
+                                    <Label Style="{StaticResource SpellStyles.EntryTitle}"
+                Content ="{TemplateBinding Content}"
+               />
+                                    <CheckBox
+                IsChecked="{Binding AllowDrop, RelativeSource={RelativeSource TemplatedParent}}"
+                VerticalAlignment="Center"
+                Margin="2"/>
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </StackPanel.Resources>
+                    <ContentControl 
+            Template="{StaticResource BaseDockPanel}"
+            Content="Name"
+            Tag="{Binding Path=SelectedSpell.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <!--Level-->
+                    <Border BorderBrush="{StaticResource Color8}"
+         BorderThickness="0,0,0,0.5">
                         <DockPanel>
-                            <Label Style="{StaticResource SpellStyles.EntryTitle}"
-                                       Content ="{TemplateBinding Content}"/>
-                            <ComboBox 
-                                    Style="{StaticResource SpellStyles.SmallTextBox}"
-                                    Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"
-                                    ItemsSource ="{Binding ActualHeight , RelativeSource={RelativeSource TemplatedParent}}"
-                                    DisplayMemberPath="{Binding Height, RelativeSource={RelativeSource TemplatedParent}}"
-                                    SelectedValuePath="{Binding Width, RelativeSource={RelativeSource TemplatedParent}}"
-                                    SelectedValue="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Label Style="{StaticResource SpellStyles.EntryTitle}" Content="Level"
+                                   />
+                            <ComboBox Style="{StaticResource SpellStyles.SmallTextBox}" 
+                  ItemsSource="{Binding Levels}" 
+                  DisplayMemberPath="LevelString" SelectedValuePath="LevelNumber" 
+                  SelectedValue="{Binding Path=SelectedSpell.Level, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
-                    </ControlTemplate>-->
-            </StackPanel.Resources>
-            <ContentControl 
-                        Template="{StaticResource BaseDockPanel}"
-                        Content="Name"
-                        Tag="{Binding Path=SelectedSpell.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <!--Level-->
-            <DockPanel>
-                <Label Style="{StaticResource SpellStyles.EntryTitle}" Content="Level"/>
-                <ComboBox Style="{StaticResource SpellStyles.SmallTextBox}" 
-                              ItemsSource="{Binding Levels}" 
-                              DisplayMemberPath="LevelString" SelectedValuePath="LevelNumber" 
-                              SelectedValue="{Binding Path=SelectedSpell.Level, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </DockPanel>
-            <!--School-->
-            <DockPanel>
-                <Label Style="{StaticResource SpellStyles.EntryTitle}" Content="School"/>
-                <ComboBox Style="{StaticResource SpellStyles.SmallTextBox}" 
-                              ItemsSource="{Binding Schools}" 
-                              DisplayMemberPath="Name" SelectedValuePath="Name" 
-                              SelectedValue="{Binding Path=SelectedSpell.School, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </DockPanel>
-            <!--Casting Time-->
-            <DockPanel>
-                <Label Style="{StaticResource SpellStyles.EntryTitle}" Content="Casting Time"/>
-                <ComboBox Style="{StaticResource SpellStyles.SmallTextBox}" 
-                              ItemsSource="{Binding CastingTimes}" 
-                              DisplayMemberPath="Name" SelectedValuePath="Name" 
-                              SelectedValue="{Binding Path=SelectedSpell.CastingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
-            </DockPanel>
-            <!--Range-->
-            <ContentControl 
-                        Template="{StaticResource BaseDockPanel}"
-                        Content="Range"
-                        Tag="{Binding Path=SelectedSpell.Range, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl 
-                        Template="{StaticResource BaseDockPanel}"
-                        Content="Target"
-                        Tag="{Binding Path=SelectedSpell.Target, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl 
-                        Template="{StaticResource BaseDockPanel}"
-                        Content="Duration"
-                        Tag="{Binding Path=SelectedSpell.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <!--Ritual-->
-            <!--Concentration-->
-            <ContentControl 
-                    Template="{StaticResource BaseDockPanel}"
-                    Content="Classes"
-                    Tag="{Binding Path=SelectedSpell.Classes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl Content="Source"
-                    Template="{StaticResource BaseDockPanel}"
-                    Tag="{Binding Path=SelectedSpell.Source, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl Content="Ritual"
-                Template="{StaticResource BaseCheckboxLabeled}"
-                AllowDrop="{Binding SelectedSpell.IsRitual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl Content="Concentration"
-                Template="{StaticResource BaseCheckboxLabeled}"
-                AllowDrop="{Binding SelectedSpell.IsConcentration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl Content="Vocal"
-                Template="{StaticResource BaseCheckboxLabeled}"
-                AllowDrop="{Binding SelectedSpell.IsVocal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl Content="Somatic"
-                Template="{StaticResource BaseCheckboxLabeled}"
-                AllowDrop="{Binding SelectedSpell.IsSomatic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <ContentControl Content="Materials" x:Name="Checkbox_Material"
-                Template="{StaticResource BaseCheckboxLabeled}"
-                AllowDrop="{Binding SelectedSpell.IsMaterial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-            <TextBox Padding="5"
-                TextWrapping="Wrap"
-                Text="{Binding SelectedSpell.DescriptionMaterials, Mode=TwoWay}"
-                IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Material, TargetNullValue=False}"/>
-            <ContentControl Content="Upcasted" x:Name="Checkbox_Upcasted"
-                Template="{StaticResource BaseCheckboxLabeled}">
-            </ContentControl>
-            <TextBox Padding="5"
-                TextWrapping="Wrap"
-                Text="{Binding SelectedSpell.UpcastDescription, Mode=TwoWay}"
-                IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Upcasted, TargetNullValue=False}"/>
-        </StackPanel>
-        <GroupBox Grid.Column="1" Header="Description">
-            <ContentControl Grid.Column="1"
-                Template="{StaticResource BaseText}"
-                Tag="{Binding Path=SelectedSpell.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            </ContentControl>
-        </GroupBox>
+                    </Border>
+                    <!--School-->
+                    <Border BorderBrush="{StaticResource Color8}"
+         BorderThickness="0,0,0,0.5">
+                        <DockPanel>
+                            <Label Style="{StaticResource SpellStyles.EntryTitle}" Content="School"/>
+                            <ComboBox Style="{StaticResource SpellStyles.SmallTextBox}" 
+                  ItemsSource="{Binding Schools}" 
+                  DisplayMemberPath="Name" SelectedValuePath="Name" 
+                  SelectedValue="{Binding Path=SelectedSpell.School, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DockPanel>
+                    </Border>
+                    <!--Casting Time-->
+                    <Border BorderBrush="{StaticResource Color8}"
+         BorderThickness="0,0,0,0.5">
+                        <DockPanel>
+                            <Label Style="{StaticResource SpellStyles.EntryTitle}" Content="Casting Time" VerticalContentAlignment="Bottom"/>
+                            <ComboBox Style="{StaticResource SpellStyles.SmallTextBox}" 
+                      ItemsSource="{Binding CastingTimes}" 
+                      DisplayMemberPath="Name" SelectedValuePath="Name" 
+                      SelectedValue="{Binding Path=SelectedSpell.CastingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        </DockPanel>
+                    </Border>
+                    <!--Range-->
+                    <ContentControl 
+            Template="{StaticResource BaseDockPanel}"
+            Content="Range"
+            Tag="{Binding Path=SelectedSpell.Range, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl 
+            Template="{StaticResource BaseDockPanel}"
+            Content="Target"
+            Tag="{Binding Path=SelectedSpell.Target, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl 
+            Template="{StaticResource BaseDockPanel}"
+            Content="Duration"
+            Tag="{Binding Path=SelectedSpell.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <!--Ritual-->
+                    <!--Concentration-->
+                    <ContentControl 
+        Template="{StaticResource BaseDockPanel}"
+        Content="Classes"
+        Tag="{Binding Path=SelectedSpell.Classes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl Content="Source"
+        Template="{StaticResource BaseDockPanel}"
+        Tag="{Binding Path=SelectedSpell.Source, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl Content="Ritual"
+    Template="{StaticResource BaseCheckboxLabeled}"
+    AllowDrop="{Binding SelectedSpell.IsRitual, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl Content="Concentration"
+    Template="{StaticResource BaseCheckboxLabeled}"
+    AllowDrop="{Binding SelectedSpell.IsConcentration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl Content="Vocal"
+    Template="{StaticResource BaseCheckboxLabeled}"
+    AllowDrop="{Binding SelectedSpell.IsVocal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl Content="Somatic"
+    Template="{StaticResource BaseCheckboxLabeled}"
+    AllowDrop="{Binding SelectedSpell.IsSomatic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <ContentControl Content="Materials" x:Name="Checkbox_Material"
+    Template="{StaticResource BaseCheckboxLabeled}"
+    AllowDrop="{Binding SelectedSpell.IsMaterial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    </ContentControl>
+                    <TextBox Padding="5"
+    TextWrapping="Wrap"
+    Text="{Binding SelectedSpell.DescriptionMaterials, Mode=TwoWay}"
+    IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Material, TargetNullValue=False}"/>
+                    <ContentControl Content="Upcasted" x:Name="Checkbox_Upcasted"
+    Template="{StaticResource BaseCheckboxLabeled}">
+                    </ContentControl>
+                    <TextBox Padding="5"
+    TextWrapping="Wrap"
+    Text="{Binding SelectedSpell.UpcastDescription, Mode=TwoWay}"
+    IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Upcasted, TargetNullValue=False}"/>
+                </StackPanel>
+            </Grid>
+
+        </Border>
+        <Border Grid.Column="1" BorderBrush="{StaticResource Color4}"
+                BorderThickness="0.25,0,0,0">
+            <Grid Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Padding="8,0,0,0"
+                    Text="Description"
+                           FontSize="14"
+                           FontFamily="Montserrat"
+                           />
+                <Separator Grid.Row="1"/>
+                <ContentControl Grid.Row="2" Margin="0,5,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                    Template="{StaticResource BaseText}"
+                    Tag="{Binding Path=SelectedSpell.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    >
+                </ContentControl>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>
