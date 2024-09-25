@@ -7,13 +7,14 @@
 
     <Style x:Key="SpellListHiddenButton" TargetType="Button">
         <Setter Property="Visibility" Value="Hidden"/>
-        <Setter Property="Width" Value="0"/>
-        <Setter Property="Height" Value="0"/>
+        <!--<Setter Property="Width" Value="0"/>-->
+        <!--<Setter Property="Height" Value="0"/>-->
         <Setter Property="IsEnabled" Value="False"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
                 <Setter Property="Visibility" Value="Visible"/>
-                <Setter Property="Width" Value="75"/>
+                <!--<Setter Property="Width" Value="75"/>-->
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="Height" Value="30"/>
                 <Setter Property="IsEnabled" Value="True"/>
             </DataTrigger>
@@ -23,11 +24,11 @@
     <DataTemplate x:Key="SpellDataTemplate">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="350"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <DockPanel Style="{StaticResource SpellListEntry}"
-                   LastChildFill="False">
+                   LastChildFill="True">
                 <DockPanel DockPanel.Dock="Top">
                     <TextBlock Text="{Binding Name}" 
                                FontWeight="Bold"
@@ -45,19 +46,18 @@
                 <TextBlock Text="{Binding Classes}" DockPanel.Dock="Top"/>
                 <TextBlock Text="{Binding Source}" Foreground="Blue" DockPanel.Dock="Top"/>
             </DockPanel>
-            <StackPanel Orientation="Vertical" Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+            <StackPanel Grid.Column="1">
+                <Button
+                    Content="Delete" 
+                    Foreground="Red" Background="Transparent" 
+                    HorizontalContentAlignment="Stretch"
+                    BorderBrush="DarkRed" BorderThickness="1"/>
                 <Button Style="{StaticResource SpellListHiddenButton}"
-                Margin="5"
-                Content="Delete" 
-                Foreground="Red" Background="Transparent" 
-                BorderBrush="DarkRed" BorderThickness="1"/>
-                <Button Style="{StaticResource SpellListHiddenButton}"
-                Margin="5"
-                Content="Copy" 
-                Foreground="Green" Background="Transparent" 
-                BorderBrush="DarkRed" BorderThickness="1"/>
+                    HorizontalAlignment = "Stretch"
+                    DockPanel.Dock="Top"
+                    Content="Copy" 
+                    Foreground="Green" Background="Transparent" 
+                    BorderBrush="DarkRed" BorderThickness="1"/>
             </StackPanel>
         </Grid>
     </DataTemplate>

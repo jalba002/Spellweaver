@@ -22,4 +22,17 @@
     <SolidColorBrush x:Key="ControlBarButtonRestColor" Color="DarkGray"/>
     <SolidColorBrush x:Key="ControlBarButtonCancelColor" Color="Red"/>
 
+    <!--Expander Brushes-->
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="#FF5593FF"/>
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill" Color="#FFF3F9FF"/>
+    <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke" Color="#FF000000"/>
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Stroke" Color="#FF3C77DD"/>
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Fill" Color="#FFD9ECFF"/>
+    <SolidColorBrush x:Key="Expander.Pressed.Arrow.Stroke" Color="#FF000000"/>
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Stroke" Color="#FFBCBCBC"/>
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Fill" Color="#FFE6E6E6"/>
+    <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke" Color="#FF707070"/>
+    <SolidColorBrush x:Key="Expander.Static.Circle.Fill" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="#FF333333"/>
+    <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="#FF333333"/>
 </ResourceDictionary>

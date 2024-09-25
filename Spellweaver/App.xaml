@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Resources/Styles/Spells.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/DataTemplates.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/ExpandTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

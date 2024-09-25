@@ -11,8 +11,8 @@
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
         d:DesignWidth="900" d:DesignHeight="600"
-        WindowStyle="None"
-        ResizeMode="NoResize"
+        WindowStyle="ToolWindow"
+        ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Icon="/Images/BookIcon.png">
     <!--<Window.InputBindings>
@@ -42,46 +42,62 @@
         <!--<Controls:HeaderControl Grid.Row="1"/>-->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="auto" MinWidth="250"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Background="{StaticResource Color8}">
-                <StackPanel Width="auto">
-                    <StackPanel Orientation="Horizontal" Margin="20">
-                        <fa:IconImage Icon="Book"/>
-                        <TextBlock Style="{StaticResource Header.Title}"/>
+            <Border BorderBrush="LightGray"
+                    BorderThickness="1">
+                <Grid MinWidth="250">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <DockPanel LastChildFill="False">
+                        <StackPanel Orientation="Horizontal" Margin="20" DockPanel.Dock="Top">
+                            <fa:IconImage Icon="Book" Width="50"/>
+                            <TextBlock Style="{StaticResource Header.Title}"/>
+                        </StackPanel>
+                        <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadMainMenuCommand}"
+                                 DockPanel.Dock="Top"
+                                 GroupName="MenuButtons">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Home" Style="{StaticResource MenuButtonIcon}"/>
+                                <TextBlock Text="Home" Style="{StaticResource MenuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadSpellListCommand}"
+                                 DockPanel.Dock="Top"
+                                 GroupName="MenuButtons">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="List" Style="{StaticResource MenuButtonIcon}"/>
+                                <TextBlock Text="Spells" Style="{StaticResource MenuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadSpellEditorCommand}"
+                                 DockPanel.Dock="Top"
+                                 GroupName="MenuButtons">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Pen" Style="{StaticResource MenuButtonIcon}"/>
+                                <TextBlock Text="Editor" Style="{StaticResource MenuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                    </DockPanel>
+                    <StackPanel Grid.Row="1">
+                        <Separator />
+                        <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                 Command="{Binding LoadConfigCommand}"
+                                 Grid.Row="1"
+                                 GroupName="MenuButtons">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Wheelchair" Style="{StaticResource MenuButtonIcon}"/>
+                                <TextBlock Text="Configuration" Style="{StaticResource MenuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
                     </StackPanel>
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
-                                 Command="{Binding LoadMainMenuCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="Home" Style="{StaticResource MenuButtonIcon}"/>
-                            <TextBlock Text="Home" Style="{StaticResource MenuButtonText}"/>
-                        </StackPanel>
-                    </RadioButton>
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
-                                 Command="{Binding LoadSpellListCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="List" Style="{StaticResource MenuButtonIcon}"/>
-                            <TextBlock Text="Spells" Style="{StaticResource MenuButtonText}"/>
-                        </StackPanel>
-                    </RadioButton>
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
-                                 Command="{Binding LoadSpellEditorCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="Pen" Style="{StaticResource MenuButtonIcon}"/>
-                            <TextBlock Text="Editor" Style="{StaticResource MenuButtonText}"/>
-                        </StackPanel>
-                    </RadioButton>
-                    <Separator  VerticalAlignment="Bottom"
-                               />
-                    <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
-                                 Command="{Binding LoadConfigCommand}">
-                        <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="Wheelchair" Style="{StaticResource MenuButtonIcon}"/>
-                            <TextBlock Text="Configuration" Style="{StaticResource MenuButtonText}"/>
-                        </StackPanel>
-                    </RadioButton>
-                </StackPanel>
+                </Grid>
             </Border>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -108,7 +124,7 @@
                     <ContentControl Grid.Column="1" Content="{Binding SelectedViewModel}"/>
                 </Border>
             </Grid>
-            
+
         </Grid>
     </Grid>
 </Window>
