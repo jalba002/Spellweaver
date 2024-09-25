@@ -1,103 +1,105 @@
-﻿using Newtonsoft.Json;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 
 namespace Spellweaver.Model.Exportables
 {
     public class Open5eSpellExportable : ExportableModel
     {
+        public Open5eSpellExportable() { }
         public Open5eSpellExportable(Spell? original) : base(original)
         {
             TransformInternalToCustomExportable(original);
         }
 
-        [JsonProperty("slug")]
+        [JsonPropertyName("slug")]
         public string? Slug { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        [JsonProperty("desc")]
+        [JsonPropertyName("desc")]
         public string? Desc { get; set; }
 
-        [JsonProperty("higher_level")]
+        [JsonPropertyName("higher_level")]
         public string? HigherLevel { get; set; }
 
-        [JsonProperty("page")]
+        [JsonPropertyName("page")]
         public string? Page { get; set; }
 
-        [JsonProperty("range")]
+        [JsonPropertyName("range")]
         public string? Range { get; set; }
 
-        [JsonProperty("target_range_sort")]
+        [JsonPropertyName("target_range_sort")]
         public int? TargetRangeSort { get; set; }
 
-        [JsonProperty("components")]
+        [JsonPropertyName("components")]
         public string? Components { get; set; }
 
-        [JsonProperty("requires_verbal_components")]
+        [JsonPropertyName("requires_verbal_components")]
         public bool RequiresVerbalComponents { get; set; }
 
-        [JsonProperty("requires_somatic_components")]
+        [JsonPropertyName("requires_somatic_components")]
         public bool RequiresSomaticComponents { get; set; }
 
-        [JsonProperty("requires_material_components")]
+        [JsonPropertyName("requires_material_components")]
         public bool RequiresMaterialComponents { get; set; }
 
-        [JsonProperty("material")]
+        [JsonPropertyName("material")]
         public string? Material { get; set; }
 
-        [JsonProperty("can_be_cast_as_ritual")]
+        [JsonPropertyName("can_be_cast_as_ritual")]
         public bool CanBeCastAsRitual { get; set; }
 
-        [JsonProperty("ritual")]
+        [JsonPropertyName("ritual")]
         public string? Ritual { get; set; }
 
-        [JsonProperty("duration")]
+        [JsonPropertyName("duration")]
         public string? Duration { get; set; }
 
-        [JsonProperty("concentration")]
+        [JsonPropertyName("concentration")]
         public string? Concentration { get; set; }
 
-        [JsonProperty("requires_concentration")]
+        [JsonPropertyName("requires_concentration")]
         public bool RequiresConcentration { get; set; }
 
-        [JsonProperty("casting_time")]
+        [JsonPropertyName("casting_time")]
         public string? CastingTime { get; set; }
 
-        [JsonProperty("level")]
+        [JsonPropertyName("level")]
         public string? Level { get; set; }
 
-        [JsonProperty("level_int")]
+        [JsonPropertyName("level_int")]
         public int? LevelInt { get; set; }
 
-        [JsonProperty("spell_level")]
+        [JsonPropertyName("spell_level")]
         public int? SpellLevel { get; set; }
 
-        [JsonProperty("school")]
+        [JsonPropertyName("school")]
         public string? School { get; set; }
 
-        [JsonProperty("dnd_class")]
+        [JsonPropertyName("dnd_class")]
         public string? DndClass { get; set; }
 
-        [JsonProperty("spell_lists")]
+        [JsonPropertyName("spell_lists")]
         public string?[] SpellLists { get; set; }
 
-        [JsonProperty("archetype")]
+        [JsonPropertyName("archetype")]
         public string? Archetype { get; set; }
 
-        [JsonProperty("circles")]
+        [JsonPropertyName("circles")]
         public string? Circles { get; set; }
 
-        [JsonProperty("document__slug")]
+        [JsonPropertyName("document__slug")]
         public string? DocumentSlug { get; set; }
 
-        [JsonProperty("document__title")]
+        [JsonPropertyName("document__title")]
         public string? DocumentTitle { get; set; }
 
-        [JsonProperty("document__license_url")]
-        public Uri DocumentLicenseUrl { get; set; }
+        [JsonPropertyName("document__license_url")]
+        public Uri? DocumentLicenseUrl { get; set; }
 
-        [JsonProperty("document__url")]
-        public Uri DocumentUrl { get; set; }
+        [JsonPropertyName("document__url")]
+        public Uri? DocumentUrl { get; set; }
 
         //Here we prepare the item to gather info for the app. 
         // This is not to export, but to get the int?ernal data.
@@ -107,7 +109,7 @@ namespace Spellweaver.Model.Exportables
             {
                 Name = this.Name,
                 Level = this.LevelInt.ToString(),
-                School = string.Concat(this.School[0].ToString().ToUpper(), this.School.AsSpan(1)),
+                School = string.Concat(this.School[0].ToString().ToUpper(CultureInfo.CurrentCulture), this.School.AsSpan(1)),
                 CastingTime = this.CastingTime,
                 Range = this.Range,
                 IsVocal = RequiresVerbalComponents,

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Win32;
-using Newtonsoft.Json;
+
 using Spellweaver.Model;
 using Spellweaver.Model.Exportables;
 using Spellweaver.ViewModel.Items;
 using System.Collections;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using System.Windows;
 
 namespace Spellweaver.Backend
@@ -29,10 +31,10 @@ namespace Spellweaver.Backend
                 switch (exportMode)
                 {
                     case ExportationType.Spellweaver:
-                        fullData = JsonConvert.SerializeObject(spellsToExport, Formatting.Indented);
+                        fullData = JsonSerializer.Serialize(spellsToExport);
                         break;
                     case ExportationType.Open5e:
-                        fullData = JsonConvert.SerializeObject(spellsToExport, Formatting.Indented);
+                        fullData = JsonSerializer.Serialize(spellsToExport);
                         break;
                     case ExportationType.EditionSpellbook5th:
                         Spellbook5ThEdition exportModel = new Spellbook5ThEdition()
@@ -41,7 +43,7 @@ namespace Spellweaver.Backend
                             Version = "3.1.5",
                             Db = 13
                         };
-                        fullData = JsonConvert.SerializeObject(exportModel, Formatting.Indented);
+                        fullData = JsonSerializer.Serialize(exportModel);
                         break;
                 }
 
@@ -58,9 +60,9 @@ namespace Spellweaver.Backend
             {
                 // Maybe we can multiparse and set the way to import if we analyze the format first.
                 // Read the first line, if it looks like something weird make sure we know what the fuck is it.
-                //dynamic list = JsonConvert.DeserializeObject<dynamic>(itemsString);
+                //dynamic list = JsonSerializer.DeserializeObject<dynamic>(itemsString);
                 //var spell = list[2].data;
-                Spell? newLoadedSpell = JsonConvert.DeserializeObject<Spell>(itemsString);
+                Spell? newLoadedSpell = JsonSerializer.Deserialize<Spell>(itemsString);
                 return newLoadedSpell;
             }
             catch (Exception e)
@@ -78,9 +80,9 @@ namespace Spellweaver.Backend
             if (itemsString == null) return null;
             try
             {
-                //dynamic list = JsonConvert.DeserializeObject<dynamic>(itemsString);
+                //dynamic list = JsonSerializer.DeserializeObject<dynamic>(itemsString);
                 //var spell = list[2].data;
-                List<Spell>? newLoadedSpell = JsonConvert.DeserializeObject(itemsString, typeof(List<Spell>)) as List<Spell>;
+                List<Spell>? newLoadedSpell = JsonSerializer.Deserialize(itemsString, typeof(List<Spell>)) as List<Spell>;
                 return newLoadedSpell;
             }
             catch (Exception e)

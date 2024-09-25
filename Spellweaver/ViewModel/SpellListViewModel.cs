@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿
 using Spellweaver.Backend;
 using Spellweaver.Commands;
 using Spellweaver.Data;
@@ -7,6 +7,7 @@ using Spellweaver.Managers;
 using Spellweaver.Model;
 using Spellweaver.ViewModel.Items;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Windows;
 
 namespace Spellweaver.ViewModel
@@ -15,8 +16,8 @@ namespace Spellweaver.ViewModel
     {
         private SpellManager _spellManager;
         private IInputOutputHandler<SpellItemViewModel> _handler;
-        private IDBProvider<DNDDatabase> _dbProvider;
-        public SpellListViewModel(SpellManager spellManager, DataHandler dataHandler, IDBProvider<DNDDatabase> dB)
+        private DNDDatabase _dbProvider;
+        public SpellListViewModel(SpellManager spellManager, DataHandler dataHandler, DNDDatabase dB)
         {
             _spellManager = spellManager;
             _handler = dataHandler;
@@ -28,6 +29,7 @@ namespace Spellweaver.ViewModel
             ShowSpellDebugCommand = new DelegateCommand(ShowDebugSpell);
             // Download spells
             DownloadSpellsCommand = new DelegateCommand(DownloadSpells);
+            DownloadAllSpellsCommand = new DelegateCommand(DownloadAllSpells);
             // Export Spells Commands
             ExportSpellCommand = new DelegateCommand(ExportSpell);
             ExportSpellsCommand = new DelegateCommand(ExportSpells);
@@ -54,13 +56,6 @@ namespace Spellweaver.ViewModel
 
         public async override Task LoadAsync()
         {
-            _dbProvider.OnDatabaseLoaded += (DNDDatabase db) =>
-            {
-                foreach (Spell spell in db.Spells)
-                {
-                    Spells.Add(new SpellItemViewModel(spell));
-                }
-            };
         }
 
         #region Commands
@@ -68,6 +63,7 @@ namespace Spellweaver.ViewModel
         public DelegateCommand RemoveCommand { get; }
         public DelegateCommand ShowSpellDebugCommand { get; }
         public DelegateCommand DownloadSpellsCommand { get; }
+        public DelegateCommand DownloadAllSpellsCommand { get; }
         public DelegateCommand ExportSpellCommand { get; }
         public DelegateCommand ExportSpellsCommand { get; }
         public DelegateCommand ImportSpellCommand { get; }
@@ -95,10 +91,18 @@ namespace Spellweaver.ViewModel
         private void ImportSpell(object? parameter)
         {
             //ImportSpell();
+            var spell = _handler.ImportSingle();
+            if (spell is null)
+            {
+                MessageBox.Show($"Spell added is null. Cancelling operation", "Spell Import Error");
+                return;
+            }
+            Spells.Add(spell);
         }
         private void ImportSpells(object? parameter)
         {
             // ??
+            _handler.ImportMultiple()?.ForEach(Spells.Add);
         }
 
         public void ImportSpell(Spell? spell)
@@ -138,36 +142,47 @@ namespace Spellweaver.ViewModel
         {
             // Here we call the BACKEND to gather some information for us.
             //var importedSpells = SpellOnlineImporter.GetAllAsync();
-            var spellsResult = _dbProvider.GetInstance.Spells;
-            if (spellsResult is not null)
+            var spellsResult = await _dbProvider.GetSpellsAsync();
+            if (spellsResult.Count < 0)
             {
-                if (spellsResult.Count < 0)
-                {
-                    MessageBox.Show("No spells received when importing");
-                    return;
-                }
-                SelectedSpell = null;
-                Spells.Clear();
-                foreach (var externalSpell in spellsResult)
-                {
-                    Spells.Add(new SpellItemViewModel(externalSpell));
-                }
+                MessageBox.Show("No spells received when importing");
+                return;
+            }
+            UpdateSpellList(spellsResult);
+        }
+
+        private async void DownloadAllSpells(object? parameter)
+        {
+            // Here we call the BACKEND to gather some information for us.
+            //var importedSpells = SpellOnlineImporter.GetAllAsync();
+            var spellsResult = await ((OnlineDatabaseProvider)_dbProvider).GetALLSpellsAsync();
+            if (spellsResult.Count < 0)
+            {
+                MessageBox.Show("No spells received when importing");
+                return;
+            }
+            UpdateSpellList(spellsResult);
+        }
+
+        private void UpdateSpellList(List<Spell> spellList)
+        {
+            SelectedSpell = null;
+            Spells.Clear();
+            foreach (var externalSpell in spellList)
+            {
+                Spells.Add(new SpellItemViewModel(externalSpell));
             }
         }
+
         private void ExportSpell(object? parameter)
         {
-            //SpellItemViewModel? selectedSpell = _mainViewModel.SelectedSpell;
-            //List<SpellItemViewModel> list = new List<SpellItemViewModel>();
-            //if (selectedSpell is not null)
-            //{
-            //    // Call backend for a spell exportation!
-            //    list.Add(selectedSpell);
-            //    GenericExportSpell(list);
-            //}
+            if (SelectedSpell == null) return;
+
+            _handler.ExportSingle(SelectedSpell, new ExportSettings() { ExportType = ExportationType.Spellweaver });
         }
         private void ExportSpells(object? parameter)
         {
-            _handler.ExportMultiple(Spells.ToList(), new ExportSettings() { ExportType = ExportationType.Spellweaver});
+            _handler.ExportMultiple(Spells.ToList(), new ExportSettings() { ExportType = ExportationType.Spellweaver });
         }
 
         private bool CanRemove(object? parameter) => SelectedSpell is not null;
@@ -175,7 +190,7 @@ namespace Spellweaver.ViewModel
         {
             if (SelectedSpell is not null)
             {
-                MessageBox.Show(JsonConvert.SerializeObject(SelectedSpell.GetModel, (Newtonsoft.Json.Formatting)System.Xml.Formatting.Indented), "Debugging Spell");
+                MessageBox.Show(JsonSerializer.Serialize(SelectedSpell.GetModel), "Debugging Spell");
             }
             else
             {

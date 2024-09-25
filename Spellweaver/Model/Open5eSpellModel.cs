@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
-using Spellweaver.Model.Exportables;
+﻿using Spellweaver.Model.Exportables;
+using System.Text.Json.Serialization;
 
 namespace Spellweaver.Model.Api
 {
     public partial class Open5eSpellModel
     {
-        [JsonProperty("count")]
-        public long Count { get; set; }
+        [JsonPropertyName("count")]
+        public long? Count { get; set; }
 
-        [JsonProperty("next")]
-        public Uri Next { get; set; }
+        [JsonPropertyName("next")]
+        public Uri? Next { get; set; }
 
-        [JsonProperty("previous")]
-        public object Previous { get; set; }
+        [JsonPropertyName("previous")]
+        public object? Previous { get; set; }
 
-        [JsonProperty("results")]
+        [JsonPropertyName("results")]
         public Open5eSpellExportable[] Results { get; set; }
     }
 }

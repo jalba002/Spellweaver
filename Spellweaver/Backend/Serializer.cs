@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
+
 namespace Spellweaver.Backend
 {
     public class Serializer
     {
         public static T? Deserialize<T>(string data)
         {
-            return JsonConvert.DeserializeObject<T>(data);
+            return JsonSerializer.Deserialize<T>(data);
         }
     }
 }

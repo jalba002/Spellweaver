@@ -1,17 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Spellweaver.Model.Exportables
 {
     public class Spellbook5ThEdition
     {
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string? Version { get; set; }
 
-        [JsonProperty("db")]
+        [JsonPropertyName("db")]
         public long? Db { get; set; }
 
-        [JsonProperty("data")]
+        [JsonPropertyName("data")]
         public List<Spellbook5eExportable> Data { get; set; }
     }
 
@@ -24,52 +25,52 @@ namespace Spellweaver.Model.Exportables
             TransformInternalToCustomExportable(original);
         }
 
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string? Name { get; set; }
 
-        [JsonProperty("school")]
+        [JsonPropertyName("school")]
         public string? School { get; set; }
 
-        [JsonProperty("level")]
+        [JsonPropertyName("level")]
         public int Level { get; set; }
 
-        [JsonProperty("casting_time")]
+        [JsonPropertyName("casting_time")]
         public string? CastingTime { get; set; }
 
-        [JsonProperty("range")]
+        [JsonPropertyName("range")]
         public string? Range { get; set; }
 
-        [JsonProperty("components")]
+        [JsonPropertyName("components")]
         public string? Components { get; set; }
 
-        [JsonProperty("duration")]
+        [JsonPropertyName("duration")]
         public string? Duration { get; set; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string? Description { get; set; }
 
-        [JsonProperty("description_high")]
+        [JsonPropertyName("description_high")]
         public string? DescriptionHigh { get; set; }
 
-        [JsonProperty("book")]
+        [JsonPropertyName("book")]
         public string? Book { get; set; }
 
-        [JsonProperty("note")]
+        [JsonPropertyName("note")]
         public string? Note { get; set; }
 
-        [JsonProperty("classes")]
+        [JsonPropertyName("classes")]
         public string? Classes { get; set; }
 
-        [JsonProperty("concentration")]
+        [JsonPropertyName("concentration")]
         public bool Concentration { get; set; }
 
-        [JsonProperty("ritual")]
+        [JsonPropertyName("ritual")]
         public bool Ritual { get; set; }
 
-        [JsonProperty("sound")]
+        [JsonPropertyName("sound")]
         public string? Sound { get; set; }
 
         public override Spell TransformToInternalModel()

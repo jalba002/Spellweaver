@@ -1,7 +1,7 @@
 ﻿namespace Spellweaver.Model
 {
-    public class CastingTime
+    public record class CastingTime
     {
-        public string? Name { get; set; }
+        public required string Name { get; set; }
     }
 }
