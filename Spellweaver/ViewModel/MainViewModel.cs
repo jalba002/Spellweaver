@@ -18,6 +18,8 @@ namespace Spellweaver.ViewModel
             _editorViewModel = spellEditor;
             _configViewModel = configView;
 
+            SelectedViewModel = _titleViewModel;
+
             LoadSpellEditorCommand = new DelegateCommand(LoadSpellEditor);
             LoadSpellListCommand = new DelegateCommand(LoadSpellList);
             LoadMainMenuCommand = new DelegateCommand(LoadMainMenu);

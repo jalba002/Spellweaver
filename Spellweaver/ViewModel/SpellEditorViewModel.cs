@@ -7,9 +7,9 @@ namespace Spellweaver.ViewModel
 {
     public class SpellEditorViewModel : ViewModelBase
     {
-        private IDBProvider<DNDDatabase> _dbProvider;
+        private DNDDatabase _dbProvider;
         private SpellManager _spellManager;
-        public SpellEditorViewModel(IDBProvider<DNDDatabase> dbProvider, SpellManager spellManager)
+        public SpellEditorViewModel(DNDDatabase dbProvider, SpellManager spellManager)
         {
             _spellManager = spellManager;
             _dbProvider = dbProvider;
@@ -35,12 +35,12 @@ namespace Spellweaver.ViewModel
         #endregion
 
         public bool CanBeOpened() => SelectedSpell != null;
-        
+
         public async override Task LoadAsync()
         {
             if (!Schools.Any())
             {
-                var schools = (await _dbProvider.GetAllAsync())?.Schools;
+                var schools = await _dbProvider.GetSchoolsAsync();
                 if (schools is not null)
                 {
                     foreach (var school in schools)
@@ -49,9 +49,10 @@ namespace Spellweaver.ViewModel
                     }
                 }
             }
+
             if (!CastingTimes.Any())
             {
-                var castingTimes = (await _dbProvider.GetAllAsync())?.CastingTimes;
+                var castingTimes = await _dbProvider.GetCastingTimesAsync();
                 if (castingTimes is not null)
                 {
                     foreach (var castingTime in castingTimes)
@@ -60,9 +61,10 @@ namespace Spellweaver.ViewModel
                     }
                 }
             }
+
             if (!Levels.Any())
             {
-                var levels = (await _dbProvider.GetAllAsync())?.Levels;
+                var levels = await _dbProvider.GetLevelsAsync();
                 if (levels is not null)
                 {
                     foreach (var level in levels)
@@ -71,7 +73,6 @@ namespace Spellweaver.ViewModel
                     }
                 }
             }
-
         }
     }
 }

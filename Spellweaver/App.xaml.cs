@@ -37,7 +37,7 @@ namespace Spellweaver
 
             service.AddTransient<DataHandler>();
 
-            service.AddSingleton<IDBProvider<DNDDatabase>, OnlineDatabaseProvider>();
+            service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

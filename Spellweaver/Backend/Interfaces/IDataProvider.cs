@@ -2,6 +2,6 @@
 {
     public interface IDataProvider<T> where T : class
     {
-        Task<IEnumerable<T>?> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }

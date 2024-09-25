@@ -4,7 +4,7 @@ namespace Spellweaver.Data
 {
     public class CastingTimeDataProvider : IDataProvider<CastingTime>
     {
-        public async Task<IEnumerable<CastingTime>?> GetAllAsync()
+        public async Task<IEnumerable<CastingTime>> GetAllAsync()
         {
             return new List<CastingTime>
             {

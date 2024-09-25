@@ -1,12 +1,17 @@
 ﻿namespace Spellweaver.Model
 {
-    public class DNDDatabase
+    public abstract class DNDDatabase
     {
         // here we have a model that has Spells, Classes, and other default BS.
-        public List<Spell>? Spells { get; set; }
-        public List<School>? Schools { get; set;}
+        protected List<Spell>? Spells { get; set; }
+        protected List<School>? Schools { get; set;}
         //public List<Source> Sources { get; set; }
-        public List<Level>? Levels { get; set; }
-        public List<CastingTime>? CastingTimes { get; set; }
+        protected List<Level>? Levels { get; set; }
+        protected List<CastingTime>? CastingTimes { get; set; }
+
+        public abstract Task<List<Spell>> GetSpellsAsync();
+        public abstract Task<List<School>> GetSchoolsAsync();
+        public abstract Task<List<Level>> GetLevelsAsync();
+        public abstract Task<List<CastingTime>> GetCastingTimesAsync();
     }
 }

@@ -1,27 +1,79 @@
 ﻿using Spellweaver.Backend;
 using Spellweaver.Model;
+using System.Windows;
 
 namespace Spellweaver.Data
 {
-    public class OnlineDatabaseProvider : DNDDatabase, IDBProvider<DNDDatabase>
+    public class OnlineDatabaseProvider : DNDDatabase
     {
-        private bool IsDatabaseLoaded = false;
-        public DNDDatabase GetInstance => this;
-
-        public Action<DNDDatabase>? OnDatabaseLoaded { get; set; }
-
-        public async Task<DNDDatabase?> GetAllAsync()
+        public override async Task<List<CastingTime>> GetCastingTimesAsync()
         {
-            if (IsDatabaseLoaded) return this;
-            // Use the online db provider to supply spells from outside.
-            Spells = await new Open5eSpellDataProvider().GetAllAsync() as List<Spell>;
-            Schools = await new SchoolDataProvider().GetAllAsync() as List<School>;
-            CastingTimes = await new CastingTimeDataProvider().GetAllAsync() as List<CastingTime>;
-            Levels = await new LevelDataProvider().GetAllAsync() as List<Level>;
+            try
+            {
+                var result = await new CastingTimeDataProvider().GetAllAsync();
+                return result.ToList();
+            }
+            catch (Exception ex) 
+            { 
+                MessageBox.Show(ex.Message, "Error Boludo");
+            }
+            return new List<CastingTime>();
+        }
 
-            OnDatabaseLoaded?.Invoke(this);
-            IsDatabaseLoaded = true;
-            return this;
+        public override async Task<List<Level>> GetLevelsAsync()
+        {
+            try
+            {
+                var result = await new LevelDataProvider().GetAllAsync();
+                return result.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Boludo");
+            }
+            return new List<Level>();
+        }
+
+        public override async Task<List<School>> GetSchoolsAsync()
+        {
+            try
+            {
+                var result = await new SchoolDataProvider().GetAllAsync();
+                return result.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Boludo");
+            }
+            return new List<School>();
+        }
+
+        public override async Task<List<Spell>> GetSpellsAsync()
+        {
+            try
+            {
+                var result = await new Open5eSpellDataProvider().GetAllAsync();
+                return result.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Boludo");
+            }
+            return new List<Spell>();
+        }
+
+        public async Task<List<Spell>> GetALLSpellsAsync()
+        {
+            try
+            {
+                var result = await new Open5eSpellDataProvider().GetAllDatabase();
+                return result.ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Boludo");
+            }
+            return new List<Spell>();
         }
     }
 }
