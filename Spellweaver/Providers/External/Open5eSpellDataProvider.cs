@@ -1,5 +1,5 @@
 ﻿using Spellweaver.Data;
-using Spellweaver.Providers;
+using Spellweaver.Interfaces;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;

@@ -1,4 +1,4 @@
-﻿namespace Spellweaver.Backend.Interfaces
+﻿namespace Spellweaver.Interfaces
 {
     public interface IDataImporter
     {
