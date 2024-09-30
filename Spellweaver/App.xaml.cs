@@ -2,7 +2,7 @@
 using Spellweaver.Backend;
 using Spellweaver.Data;
 using Spellweaver.Managers;
-using Spellweaver.Model;
+using Spellweaver.Providers;
 using Spellweaver.ViewModel;
 using System.Windows;
 

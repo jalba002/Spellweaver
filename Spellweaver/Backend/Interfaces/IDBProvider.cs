@@ -1,4 +1,4 @@
-﻿namespace Spellweaver.Data
+﻿namespace Spellweaver.Providers
 {
     public interface IDBProvider<T> where T : class
     {

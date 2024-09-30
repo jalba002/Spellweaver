@@ -38,6 +38,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Spellweaver.Data\Spellweaver.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\add.png" />
     <Resource Include="Images\BookIcon.png" />
     <Resource Include="Images\ExportData.png" />

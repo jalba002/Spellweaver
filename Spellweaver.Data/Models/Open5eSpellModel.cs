@@ -1,7 +1,6 @@
-﻿using Spellweaver.Model.Exportables;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Spellweaver.Model.Api
+namespace Spellweaver.Data
 {
     public partial class Open5eSpellModel
     {

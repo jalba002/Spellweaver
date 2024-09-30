@@ -1,8 +1,8 @@
 ﻿using Spellweaver.Backend;
-using Spellweaver.Model;
 using System.Windows;
+using Spellweaver.Data;
 
-namespace Spellweaver.Data
+namespace Spellweaver.Providers
 {
     public class OnlineDatabaseProvider : DNDDatabase
     {

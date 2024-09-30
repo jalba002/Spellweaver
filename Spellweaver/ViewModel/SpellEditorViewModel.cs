@@ -1,6 +1,5 @@
 ﻿using Spellweaver.Data;
 using Spellweaver.Managers;
-using Spellweaver.Model;
 using System.Collections.ObjectModel;
 
 namespace Spellweaver.ViewModel

@@ -1,4 +1,4 @@
-﻿namespace Spellweaver.Model
+﻿namespace Spellweaver.Data
 {
     public abstract class DNDDatabase
     {

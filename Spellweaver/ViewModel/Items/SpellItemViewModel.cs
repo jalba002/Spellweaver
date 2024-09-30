@@ -1,5 +1,5 @@
 ﻿using Spellweaver.Backend;
-using Spellweaver.Model;
+using Spellweaver.Data;
 
 namespace Spellweaver.ViewModel
 {

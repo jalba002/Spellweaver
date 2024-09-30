@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json.Serialization;
 
-namespace Spellweaver.Model.Exportables
+namespace Spellweaver.Data
 {
     public class Open5eSpellExportable : ExportableModel
     {

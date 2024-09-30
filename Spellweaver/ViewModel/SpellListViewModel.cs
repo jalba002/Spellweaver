@@ -1,10 +1,9 @@
-﻿
-using Spellweaver.Backend;
+﻿using Spellweaver.Backend;
 using Spellweaver.Commands;
 using Spellweaver.Data;
 using Spellweaver.Interfaces;
 using Spellweaver.Managers;
-using Spellweaver.Model;
+using Spellweaver.Providers;
 using Spellweaver.ViewModel.Items;
 using System.Collections.ObjectModel;
 using System.Text.Json;

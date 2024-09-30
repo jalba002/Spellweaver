@@ -1,6 +1,4 @@
-﻿using Spellweaver.Model.Exportables;
-
-namespace Spellweaver.Model
+﻿namespace Spellweaver.Data
 {
     // This is my base model class. We use this as a template for everything else.
     // This is a basic DND 5e Spell. Maybe we can split it more...

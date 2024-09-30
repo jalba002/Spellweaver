@@ -1,8 +1,7 @@
-﻿
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
-namespace Spellweaver.Model.Exportables
+namespace Spellweaver.Data
 {
     public class Spellbook5ThEdition
     {

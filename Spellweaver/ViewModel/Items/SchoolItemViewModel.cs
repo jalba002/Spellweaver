@@ -1,4 +1,4 @@
-﻿using Spellweaver.Model;
+﻿using Spellweaver.Data;
 
 namespace Spellweaver.ViewModel
 {

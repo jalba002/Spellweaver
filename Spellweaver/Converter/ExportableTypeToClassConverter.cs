@@ -1,5 +1,4 @@
-﻿using Spellweaver.Model;
-using Spellweaver.Model.Exportables;
+﻿using Spellweaver.Data;
 using Spellweaver.ViewModel.Items;
 
 namespace Spellweaver.Converter

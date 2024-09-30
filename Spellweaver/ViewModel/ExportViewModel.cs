@@ -1,8 +1,7 @@
 ﻿using Spellweaver.Backend;
 using Spellweaver.Commands;
 using Spellweaver.Converter;
-using Spellweaver.Model;
-using Spellweaver.Model.Exportables;
+using Spellweaver.Data;
 using Spellweaver.ViewModel.Items;
 using System.Collections.ObjectModel;
 

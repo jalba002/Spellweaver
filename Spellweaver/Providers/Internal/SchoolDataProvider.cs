@@ -1,6 +1,6 @@
-﻿using Spellweaver.Model;
+﻿using Spellweaver.Data;
 
-namespace Spellweaver.Data
+namespace Spellweaver.Providers
 {
     class SchoolDataProvider : IDataProvider<School>
     {

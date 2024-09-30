@@ -1,4 +1,4 @@
-﻿namespace Spellweaver.Model.Exportables
+﻿namespace Spellweaver.Data
 {
     public abstract class ExportableModel
     {

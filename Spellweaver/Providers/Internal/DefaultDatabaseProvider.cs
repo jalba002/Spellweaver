@@ -1,6 +1,6 @@
-﻿using Spellweaver.Model;
+﻿using Spellweaver.Data;
 
-namespace Spellweaver.Data
+namespace Spellweaver.Providers
 {
     public class DefaultDatabaseProvider : DNDDatabase, IDBProvider<DNDDatabase>
     {
