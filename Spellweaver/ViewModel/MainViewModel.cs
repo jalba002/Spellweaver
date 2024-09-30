@@ -10,13 +10,20 @@ namespace Spellweaver.ViewModel
         private readonly SpellListViewModel? _listViewModel;
         private readonly SpellEditorViewModel? _editorViewModel;
         private readonly ConfigViewModel? _configViewModel;
+        private readonly DownloaderViewModel? _downloaderViewModel;
 
-        public MainViewModel(TitleViewModel defaultView, SpellListViewModel spellList, SpellEditorViewModel spellEditor, ConfigViewModel configView)
+        public MainViewModel(
+            TitleViewModel defaultView, 
+            SpellListViewModel spellList, 
+            SpellEditorViewModel spellEditor, 
+            ConfigViewModel configView,
+            DownloaderViewModel downloaderViewModel)
         {
             _titleViewModel = defaultView;
             _listViewModel = spellList;
             _editorViewModel = spellEditor;
             _configViewModel = configView;
+            _downloaderViewModel = downloaderViewModel;
 
             SelectedViewModel = _titleViewModel;
 
@@ -24,6 +31,7 @@ namespace Spellweaver.ViewModel
             LoadSpellListCommand = new DelegateCommand(LoadSpellList);
             LoadMainMenuCommand = new DelegateCommand(LoadMainMenu);
             LoadConfigCommand = new DelegateCommand(LoadConfig);
+            LoadDownloaderControlCommand = new DelegateCommand(LoadDownloader);
         }
 
         public ViewModelBase? SelectedViewModel
@@ -42,6 +50,7 @@ namespace Spellweaver.ViewModel
             await _listViewModel.LoadAsync();
             await _editorViewModel.LoadAsync();
             await _configViewModel.LoadAsync();
+            await _downloaderViewModel.LoadAsync();
         }
 
         #region Commands
@@ -50,6 +59,7 @@ namespace Spellweaver.ViewModel
         public DelegateCommand LoadSpellListCommand { get; }
         public DelegateCommand LoadMainMenuCommand { get; }
         public DelegateCommand LoadConfigCommand { get; }
+        public DelegateCommand LoadDownloaderControlCommand { get; }
 
         private void LoadSpellEditor(object? parameter)
         {
@@ -69,6 +79,10 @@ namespace Spellweaver.ViewModel
         public void LoadConfig(object? parameter)
         {
             SelectedViewModel = _configViewModel;
+        }
+        public void LoadDownloader(object? parameter)
+        {
+            SelectedViewModel = _downloaderViewModel;
         }
 
         #endregion

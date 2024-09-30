@@ -33,6 +33,8 @@ namespace Spellweaver
 
             service.AddSingleton<SpellManager>();
 
+            service.AddSingleton<DownloaderViewModel>();
+
             service.AddSingleton<ConfigViewModel>();
 
             service.AddTransient<DataHandler>();

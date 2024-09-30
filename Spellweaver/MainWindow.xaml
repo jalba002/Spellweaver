@@ -32,6 +32,9 @@
         <DataTemplate DataType="{x:Type ViewModels:ConfigViewModel}">
             <Views:ConfigView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:DownloaderViewModel}">
+            <Views:DownloaderView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -82,6 +85,15 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="Pen" Style="{StaticResource MenuButtonIcon}"/>
                                 <TextBlock Text="Editor" Style="{StaticResource MenuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                     Command="{Binding LoadDownloaderControlCommand}"
+                                     DockPanel.Dock="Top"
+                                     GroupName="MenuButtons">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Download" Style="{StaticResource MenuButtonIcon}"/>
+                                <TextBlock Text="Downloader" Style="{StaticResource MenuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
                     </DockPanel>
