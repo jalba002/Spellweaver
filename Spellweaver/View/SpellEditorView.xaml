@@ -13,7 +13,7 @@
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Level, StringFormat=(Level {0})}" 
+                    <TextBlock Text="{Binding Level, StringFormat=(Level {0}), Converter={StaticResource LevelStringToIntConverter}}" 
                                    FontSize="12"
                                    VerticalAlignment="Center"
                                Margin="5,0,0,0"/>

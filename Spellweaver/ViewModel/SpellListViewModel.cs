@@ -70,7 +70,7 @@ namespace Spellweaver.ViewModel
 
         private void Add(object? parameter)
         {
-            var spell = new Spell { Name = "Default Spell", Level = "Cantrip", CastingTime = "1 action" };
+            var spell = new Spell { Name = "Default Spell", Level = "0", CastingTime = "1 action" };
             var viewModel = new SpellItemViewModel(spell);
             Spells.Add(viewModel);
             SelectedSpell = viewModel;

@@ -9,7 +9,7 @@ namespace Spellweaver.Converter
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var cleanString = value as string;
-            if (cleanString != null)
+            if (!string.IsNullOrEmpty(cleanString))
             {
                 Regex rgx = new Regex("[^a-zA-Z -]");
                 cleanString = rgx.Replace(cleanString, "");
