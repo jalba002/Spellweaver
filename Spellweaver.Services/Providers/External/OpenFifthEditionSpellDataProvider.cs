@@ -1,13 +1,11 @@
 ﻿using Spellweaver.Data;
-using Spellweaver.Interfaces;
-using System.Net.Http;
+using Spellweaver.Data.Models.Structures;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Windows;
 
-namespace Spellweaver.Backend
+namespace Spellweaver.Services
 {
-    public class Open5eSpellDataProvider : IDataProvider<Spell>
+    public class OpenFifthEditionSpellDataProvider : IDataProvider<Spell>
     {
         private HttpClient _client = new()
         {
@@ -23,7 +21,7 @@ namespace Spellweaver.Backend
         };
 
         private const string format = "json";
-        public Open5eSpellDataProvider()
+        public OpenFifthEditionSpellDataProvider()
         {
 
         }
@@ -50,47 +48,32 @@ namespace Spellweaver.Backend
 
         // Non-generic stuff, but for now it will work. This can be the "ONLINE" One, which pulls from a set website
         // With a set structure.
-        private async Task<Open5eSpellModel?> GetData(string url)
+        private async Task<FifthEditionSpellModel?> GetData(string url)
         {
-            try
+            using HttpResponseMessage response = await _client.GetAsync(url);
+            if (response != null)
             {
-                using HttpResponseMessage response = await _client.GetAsync(url);
-                if (response != null)
-                {
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    return JsonSerializer.Deserialize<Open5eSpellModel>(jsonString, jsonSerializationOptions);
-                }
-            }
-            catch (Exception ex)
-            {
-                //myCustomLogger.LogException(ex);
-                MessageBox.Show($"Fooking error mate.\n{ex.Message}", "Error when Downloading", MessageBoxButton.OK);
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<FifthEditionSpellModel>(jsonString, jsonSerializationOptions);
             }
             return null;
         }
 
-        private async Task<Open5eSpellModel> GetData(int page = 1)
+        private async Task<OpenFifthEditionRequestResponse?> GetData(int page = 1)
         {
-            try
+            using HttpResponseMessage response = await _client.GetAsync($"/v1/spells/?format={format}&page={page}");
+            if (response != null)
             {
-                using HttpResponseMessage response = await _client.GetAsync($"/v1/spells/?format={format}&page={page}");
-                if (response != null)
-                {
-                    return await response.Content.ReadFromJsonAsync<Open5eSpellModel>(jsonSerializationOptions);
-                    //return JsonSerializer.DeserializeAsync<Open5eSpellModel>(response, jsonSerializationOptions);
-                }
+                return await response.Content.ReadFromJsonAsync<OpenFifthEditionRequestResponse>(jsonSerializationOptions);
+                //return JsonSerializer.DeserializeAsync<Open5eSpellModel>(response, jsonSerializationOptions);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Fooking error mate.\n{ex.Message}", "Error when Downloading", MessageBoxButton.OK);
-            }
-            return new Open5eSpellModel() { Results = Array.Empty<Open5eSpellExportable>() };
+            return new OpenFifthEditionRequestResponse() { Results = Array.Empty<FifthEditionSpellModel>() };
         }
         public async Task<IEnumerable<Spell>> GetAllAsync()
         {
             var unfilteredData = await GetData();
             List<Spell> result = new();
-            foreach (Open5eSpellExportable spell in unfilteredData.Results)
+            foreach (OpenFifthEditionRequestResponse spell in unfilteredData.Results)
             {
                 result.Add(spell.TransformToInternalModel());
             }

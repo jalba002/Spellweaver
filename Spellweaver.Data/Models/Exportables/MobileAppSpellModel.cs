@@ -3,23 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Spellweaver.Data
 {
-    public class Spellbook5ThEdition
-    {
-        [JsonPropertyName("version")]
-        public string? Version { get; set; }
-
-        [JsonPropertyName("db")]
-        public long? Db { get; set; }
-
-        [JsonPropertyName("data")]
-        public List<Spellbook5eExportable> Data { get; set; }
-    }
-
-    public class Spellbook5eExportable : ExportableModel
+    public class MobileAppSpellModel : ExportableModel
     {
         // We can use this as "interpreter" to deserialize everything.
         // It has a method to take a spell and the all properties managed to deserialize for each value.
-        public Spellbook5eExportable(Spell? original) : base(original)
+        public MobileAppSpellModel(Spell? original) : base(original)
         {
             TransformInternalToCustomExportable(original);
         }
@@ -113,7 +101,7 @@ namespace Spellweaver.Data
             if (int.TryParse(original.Level, out int lvl))
             {
                 Level = lvl;
-                if(lvl == 0)
+                if (lvl == 0)
                 {
                     Level = -1;
                 }

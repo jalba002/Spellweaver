@@ -5,10 +5,13 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spellweaver", "Spellweaver\Spellweaver.csproj", "{107E3FED-4B7A-4D2B-91A8-67F0EECAD1CE}"
 	ProjectSection(ProjectDependencies) = postProject
+		{7CC03078-5E33-4740-9F23-FF30B1BD3EBC} = {7CC03078-5E33-4740-9F23-FF30B1BD3EBC}
 		{D268CAD5-5823-4889-9C20-75750A8C37F4} = {D268CAD5-5823-4889-9C20-75750A8C37F4}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spellweaver.Data", "Spellweaver.Data\Spellweaver.Data.csproj", "{D268CAD5-5823-4889-9C20-75750A8C37F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spellweaver.Data", "Spellweaver.Data\Spellweaver.Data.csproj", "{D268CAD5-5823-4889-9C20-75750A8C37F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spellweaver.Services", "Spellweaver.Services\Spellweaver.Services.csproj", "{7CC03078-5E33-4740-9F23-FF30B1BD3EBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +27,10 @@ Global
 		{D268CAD5-5823-4889-9C20-75750A8C37F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D268CAD5-5823-4889-9C20-75750A8C37F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D268CAD5-5823-4889-9C20-75750A8C37F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC03078-5E33-4740-9F23-FF30B1BD3EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC03078-5E33-4740-9F23-FF30B1BD3EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC03078-5E33-4740-9F23-FF30B1BD3EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC03078-5E33-4740-9F23-FF30B1BD3EBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

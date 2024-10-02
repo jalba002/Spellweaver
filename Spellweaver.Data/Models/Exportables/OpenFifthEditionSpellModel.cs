@@ -3,12 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace Spellweaver.Data
 {
-    public class Open5eSpellExportable : ExportableModel
+    public class OpenFifthEditionSpellModel : ExportableModel
     {
-        public Open5eSpellExportable() { }
-        public Open5eSpellExportable(Spell? original) : base(original)
+        public OpenFifthEditionSpellModel(Spell original) : base(original)
         {
-            TransformInternalToCustomExportable(original);
+            this.TransformInternalToCustomExportable(original);
         }
 
         [JsonPropertyName("slug")]

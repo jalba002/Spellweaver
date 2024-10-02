@@ -1,5 +1,5 @@
 ﻿using Spellweaver.Data;
-using Spellweaver.Interfaces;
+using Spellweaver.Services;
 
 namespace Spellweaver.Providers
 {

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Spellweaver.Data
+namespace Spellweaver.Data.Models.Structures
 {
-    public partial class Open5eSpellModel
+    public partial class OpenFifthEditionRequestResponse
     {
         [JsonPropertyName("count")]
         public long? Count { get; set; }
@@ -14,6 +14,6 @@ namespace Spellweaver.Data
         public object? Previous { get; set; }
 
         [JsonPropertyName("results")]
-        public Open5eSpellExportable[] Results { get; set; }
+        public OpenFifthEditionSpellModel[] Results { get; set; }
     }
 }
