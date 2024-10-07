@@ -1,9 +1,9 @@
 ﻿namespace Spellweaver.Data
 {
-    public abstract class ExportableModel
+    public abstract class BaseSpellModel
     {
-        public ExportableModel() { }
-        public ExportableModel(Spell? original) { }
+        public BaseSpellModel() { }
+        public BaseSpellModel(Spell? original) { }
         public abstract void TransformInternalToCustomExportable(Spell original);
         public abstract Spell TransformToInternalModel();
     }

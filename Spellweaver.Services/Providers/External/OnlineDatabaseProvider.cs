@@ -1,5 +1,6 @@
 ﻿using Spellweaver.Backend;
 using Spellweaver.Data;
+using Spellweaver.Services;
 
 namespace Spellweaver.Providers
 {
@@ -25,13 +26,13 @@ namespace Spellweaver.Providers
 
         public override async Task<List<Spell>> GetSpellsAsync()
         {
-            var result = await new Open5eSpellDataProvider().GetAllAsync();
+            var result = await new O5ESpellDataProvider().GetAllAsync();
             return result.ToList();
         }
 
         public async Task<List<Spell>> GetALLSpellsAsync()
         {
-            var result = await new Open5eSpellDataProvider().GetAllDatabase();
+            var result = await new O5ESpellDataProvider().GetAllDatabase();
             return result.ToList();
         }
     }

@@ -1,4 +1,6 @@
-﻿using Spellweaver.Commands;
+﻿using Microsoft.VisualBasic.Logging;
+using Serilog;
+using Spellweaver.Commands;
 
 namespace Spellweaver.ViewModel
 {

@@ -1,8 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using Spellweaver.Data.Models.Exportables.Collections;
+using System.Text.Json.Serialization;
+
 
 namespace Spellweaver.Data
 {
-    public class MobileAppSpellbook
+    public class MobileAppExportStructure : ExportableSpellbook
     {
         [JsonPropertyName("version")]
         public string? Version { get; set; }
@@ -13,7 +15,7 @@ namespace Spellweaver.Data
         [JsonPropertyName("data")]
         public List<MobileAppSpellModel> Data { get; set; }
 
-        public MobileAppSpellbook(List<Spell> spells)
+        public MobileAppExportStructure(List<Spell> spells)
         {
             Db = 13;
             Version = "3.1.5";

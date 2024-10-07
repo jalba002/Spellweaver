@@ -2,7 +2,7 @@
 
 namespace Spellweaver.Services
 {
-    public interface IInputOutputHandler<T> where T : ExportableModel
+    public interface IInputOutputHandler<T> where T : BaseSpellModel
     {
         public T? ImportSingle();
         public List<T>? ImportMultiple();

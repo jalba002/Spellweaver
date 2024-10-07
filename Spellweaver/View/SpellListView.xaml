@@ -88,11 +88,10 @@
                     </Style>
                 </StackPanel.Resources>
                 <Button Content="Download Spells" Command="{Binding DownloadSpellsCommand}"/>
-                <Button  Content="Download ALL Spells"
+                <!--<Button  Content="Download ALL Spells"
                     IsEnabled="False"
                     Command="{Binding DownloadAllSpellsCommand}"
-                    Foreground="Red"/>
-                <Button Content="Import Spell" Command="{Binding ImportSpellCommand}"/>
+                    Foreground="Red"/>-->
                 <Button Content="Import Database" Command="{Binding ImportSpellsCommand}"/>
                 <Button Content="Export Spell" Command="{Binding ExportSpellCommand}"/>
                 <Button Content="Export Database" Command="{Binding ExportSpellsCommand}"/>

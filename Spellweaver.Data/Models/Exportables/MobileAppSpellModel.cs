@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Spellweaver.Data
 {
-    public class MobileAppSpellModel : ExportableModel
+    public class MobileAppSpellModel : BaseSpellModel
     {
         // We can use this as "interpreter" to deserialize everything.
         // It has a method to take a spell and the all properties managed to deserialize for each value.

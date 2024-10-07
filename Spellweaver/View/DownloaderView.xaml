@@ -4,31 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Spellweaver.View"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+              d:DesignWidth="900" d:DesignHeight="600"
              Width="auto"
              Height="auto">
-    <!-- Header -->
-    <StackPanel Orientation="Horizontal"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-        <StackPanel Orientation="Horizontal"/>
-        
-        <TextBox Width="300"
-                 FontFamily="Montserrat"
-                 FontSize="16"
-                 VerticalContentAlignment="Center"
-                 Padding="5"
-                 FontStyle="Normal"
-                 FontWeight="Normal">
-            Searchbar
-        </TextBox>
-        <Button Width="50"
-                Height="50">
-            <Button.Content>
-                <Image>
-                    
-                </Image>
-            </Button.Content>
-        </Button>
-    </StackPanel>
+    <Grid Grid.Row="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Margin="5" LastChildFill="True">
+            <Button Command="{Binding SearchSpellCommand}" DockPanel.Dock="Right" Margin="5,0,0,0">
+                <DockPanel>
+                    <Image Source="/Images/add.png" HorizontalAlignment="Left"></Image>
+                </DockPanel>
+            </Button>
+            <TextBox
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 VerticalContentAlignment="Center">
+
+            </TextBox>
+        </DockPanel>
+        <!--<Button Grid.Column="1" Command="{Binding RemoveCommand}">
+        <DockPanel>
+            <Image Source="/Images/remove.png" Width="20" Margin="5"></Image>
+            <TextBlock Text="Remove Spell" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </DockPanel>
+    </Button>-->
+
+        <ListView
+                  Margin="5,0,5,5"
+              Grid.Row="2"
+        ItemsSource="{Binding Path=Spells}"
+        SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
+        ItemTemplate="{StaticResource SpellDataTemplate}" Grid.ColumnSpan="2"/>
+    </Grid>
 </UserControl>

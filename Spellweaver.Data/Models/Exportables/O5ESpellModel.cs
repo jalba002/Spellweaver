@@ -3,9 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace Spellweaver.Data
 {
-    public class OpenFifthEditionSpellModel : ExportableModel
+    public class O5ESpellModel : BaseSpellModel
     {
-        public OpenFifthEditionSpellModel(Spell original) : base(original)
+        public O5ESpellModel() { }
+        public O5ESpellModel(Spell original) : base(original)
         {
             this.TransformInternalToCustomExportable(original);
         }

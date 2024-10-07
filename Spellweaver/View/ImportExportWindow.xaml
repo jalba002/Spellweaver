@@ -8,9 +8,6 @@
         mc:Ignorable="d" Height="450" Width="400"
         d:DesignWidth="250" d:DesignHeight="300"
         WindowStyle="SingleBorderWindow" Title="Import/Export Menu">
-    <Window.Resources>
-        <converter:ExportableTypeToClassConverter x:Key="ExportTypeToClassConverter"/>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

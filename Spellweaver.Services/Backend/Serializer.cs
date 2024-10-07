@@ -4,14 +4,20 @@ namespace Spellweaver.Backend
 {
     public class Serializer
     {
-        public static T? Deserialize<T>(string data, JsonSerializerOptions serializerOptions)
+        private static JsonSerializerOptions defaultOptions = new JsonSerializerOptions()
         {
-            return JsonSerializer.Deserialize<T>(data, serializerOptions);
+            PropertyNameCaseInsensitive = true,
+            IncludeFields = true
+        };
+
+        public static T? Deserialize<T>(string data)
+        {
+            return JsonSerializer.Deserialize<T>(data, defaultOptions);
         }
 
-        public static string Serialize<T>(T data, JsonSerializerOptions serializerOptions)
+        public static string Serialize<T>(T data)
         {
-            return JsonSerializer.Serialize(data, serializerOptions);
+            return JsonSerializer.Serialize(data, defaultOptions);
         }
     }
 }

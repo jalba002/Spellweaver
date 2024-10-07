@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Spellweaver.Backend;
 using Spellweaver.Data;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
 using Spellweaver.ViewModel;
 using System.Windows;
+using Serilog;
 
 namespace Spellweaver
 {
@@ -14,13 +14,20 @@ namespace Spellweaver
 
         public App()
         {
+            Serilog.Log.Logger = new LoggerConfiguration()
+             .WriteTo.File($"log.txt")
+             .CreateLogger();
+
             ServiceCollection service = new ServiceCollection();
             ConfigureService(service);
             _serviceProvider = service.BuildServiceProvider();
+            Log.Information("Starting logging service.");
         }
 
         private void ConfigureService(ServiceCollection service)
         {
+            service.AddSerilog();
+            
             service.AddTransient<MainWindow>();
 
             service.AddSingleton<MainViewModel>();
@@ -36,8 +43,6 @@ namespace Spellweaver
             service.AddSingleton<DownloaderViewModel>();
 
             service.AddSingleton<ConfigViewModel>();
-
-            service.AddTransient<DataHandler>();
 
             service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
         }

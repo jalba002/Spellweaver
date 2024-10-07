@@ -5,7 +5,7 @@
     // If we wanted to choose other RPGs we could implement interface-oriented models.
     // For example an spell could have description, a name, a custom level too.
     // Maybe the max level is not the same as others...
-    public class Spell : ExportableModel
+    public class Spell : BaseSpellModel
     {
         public string? Name { get; set; }
         public string? School { get; set; }

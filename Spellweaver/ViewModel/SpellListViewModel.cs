@@ -1,10 +1,8 @@
-﻿using Spellweaver.Backend;
+﻿using Serilog;
 using Spellweaver.Commands;
 using Spellweaver.Data;
-using Spellweaver.Interfaces;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
-using Spellweaver.ViewModel.Items;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using System.Windows;
@@ -14,12 +12,10 @@ namespace Spellweaver.ViewModel
     public class SpellListViewModel : ViewModelBase
     {
         private SpellManager _spellManager;
-        private IInputOutputHandler<SpellItemViewModel> _handler;
         private DNDDatabase _dbProvider;
-        public SpellListViewModel(SpellManager spellManager, DataHandler dataHandler, DNDDatabase dB)
+        public SpellListViewModel(SpellManager spellManager, DNDDatabase dB)
         {
             _spellManager = spellManager;
-            _handler = dataHandler;
             _dbProvider = dB;
 
             // We must register all commands here as they are readonly.
@@ -33,14 +29,12 @@ namespace Spellweaver.ViewModel
             ExportSpellCommand = new DelegateCommand(ExportSpell);
             ExportSpellsCommand = new DelegateCommand(ExportSpells);
             // Import Spells Commands
-            ImportSpellCommand = new DelegateCommand(ImportSpell);
             ImportSpellsCommand = new DelegateCommand(ImportSpells);
         }
 
         #region Collections
         public ObservableCollection<SpellItemViewModel> Spells { get; } = new();
         #endregion
-        public string SpellCount => $"X/{Spells.Count}";
 
         public SpellItemViewModel? SelectedSpell
         {
@@ -65,7 +59,7 @@ namespace Spellweaver.ViewModel
         public DelegateCommand DownloadAllSpellsCommand { get; }
         public DelegateCommand ExportSpellCommand { get; }
         public DelegateCommand ExportSpellsCommand { get; }
-        public DelegateCommand ImportSpellCommand { get; }
+        //public DelegateCommand ImportSpellCommand { get; }
         public DelegateCommand ImportSpellsCommand { get; }
 
         private void Add(object? parameter)
@@ -75,6 +69,7 @@ namespace Spellweaver.ViewModel
             Spells.Add(viewModel);
             SelectedSpell = viewModel;
         }
+
         private void Remove(object? parameter)
         {
             if (SelectedSpell is not null)
@@ -87,24 +82,19 @@ namespace Spellweaver.ViewModel
                 }
             }
         }
-        private void ImportSpell(object? parameter)
-        {
-            //ImportSpell();
-            var spell = _handler.ImportSingle();
-            if (spell is null)
-            {
-                MessageBox.Show($"Spell added is null. Cancelling operation", "Spell Import Error");
-                return;
-            }
-            Spells.Add(spell);
-        }
+        // This is binded to the command to open the window and then importSpells from a file.
+        // It import any amount, as it is always exported as an array.
         private void ImportSpells(object? parameter)
         {
-            // ??
-            _handler.ImportMultiple()?.ForEach(Spells.Add);
+            var importResult = SpellExportWindowManager.ImportSpells<Spell>();
+            Log.Information($"Adding {importResult.ToArray().Length} new spells from import mode");
+            foreach (var item in importResult)
+            {
+                ImportSpell(item);
+            }
         }
 
-        public void ImportSpell(Spell? spell)
+        private void ImportSpell(Spell? spell)
         {
             if (spell is not null)
             {
@@ -112,31 +102,7 @@ namespace Spellweaver.ViewModel
                 Spells.Add(new SpellItemViewModel(spell));
             }
         }
-        public void ImportSpells(List<Spell>? spells)
-        {
-            // Show messagebox asking if it wants to replace current Database or Merge.
-            if (spells is null) return;
 
-            var messageBox = MessageBox.Show("Do you want to replace the current spell list (No)\nor merge the new list into the current list (Yes).", "Importing Database", MessageBoxButton.YesNoCancel);
-            if (messageBox == MessageBoxResult.No)
-            {
-                // Delete the current spells
-                Spells.Clear();
-            }
-            else if (messageBox == MessageBoxResult.Cancel)
-            {
-                // Canceled completely. Stays as is.
-                return;
-            }
-
-            foreach (var spell in spells)
-            {
-                if (spell is not null)
-                {
-                    Spells.Add(new SpellItemViewModel(spell));
-                }
-            }
-        }
         private async void DownloadSpells(object? parameter)
         {
             // Here we call the BACKEND to gather some information for us.
@@ -176,12 +142,16 @@ namespace Spellweaver.ViewModel
         private void ExportSpell(object? parameter)
         {
             if (SelectedSpell == null) return;
-
-            _handler.ExportSingle(SelectedSpell, new ExportSettings() { ExportType = ExportationType.Spellweaver });
+            SpellExportWindowManager.ExportSpells(new List<Spell>() { SelectedSpell.GetModel.TransformToInternalModel() });
         }
         private void ExportSpells(object? parameter)
         {
-            _handler.ExportMultiple(Spells.ToList(), new ExportSettings() { ExportType = ExportationType.Spellweaver });
+            List<Spell> exportables = new List<Spell>();
+            foreach (var item in Spells)
+            {
+                exportables.Add(item.GetModel.TransformToInternalModel());
+            }
+            SpellExportWindowManager.ExportSpells(exportables);
         }
 
         private bool CanRemove(object? parameter) => SelectedSpell is not null;
