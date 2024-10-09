@@ -11,11 +11,9 @@ namespace Spellweaver.ViewModel
 {
     public class SpellListViewModel : ViewModelBase
     {
-        private SpellManager _spellManager;
         private DNDDatabase _dbProvider;
-        public SpellListViewModel(SpellManager spellManager, DNDDatabase dB)
+        public SpellListViewModel(DNDDatabase dB)
         {
-            _spellManager = spellManager;
             _dbProvider = dB;
 
             // We must register all commands here as they are readonly.
@@ -38,10 +36,10 @@ namespace Spellweaver.ViewModel
 
         public SpellItemViewModel? SelectedSpell
         {
-            get => _spellManager.CurrentSpell;
+            get => SpellManager.CurrentSpell;
             set
             {
-                _spellManager.CurrentSpell = value;
+                SpellManager.CurrentSpell = value;
                 RaisePropertyChanged();
                 RemoveCommand.RaiseCanExecuteChanged();
             }

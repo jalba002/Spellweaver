@@ -172,14 +172,13 @@ namespace Spellweaver.ViewModel
         {
             get
             {
-                string finalString = "(";
+                string finalString = "";
                 finalString += IsVocal ? "V," : "";
                 finalString += IsSomatic ? "S," : "";
-                finalString += IsMaterial ? "M," : "";
-                finalString += IsRitual ? "R," : "";
-                finalString += IsConcentration ? "C" : "";
+                finalString += IsMaterial ? $"M ({DescriptionMaterials})" : "";
+                if (!IsMaterial && finalString.Length > 0)
+                    finalString = finalString.Remove(finalString.Length - 1, 1);
                 if (finalString.Length <= 1) return "";
-                finalString += ")";
                 return finalString;
             }
         }

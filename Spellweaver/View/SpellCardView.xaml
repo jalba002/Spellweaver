@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="Spellweaver.View.SpellCardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Spellweaver.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid Background="White" DataContext="{Binding Path=CurrentSpell}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Top rectangle for blue fill-->
+        <Rectangle Grid.Row="0" Fill="BlueViolet" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <!--Bottom rectangle for description and stats-->
+        <Rectangle Grid.Row="1" Fill="AliceBlue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style x:Key="BaseTextBlock" TargetType="TextBlock">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Style>
+                <Style x:Key="SpellTitleCard" BasedOn="{StaticResource BaseTextBlock}" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="FontSize" Value="24"/>
+                    
+                </Style>
+                <Style x:Key="SpellSmallEntries" BasedOn="{StaticResource BaseTextBlock}" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Style>
+            </Grid.Resources>
+            <TextBlock Style="{StaticResource SpellTitleCard}" Grid.Row="0" Text="{Binding Name}"></TextBlock>
+            <TextBlock  Margin="5,0,0,-5" Style="{StaticResource SpellSmallEntries}" Grid.Row="1">Abjuration Cantrip</TextBlock>
+            <DockPanel Grid.Row="2" LastChildFill="False" HorizontalAlignment="Stretch">
+                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="Left">Warlock</TextBlock>
+                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="Right">PHB 100</TextBlock>
+            </DockPanel>
+        </Grid>
+        <!--Grid for the stats and description-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <Style x:Key="SampleDockpanel" TargetType="DockPanel">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="TitleDockPanel" TargetType="TextBlock">
+                    <Setter Property="FontFamily" Value="Montserrat"/>
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+                <ControlTemplate x:Key="TitleDockPanelPrefab" TargetType="ContentControl">
+                    <DockPanel Style="{StaticResource SampleDockpanel}">
+                        <TextBlock Style="{StaticResource TitleDockPanel}" Margin="0,3,0,0" DockPanel.Dock="Top" Text="{Binding Name, RelativeSource={RelativeSource TemplatedParent}}"></TextBlock>
+                        <TextBlock DockPanel.Dock="Top" Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" TextWrapping="Wrap"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Grid.Resources>
+            <ContentControl Name="CASTING_TIME" Grid.Row="0" Grid.Column="0" Tag="{Binding CastingTime}" Template="{StaticResource TitleDockPanelPrefab}"/>
+            <ContentControl Name="RANGE" Grid.Row="0" Grid.Column="1" Tag="{Binding Range}" Template="{StaticResource TitleDockPanelPrefab}"/>
+            <ContentControl Name="COMPONENTS" Grid.Row="1" Grid.Column="0" Tag="{Binding ComponentsString}" Template="{StaticResource TitleDockPanelPrefab}"/>
+            <ContentControl Name="DURATION" Grid.Row="1" Grid.Column="1" Tag="{Binding Duration}" Template="{StaticResource TitleDockPanelPrefab}"/>
+            
+            <DockPanel Grid.ColumnSpan="2" Grid.Row="2" Margin="5" LastChildFill="True">
+                <Separator DockPanel.Dock="Top"/>
+                <Separator DockPanel.Dock="Bottom"/>
+                <ScrollViewer DockPanel.Dock="Top" Margin="5">
+                    <TextBlock Name="Description" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Padding="2" Text="{Binding Description}" TextWrapping="Wrap">
+                    </TextBlock>
+                </ScrollViewer>
+            </DockPanel>
+            <TextBlock Grid.ColumnSpan="2" Grid.Row="3" Margin="5" Text="{Binding Upcasted}">
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

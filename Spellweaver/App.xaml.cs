@@ -38,11 +38,11 @@ namespace Spellweaver
 
             service.AddSingleton<SpellListViewModel>();
 
-            service.AddSingleton<SpellManager>();
-
             service.AddSingleton<DownloaderViewModel>();
 
             service.AddSingleton<ConfigViewModel>();
+
+            service.AddSingleton<SpellCardViewModel>();
 
             service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
         }

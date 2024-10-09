@@ -7,10 +7,8 @@ namespace Spellweaver.ViewModel
     public class SpellEditorViewModel : ViewModelBase
     {
         private DNDDatabase _dbProvider;
-        private SpellManager _spellManager;
-        public SpellEditorViewModel(DNDDatabase dbProvider, SpellManager spellManager)
+        public SpellEditorViewModel(DNDDatabase dbProvider)
         {
-            _spellManager = spellManager;
             _dbProvider = dbProvider;
         }
 
@@ -18,11 +16,11 @@ namespace Spellweaver.ViewModel
         {
             get
             {
-                return _spellManager.CurrentSpell;
+                return SpellManager.CurrentSpell;
             }
             set
             {
-                _spellManager.CurrentSpell = value;
+                SpellManager.CurrentSpell = value;
                 RaisePropertyChanged();
             }
         }
