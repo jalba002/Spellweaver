@@ -2,10 +2,10 @@
 
 namespace Spellweaver.Managers
 {
-    public class SpellManager
+    public static class SpellManager
     {
-        private SpellItemViewModel? _currentSpell;
-        public SpellItemViewModel? CurrentSpell
+        private static SpellItemViewModel? _currentSpell;
+        public static SpellItemViewModel? CurrentSpell
         {
             get
             {
