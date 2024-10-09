@@ -76,22 +76,20 @@
                 ItemTemplate="{StaticResource SpellDataTemplate}" Grid.ColumnSpan="2"/>
         </Grid>
         <Expander Grid.Column="1"
+                  Grid.RowSpan="3"
                   ExpandDirection="Left"
-                  Template="{DynamicResource SimpleExpanderTemp}"
-                  HorizontalContentAlignment="Stretch">
+                  Template="{DynamicResource Expander}">
             <StackPanel Grid.Column="1" Width="250"
-                        HorizontalAlignment="Stretch">
+                        Margin="5"
+                        VerticalAlignment="Center">
                 <StackPanel.Resources>
                     <Style TargetType="Button">
                         <Setter Property="Button.HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="Height" Value="50"/>
+                        <Setter Property="Margin" Value="0,0,10,5"/>
                     </Style>
                 </StackPanel.Resources>
                 <Button Content="Download Spells" Command="{Binding DownloadSpellsCommand}"/>
-                <!--<Button  Content="Download ALL Spells"
-                    IsEnabled="False"
-                    Command="{Binding DownloadAllSpellsCommand}"
-                    Foreground="Red"/>-->
                 <Button Content="Import Database" Command="{Binding ImportSpellsCommand}"/>
                 <Button Content="Export Spell" Command="{Binding ExportSpellCommand}"/>
                 <Button Content="Export Database" Command="{Binding ExportSpellsCommand}"/>
