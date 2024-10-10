@@ -39,6 +39,11 @@
         </DataTemplate>
     </Window.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="ContentControl">
+                <Setter Property="Background" Value="{StaticResource MainGridBackground}"></Setter>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>

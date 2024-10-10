@@ -6,8 +6,8 @@ namespace Spellweaver
     public partial class MainWindow : Window
     {
         private readonly MainViewModel _viewModel;
-        private readonly string _spellweaverVersion;
-        public string SpellweaverVersion
+        private static string _spellweaverVersion = GetVersion();
+        public static string SpellweaverVersion
         {
             get => _spellweaverVersion;
         }
@@ -22,7 +22,7 @@ namespace Spellweaver
             Loaded += MainWindow_Loaded;
         }
 
-        private string GetVersion()
+        private static string GetVersion()
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             DateTime buildDate = new DateTime(2000, 1, 1)
