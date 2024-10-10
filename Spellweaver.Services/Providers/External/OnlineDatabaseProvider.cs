@@ -1,5 +1,4 @@
-﻿using Spellweaver.Backend;
-using Spellweaver.Data;
+﻿using Spellweaver.Data;
 using Spellweaver.Services;
 
 namespace Spellweaver.Providers
@@ -30,10 +29,24 @@ namespace Spellweaver.Providers
             return result.ToList();
         }
 
-        public async Task<List<Spell>> GetALLSpellsAsync()
+        public override async Task<List<Spell>> GetALLSpellsAsync()
         {
             var result = await new O5ESpellDataProvider().GetAllDatabase();
             return result.ToList();
+        }
+
+        public override async Task<List<Spell>> GetAllSpellsThatMatch(string match)
+        {
+            var result = await new O5ESpellDataProvider().GetSpellMatch(match);
+            List<Spell> spells = new List<Spell>();
+            // Return an empty
+            if (result == null || result?.Results.Length <= 0) return spells;
+
+            foreach (var item in result.Results)
+            {
+                spells.Add(item.TransformToInternalModel());
+            }
+            return spells;
         }
     }
 }

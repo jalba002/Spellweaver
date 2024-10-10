@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Spellweaver.View"
              xmlns:converter="clr-namespace:Spellweaver.Converter"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:Background="LightGray">
     <UserControl.Resources>
@@ -46,32 +47,12 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="1"
-                       Margin="5" Grid.ColumnSpan="2"
-                       >
-                <Button Command="{Binding AddCommand}">
-                    <DockPanel>
-                        <Image Source="/Images/add.png" HorizontalAlignment="Left"></Image>
-                    </DockPanel>
-                </Button>
-                <TextBox Margin="5,0,0,0"
-                         HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         VerticalContentAlignment="Center">
-
-                </TextBox>
+            <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+                <TextBox Style="{StaticResource SearchBar}" Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <!--<Button Grid.Column="1" Command="{Binding RemoveCommand}">
-                <DockPanel>
-                    <Image Source="/Images/remove.png" Width="20" Margin="5"></Image>
-                    <TextBlock Text="Remove Spell" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </DockPanel>
-            </Button>-->
-
-            <ListView
-                          Margin="5,0,5,5"
+            <ListView Margin="5,0,5,5"
                       Grid.Row="2"
-                ItemsSource="{Binding Path=Spells}"
+                ItemsSource="{Binding Path=SpellsView}"
                 SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
                 ItemTemplate="{StaticResource SpellDataTemplate}" Grid.ColumnSpan="2"/>
         </Grid>
@@ -86,13 +67,17 @@
                     <Style TargetType="Button">
                         <Setter Property="Button.HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="Height" Value="50"/>
-                        <Setter Property="Margin" Value="0,0,10,5"/>
                     </Style>
                 </StackPanel.Resources>
+                <Separator Margin="5"/>
+                <Button Content="Add New Empty Spell" Command="{Binding AddCommand}"/>
+                <Button Content="Remove Selected Spell" Command="{Binding RemoveCommand}" Foreground="OrangeRed"/>
+                <Separator Margin="5"/>
                 <Button Content="Download Spells" Command="{Binding DownloadSpellsCommand}"/>
                 <Button Content="Import Database" Command="{Binding ImportSpellsCommand}"/>
                 <Button Content="Export Spell" Command="{Binding ExportSpellCommand}"/>
                 <Button Content="Export Database" Command="{Binding ExportSpellsCommand}"/>
+                <Separator Margin="5"/>
             </StackPanel>
         </Expander>
     </Grid>

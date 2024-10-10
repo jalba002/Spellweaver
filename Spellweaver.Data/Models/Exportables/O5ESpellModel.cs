@@ -109,7 +109,7 @@ namespace Spellweaver.Data
             {
                 Name = this.Name,
                 Level = this.LevelInt.ToString(),
-                School = string.Concat(this.School[0].ToString().ToUpper(CultureInfo.CurrentCulture), this.School.AsSpan(1)),
+                School = string.Concat(this.School?[0].ToString().ToUpper(CultureInfo.CurrentCulture), this.School.AsSpan(1)),
                 CastingTime = this.CastingTime,
                 Range = this.Range,
                 IsVocal = RequiresVerbalComponents,

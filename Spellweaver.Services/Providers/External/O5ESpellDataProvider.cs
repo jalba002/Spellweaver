@@ -66,6 +66,12 @@ namespace Spellweaver.Services
             return await GetData(newUrl);
         }
 
+        public async Task<O5ERequestResponse?> GetSpellMatch(string match)
+        {
+            match = match.Replace("\n", "%20");
+            string newUrl = $"v1/spells/?search={match}";
+            return await GetData(newUrl);
+        }
 
         public async Task<IEnumerable<Spell>> GetAllAsync()
         {

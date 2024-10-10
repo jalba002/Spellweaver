@@ -7,23 +7,23 @@
     // Maybe the max level is not the same as others...
     public class Spell : BaseSpellModel
     {
-        public string? Name { get; set; }
-        public string? School { get; set; }
-        public string? Level { get; set; }
-        public string? CastingTime { get; set; }
-        public string? Target { get; set; }
-        public string? Range { get; set; }
-        public string? Duration { get; set; }
-        public string? Description { get; set; }
-        public string? DescriptionMaterials { get; set; }
-        public string? UpcastDescription { get; set; }
-        public string? Source { get; set; }
-        public string? Classes { get; set; }
-        public bool IsConcentration { get; set; }
-        public bool IsRitual { get; set; }
-        public bool IsVocal { get; set; }
-        public bool IsSomatic { get; set; }
-        public bool IsMaterial { get; set; }
+        public string? Name { get; set; } = string.Empty;
+        public string? School { get; set; } = string.Empty;
+        public string? Level { get; set; } = string.Empty;
+        public string? CastingTime { get; set; } = string.Empty;
+        public string? Target { get; set; } = string.Empty;
+        public string? Range { get; set; } = string.Empty;
+        public string? Duration { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
+        public string? DescriptionMaterials { get; set; } = string.Empty;
+        public string? UpcastDescription { get; set; } = string.Empty;
+        public string? Source { get; set; } = string.Empty;
+        public string? Classes { get; set; } = string.Empty;
+        public bool IsConcentration { get; set; } = false;
+        public bool IsRitual { get; set; } = false;
+        public bool IsVocal { get; set; } = false;
+        public bool IsSomatic { get; set; } = false;
+        public bool IsMaterial { get; set; } = false;
 
         public Spell() : base()
         {

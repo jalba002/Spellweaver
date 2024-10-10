@@ -13,5 +13,7 @@
         public abstract Task<List<School>> GetSchoolsAsync();
         public abstract Task<List<Level>> GetLevelsAsync();
         public abstract Task<List<CastingTime>> GetCastingTimesAsync();
+        public abstract Task<List<Spell>> GetALLSpellsAsync();
+        public abstract Task<List<Spell>> GetAllSpellsThatMatch(string match);
     }
 }

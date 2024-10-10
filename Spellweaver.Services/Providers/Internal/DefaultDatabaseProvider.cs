@@ -28,6 +28,16 @@ namespace Spellweaver.Providers
             return this;
         }
 
+        public override Task<List<Spell>> GetALLSpellsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<List<Spell>> GetAllSpellsThatMatch(string match)
+        {
+            throw new NotImplementedException();
+        }
+
         public override async Task<List<CastingTime>?> GetCastingTimesAsync()
         {
             return (List<CastingTime>?)await new CastingTimeDataProvider().GetAllAsync();

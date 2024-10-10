@@ -4,8 +4,10 @@ using Spellweaver.Data;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Data;
 
 namespace Spellweaver.ViewModel
 {
@@ -28,10 +30,61 @@ namespace Spellweaver.ViewModel
             ExportSpellsCommand = new DelegateCommand(ExportSpells);
             // Import Spells Commands
             ImportSpellsCommand = new DelegateCommand(ImportSpells);
+
+            _spellsView = CollectionViewSource.GetDefaultView(SpellManager.SpellList);
+            _spellsView.Filter = x => FilterSpell(x, Filter);
         }
 
         #region Collections
-        public ObservableCollection<SpellItemViewModel> Spells { get; } = new();
+        // This collection is to only visualize.
+        // The realone should be at SpellManager
+        private ICollectionView _spellsView;
+        public ObservableCollection<SpellItemViewModel> Spells { get { return SpellManager.SpellList; } }
+
+        public ICollectionView SpellsView
+        {
+            get
+            {
+                return _spellsView;
+            }
+            set
+            {
+                _spellsView = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _filter;
+        public string Filter
+        {
+            get { return _filter; }
+            set
+            {
+                _filter = value;
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool FilterSpell(object? spell, string filter)
+        {
+            if (String.IsNullOrEmpty(Filter)) return true;
+            bool contains = false;
+            SpellItemViewModel modelSpell = (SpellItemViewModel)spell;
+
+            filter = filter.Replace(" ", "");
+
+            contains = modelSpell.Name.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+            modelSpell.Description.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+            modelSpell.Classes.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+            modelSpell.LevelFormatted.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+            modelSpell.ComponentsString.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+            modelSpell.Source.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
+            modelSpell.School.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
+
+            return contains;
+        }
+
         #endregion
 
         public SpellItemViewModel? SelectedSpell
@@ -45,8 +98,11 @@ namespace Spellweaver.ViewModel
             }
         }
 
+        
+
         public async override Task LoadAsync()
         {
+
         }
 
         #region Commands
@@ -60,11 +116,16 @@ namespace Spellweaver.ViewModel
         //public DelegateCommand ImportSpellCommand { get; }
         public DelegateCommand ImportSpellsCommand { get; }
 
+        private void AddToLists(SpellItemViewModel spell)
+        {
+
+        }
+
         private void Add(object? parameter)
         {
             var spell = new Spell { Name = "Default Spell", Level = "0", CastingTime = "1 action" };
             var viewModel = new SpellItemViewModel(spell);
-            Spells.Add(viewModel);
+            SpellManager.AddToSpellList(viewModel);
             SelectedSpell = viewModel;
         }
 
@@ -75,7 +136,8 @@ namespace Spellweaver.ViewModel
                 MessageBoxResult m = MessageBox.Show("Are you sure you want to remove " + SelectedSpell.Name + " from the list?", "Removing Spell", MessageBoxButton.OKCancel);
                 if (m == MessageBoxResult.OK)
                 {
-                    Spells.Remove(SelectedSpell);
+                    //Spells.Remove(SelectedSpell);
+                    SpellManager.RemoveSpellFromList(SelectedSpell);
                     SelectedSpell = null;
                 }
             }
@@ -97,7 +159,8 @@ namespace Spellweaver.ViewModel
             if (spell is not null)
             {
                 //Spells.Add(new SpellItemViewModel(spell.TransformToInternalModel()));
-                Spells.Add(new SpellItemViewModel(spell));
+                //Spells.Add(new SpellItemViewModel(spell));
+                SpellManager.AddToSpellList(new SpellItemViewModel(spell));
             }
         }
 
@@ -130,11 +193,7 @@ namespace Spellweaver.ViewModel
         private void UpdateSpellList(List<Spell> spellList)
         {
             SelectedSpell = null;
-            Spells.Clear();
-            foreach (var externalSpell in spellList)
-            {
-                Spells.Add(new SpellItemViewModel(externalSpell));
-            }
+            SpellManager.SetSpellList(spellList);
         }
 
         private void ExportSpell(object? parameter)
@@ -142,6 +201,7 @@ namespace Spellweaver.ViewModel
             if (SelectedSpell == null) return;
             SpellExportWindowManager.ExportSpells(new List<Spell>() { SelectedSpell.GetModel.TransformToInternalModel() });
         }
+
         private void ExportSpells(object? parameter)
         {
             List<Spell> exportables = new List<Spell>();

@@ -1,4 +1,6 @@
-﻿using Spellweaver.ViewModel;
+﻿using Spellweaver.Data;
+using Spellweaver.ViewModel;
+using System.Collections.ObjectModel;
 
 namespace Spellweaver.Managers
 {
@@ -15,6 +17,46 @@ namespace Spellweaver.Managers
             {
                 _currentSpell = value;
             }
+        }
+
+        private static ObservableCollection<SpellItemViewModel> _spellList = new();
+        public static ObservableCollection<SpellItemViewModel> SpellList
+        {
+            get { return _spellList; }
+            private set
+            {
+                _spellList = value;
+            }
+        }
+
+        public static void SetSpellList(List<Spell> spellList)
+        {
+            if (spellList == null || spellList.Count <= 0) return;
+            SpellList.Clear();
+            foreach (Spell spell in spellList)
+            {
+                AddToSpellList(new SpellItemViewModel(spell));
+            }
+        }
+
+        public static void SetSpellList(ObservableCollection<SpellItemViewModel> spellList)
+        {
+            if (spellList == null) return;
+            SpellList = spellList;
+        }
+
+        public static void AddToSpellList(SpellItemViewModel singleSpell)
+        {
+            if (singleSpell == null) return;
+            SpellList.Add(singleSpell);
+        }
+
+        public static void RemoveSpellFromList(SpellItemViewModel singleSpell)
+        {
+            if (singleSpell == null) return;
+            if (!SpellList.Contains(singleSpell)) return;
+
+            SpellList.Remove(singleSpell);
         }
     }
 }

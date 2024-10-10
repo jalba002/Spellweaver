@@ -6,9 +6,6 @@
              xmlns:local="clr-namespace:Spellweaver.View"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="500">
-    <StackPanel Background="{StaticResource Color1}">
-        <Button Content="Download All Spells">
-            
-        </Button>
+    <StackPanel Background="{StaticResource Color6}">
     </StackPanel>
 </UserControl>

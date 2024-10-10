@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Spellweaver.View"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d"
               d:DesignWidth="900" d:DesignHeight="600"
              Width="auto"
@@ -12,32 +13,38 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DockPanel Margin="5" LastChildFill="True">
-            <Button Command="{Binding SearchSpellCommand}" DockPanel.Dock="Right" Margin="5,0,0,0">
-                <DockPanel>
-                    <Image Source="/Images/add.png" HorizontalAlignment="Left"></Image>
-                </DockPanel>
+        <DockPanel>
+            <Button Command="{Binding DownloadSpellsCommand}" DockPanel.Dock="Right" Width="200"
+                    Height="50"
+                    Margin="0,0,5,0"
+                    VerticalAlignment="Stretch">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Search"></fa:IconImage>
+                        <fa:IconImage Icon="BookOpen"></fa:IconImage>
+                    </StackPanel>
+                </Button.Content>
             </Button>
-            <TextBox
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Stretch"
-                 VerticalContentAlignment="Center">
-
+            <TextBox Style="{StaticResource SearchBar}"
+                     Text="{Binding Path=MatchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
         </DockPanel>
-        <!--<Button Grid.Column="1" Command="{Binding RemoveCommand}">
-        <DockPanel>
-            <Image Source="/Images/remove.png" Width="20" Margin="5"></Image>
-            <TextBlock Text="Remove Spell" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </DockPanel>
-    </Button>-->
-
-        <ListView
-                  Margin="5,0,5,5"
-              Grid.Row="2"
-        ItemsSource="{Binding Path=Spells}"
-        SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
-        ItemTemplate="{StaticResource SpellDataTemplate}" Grid.ColumnSpan="2"/>
+        <ListView Margin="5,0,5,5" Grid.Row="1"
+                  ItemsSource="{Binding Path=DownloadedSpells}"
+                  SelectedItem="{Binding SelectedSpell, UpdateSourceTrigger=PropertyChanged}"
+                  ItemTemplate="{StaticResource SpellDataTemplate}" Grid.ColumnSpan="2"/>
+        <Button Grid.Row="2" Margin="5,0,5,5" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Stretch"
+                Height="50"
+                Command="{Binding AddSpellCommand}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="22" Margin="5,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Text="Add Spell to List"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
     </Grid>
 </UserControl>

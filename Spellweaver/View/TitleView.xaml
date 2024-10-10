@@ -11,16 +11,20 @@
     <StackPanel Orientation="Vertical"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Vertical"
+                 >
             <Image Source="/Images/BookIcon.png"
-                   Width="50"
-                   Height="50"></Image>
+                   Width="250"
+                   Height="250"/>
             <TextBlock VerticalAlignment="Center" 
                        Margin="5,0,0,0"
                        Foreground="{StaticResource Color4}"
                        FontFamily="Montserrat"
                        FontSize="26"
-                       >Welcome Screen</TextBlock>
+                       Text="Welcome to Spellweaver"/>
+            <TextBlock Text="{Binding SpellweaverVersion, RelativeSource={RelativeSource AncestorType=Window}}"
+                       HorizontalAlignment="Stretch"
+                       TextAlignment="Right"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

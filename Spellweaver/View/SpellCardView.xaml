@@ -36,11 +36,18 @@
                     <Setter Property="FontSize" Value="12"/>
                 </Style>
             </Grid.Resources>
-            <TextBlock Style="{StaticResource SpellTitleCard}" Grid.Row="0" Text="{Binding Name}"></TextBlock>
-            <TextBlock  Margin="5,0,0,-5" Style="{StaticResource SpellSmallEntries}" Grid.Row="1">Abjuration Cantrip</TextBlock>
+            <TextBlock Style="{StaticResource SpellTitleCard}" Grid.Row="0" Text="{Binding Name}"/>
+            <TextBlock  Margin="5,0,0,-5" Style="{StaticResource SpellSmallEntries}" Grid.Row="1">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="School" />
+                        <Binding Path="LevelFormatted" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
             <DockPanel Grid.Row="2" LastChildFill="False" HorizontalAlignment="Stretch">
-                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="Left">Warlock</TextBlock>
-                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="Right">PHB 100</TextBlock>
+                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="Left" Text="{Binding Classes}"/>
+                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="Right" Text="{Binding Source}"/>
             </DockPanel>
         </Grid>
         <!--Grid for the stats and description-->
@@ -84,7 +91,7 @@
                     </TextBlock>
                 </ScrollViewer>
             </DockPanel>
-            <TextBlock Grid.ColumnSpan="2" Grid.Row="3" Margin="5" Text="{Binding Upcasted}">
+            <TextBlock Grid.ColumnSpan="2" Grid.Row="3" Margin="5,0,5,5" Text="{Binding UpcastDescription}">
             </TextBlock>
         </Grid>
     </Grid>
