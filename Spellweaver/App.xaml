@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <hc:ThemeResources/>
                 <hc:Theme/>
+                <ResourceDictionary Source="Resources/Styles/Windows.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Brushes.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/Spells.xaml"/>
                 <ResourceDictionary Source="Resources/Styles/ButtonStyles.xaml"/>

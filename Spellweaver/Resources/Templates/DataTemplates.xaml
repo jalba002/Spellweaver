@@ -41,24 +41,17 @@
                                FontSize="10"
                                DockPanel.Dock="Left"/>
                 </DockPanel>
-                <TextBlock Text="{Binding LevelFormatted}" DockPanel.Dock="Top"/>
-                <TextBlock Text="{Binding School}" DockPanel.Dock="Top"/>
+                <TextBlock DockPanel.Dock="Top">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="School" />
+                            <Binding Path="LevelFormatted" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock Text="{Binding Classes}" DockPanel.Dock="Top"/>
                 <TextBlock Text="{Binding Source}" Foreground="Blue" DockPanel.Dock="Top"/>
             </DockPanel>
-            <StackPanel Grid.Column="1">
-                <Button
-                    Content="Delete" 
-                    Foreground="Red" Background="Transparent" 
-                    HorizontalContentAlignment="Stretch"
-                    BorderBrush="DarkRed" BorderThickness="1"/>
-                <Button Style="{StaticResource SpellListHiddenButton}"
-                    HorizontalAlignment = "Stretch"
-                    DockPanel.Dock="Top"
-                    Content="Copy" 
-                    Foreground="Green" Background="Transparent" 
-                    BorderBrush="DarkRed" BorderThickness="1"/>
-            </StackPanel>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

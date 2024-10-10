@@ -75,4 +75,17 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <!--Search bar-->
+    <Style x:Key="SearchBar" BasedOn="{StaticResource TextBoxBaseStyle}" TargetType="TextBox">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="5,0,0,0"/>
+        <Setter Property="Foreground" Value="{StaticResource ControlBarButtonRestColor}"/>
+        <!--<Setter Property="BorderBrush" Value="{StaticResource Color2}"/>-->
+    </Style>
 </ResourceDictionary>

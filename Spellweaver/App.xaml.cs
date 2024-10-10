@@ -15,13 +15,13 @@ namespace Spellweaver
         public App()
         {
             Serilog.Log.Logger = new LoggerConfiguration()
-             .WriteTo.File($"log.txt")
+             .WriteTo.File($"Logs/log_{DateTime.UtcNow.ToString().Replace("/","")}.txt")
              .CreateLogger();
 
             ServiceCollection service = new ServiceCollection();
             ConfigureService(service);
             _serviceProvider = service.BuildServiceProvider();
-            Log.Information("Starting logging service.");
+            Log.Information($"Starting Log for Version {Spellweaver.MainWindow.SpellweaverVersion}");
         }
 
         private void ConfigureService(ServiceCollection service)

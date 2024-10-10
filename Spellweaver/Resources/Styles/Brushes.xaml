@@ -16,7 +16,8 @@
     <SolidColorBrush x:Key="Color8" Color="#F5F5F5"/>
     
     <!--Menu buttons colors-->
-    
+    <SolidColorBrush x:Key="MainGridBackground" Color="#1A1A1A"/>
+
     <!--Control bar colors-->
     <SolidColorBrush x:Key="ControlBarHoverColor" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="ControlBarButtonRestColor" Color="DarkGray"/>
