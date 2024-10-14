@@ -30,7 +30,9 @@
             <TextBox VerticalScrollBarVisibility="Auto"
                         TextWrapping="Wrap"
                         Margin="0"
-                        Padding="2"
+                        Padding="3"
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Top"
                         Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"/>
         </ControlTemplate>
     </UserControl.Resources>

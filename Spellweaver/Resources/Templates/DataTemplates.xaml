@@ -3,6 +3,7 @@
 
     <Style x:Key="SpellListEntry" TargetType="DockPanel">
         <Setter Property="TextBlock.FontSize" Value="12"/>
+        <Setter Property="TextBlock.FontFamily" Value="Montserrat"/>
     </Style>
 
     <Style x:Key="SpellListHiddenButton" TargetType="Button">
@@ -21,37 +22,77 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="SpellListViewItemStyle" TargetType="ListViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
     <DataTemplate x:Key="SpellDataTemplate">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <DockPanel Style="{StaticResource SpellListEntry}"
-                   LastChildFill="True">
-                <DockPanel DockPanel.Dock="Top">
-                    <TextBlock Text="{Binding Name}" 
+        <DockPanel Style="{StaticResource SpellListEntry}"
+                   LastChildFill="True"
+                   Tag="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType=ListView}}">
+            <DockPanel.ContextMenu>
+                <ContextMenu>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}Duplicate &quot;{0}&quot;">
+                                        <Binding Path="Name"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem Command="{Binding Path=PlacementTarget.Tag.RemoveCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}Remove &quot;{0}&quot;">
+                                        <Binding Path="Name"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}Export &quot;{0}&quot; as...">
+                                        <Binding Path="Name"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </MenuItem.Header>
+                        <MenuItem Header="Export as X"/>
+                        <MenuItem Header="Export as Y"/>
+                        <MenuItem Header="Export as Z"/>
+                    </MenuItem>
+                </ContextMenu>
+            </DockPanel.ContextMenu>
+            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                <TextBlock Text="{Binding Name}" 
                                FontWeight="Bold"
-                               DockPanel.Dock="Left"/>
-                    <TextBlock Text="{Binding ComponentsString}"
+                               DockPanel.Dock="Left"
+                               FontSize="14"/>
+                <TextBlock Text="{Binding ComponentsString}"
                                Margin="5,0,0,0"
-                               FontFamily="Montserrat"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
-                               FontSize="10"
-                               DockPanel.Dock="Left"/>
-                </DockPanel>
-                <TextBlock DockPanel.Dock="Top">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} {1}">
-                            <Binding Path="School" />
-                            <Binding Path="LevelFormatted" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <TextBlock Text="{Binding Classes}" DockPanel.Dock="Top"/>
-                <TextBlock Text="{Binding Source}" Foreground="Blue" DockPanel.Dock="Top"/>
+                               FontSize="10"/>
             </DockPanel>
-        </Grid>
+            <TextBlock DockPanel.Dock="Top">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="School" />
+                        <Binding Path="LevelFormatted" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Text="{Binding Classes}" DockPanel.Dock="Top"/>
+            <TextBlock Text="{Binding Source}" Foreground="Blue" DockPanel.Dock="Top"/>
+        </DockPanel>
     </DataTemplate>
 </ResourceDictionary>

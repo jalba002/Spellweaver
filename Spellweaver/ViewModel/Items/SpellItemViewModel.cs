@@ -175,7 +175,8 @@ namespace Spellweaver.ViewModel
                 string finalString = "";
                 finalString += IsVocal ? "V," : "";
                 finalString += IsSomatic ? "S," : "";
-                finalString += IsMaterial ? $"M ({DescriptionMaterials})" : "";
+                finalString += IsMaterial ? $"M" : "";
+                if (IsMaterial && !string.IsNullOrEmpty(DescriptionMaterials)) finalString += $" ({DescriptionMaterials})";
                 if (!IsMaterial && finalString.Length > 0)
                     finalString = finalString.Remove(finalString.Length - 1, 1);
                 if (finalString.Length <= 1) return "";

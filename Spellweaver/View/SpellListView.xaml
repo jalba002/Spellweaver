@@ -24,37 +24,35 @@
             </StackPanel>
         </ControlTemplate>
     </UserControl.Resources>
-
     <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="4*"/>
-            </Grid.ColumnDefinitions>
-            <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>-->
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
                 <TextBox Style="{StaticResource SearchBar}" Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <ListView Margin="5,0,5,5"
-                      Grid.Row="2"
-                ItemsSource="{Binding Path=SpellsView}"
-                SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
-                ItemTemplate="{StaticResource SpellDataTemplate}" Grid.ColumnSpan="2"/>
+            <ListView x:Name="SpellListViewObject"
+                Margin="5,0,5,5"
+                      Grid.Row="1"
+                        ItemsSource="{Binding Path=SpellsView}"
+                        SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
+                        ItemTemplate="{StaticResource SpellDataTemplate}" 
+                        ItemContainerStyle="{StaticResource SpellListViewItemStyle}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Add new Spell" Command="{Binding AddCommand}"/>
+                        <MenuItem Header="Export All Spells as...">
+                            <MenuItem Header="... Mobile App 5eSpellBook"/>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
         </Grid>
         <Expander Grid.Column="1"
                   Grid.RowSpan="3"
