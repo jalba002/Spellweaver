@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Spellweaver.View"
+             xmlns:localViewModel="clr-namespace:Spellweaver.ViewModel"
              xmlns:converter="clr-namespace:Spellweaver.Converter"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
@@ -47,8 +48,30 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add new Spell" Command="{Binding AddCommand}"/>
-                        <MenuItem Header="Export All Spells as...">
-                            <MenuItem Header="... Mobile App 5eSpellBook"/>
+                        <Separator/>
+                        <MenuItem Header="Export Spells as..." ItemsSource="{Binding ExportMenuItems}">
+                            <MenuItem.ItemContainerStyle>
+                                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItemBaseStyle}">
+                                    <Setter Property="Command" Value="{Binding Command}" />
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
+                            <MenuItem.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type localViewModel:CastingTimeItemViewModel}" ItemsSource="{Binding Path=MenuItems}">
+                                    <TextBlock Text="{Binding Header}"/>
+                                </HierarchicalDataTemplate>
+                            </MenuItem.ItemTemplate>
+                        </MenuItem>
+                        <MenuItem Header="Import Spells as..." ItemsSource="{Binding ImportMenuItems}">
+                            <MenuItem.ItemContainerStyle>
+                                <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItemBaseStyle}">
+                                    <Setter Property="Command" Value="{Binding Command}" />
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
+                            <MenuItem.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type localViewModel:CastingTimeItemViewModel}" ItemsSource="{Binding Path=MenuItems}">
+                                    <TextBlock Text="{Binding Header}"/>
+                                </HierarchicalDataTemplate>
+                            </MenuItem.ItemTemplate>
                         </MenuItem>
                     </ContextMenu>
                 </ListView.ContextMenu>

@@ -1,14 +1,14 @@
-﻿using Serilog;
-using Spellweaver.Commands;
+﻿using Spellweaver.Commands;
 using Spellweaver.Data;
 using Spellweaver.Interfaces;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
+using Spellweaver.Services.Backend;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Data;
+using static Spellweaver.Services.Backend.ExporterFactory;
 
 namespace Spellweaver.ViewModel
 {
@@ -16,25 +16,26 @@ namespace Spellweaver.ViewModel
     {
         private DNDDatabase _dbProvider;
         private IErrorHandler _errorHandler;
-        public SpellListViewModel(DNDDatabase dB, ErrorHandler errorHandler)
+        private ExporterFactory _exporter;
+        public SpellListViewModel(
+            DNDDatabase dB,
+            ErrorHandler errorHandler,
+            ExporterFactory exporter)
         {
             _dbProvider = dB;
             _errorHandler = errorHandler;
+            _exporter = exporter;
 
             // We must register all commands here as they are readonly.
             AddCommand = new DelegateCommand(Add);
             DuplicateSpellCommand = new DelegateCommand(DuplicateSpell);
             RemoveCommand = new DelegateCommand(Remove, CanRemove);
-            ShowSpellDebugCommand = new DelegateCommand(ShowDebugSpell);
+
             // Download spells
             DownloadSpellsCommand = new AsyncCommand(DownloadSpells, CanExecuteCommand);
             DownloadAllSpellsCommand = new AsyncCommand(DownloadAllSpells, CanExecuteCommand);
-            // Export Spells Commands
-            ExportSpellCommand = new DelegateCommand(ExportSpell);
-            ExportSpellsCommand = new DelegateCommand(ExportSpells);
-            // Import Spells Commands
-            ImportSpellsCommand = new DelegateCommand(ImportSpells);
 
+            // Load view!
             _spellsView = CollectionViewSource.GetDefaultView(SpellManager.SpellList);
             _spellsView.Filter = x => FilterSpell(x, Filter);
         }
@@ -43,6 +44,8 @@ namespace Spellweaver.ViewModel
         // This collection is to only visualize.
         // The realone should be at SpellManager
         private ICollectionView _spellsView;
+        public ObservableCollection<MenuItemViewModel> ExportMenuItems { get; set; }
+        public ObservableCollection<MenuItemViewModel> ImportMenuItems { get; set; }
         public ObservableCollection<SpellItemViewModel> Spells { get { return SpellManager.SpellList; } }
 
         public ICollectionView SpellsView
@@ -112,7 +115,7 @@ namespace Spellweaver.ViewModel
             {
                 _isBusy = value;
                 RaisePropertyChanged();
-                DownloadSpellsCommand.RaiseCanExecuteChanged();   
+                DownloadSpellsCommand.RaiseCanExecuteChanged();
                 DownloadAllSpellsCommand.RaiseCanExecuteChanged();
             }
         }
@@ -121,7 +124,86 @@ namespace Spellweaver.ViewModel
 
         public async override Task LoadAsync()
         {
+            // Load to ContextMenu all available options, and on click, have code behind for it?
+            LoadContextMenuForSpells();
+        }
 
+        // Load all buttons!
+        private void LoadContextMenuForSpells()
+        {
+            ExportMenuItems = new ObservableCollection<MenuItemViewModel>();
+            ImportMenuItems = new ObservableCollection<MenuItemViewModel>();
+
+            var listOfEntries = _exporter.GetAvailableExporters();
+            foreach (var item in listOfEntries)
+            {
+                ExportMenuItems.Add(new MenuItemViewModel()
+                {
+                    Command = new CommandViewModel(() => { ExportSpells(item); }),
+                    Header = item.ToString()
+                });
+                ImportMenuItems.Add(new MenuItemViewModel()
+                {
+                    Command = new CommandViewModel(() => { ImportSpells(item); }),
+                    Header = item.ToString()
+                });
+            }
+        }
+
+        private void ExportSpells(ExportType exportType)
+        {
+            // This will handle ALLLLLLL of the exportation process.
+            try
+            {
+                IsBusy = true;
+                List<Spell> spells = new List<Spell>();
+                foreach (SpellItemViewModel spell in Spells)
+                {
+                    spells.Add(spell.GetModel);
+                }
+                // Send over to get the string from factory
+                var exportString = _exporter.Export(spells, exportType);
+                // Decide the path of exportation
+                SpellExportWindowManager.Export(exportString);
+            }
+            catch (Exception ex)
+            {
+                _errorHandler.HandleError(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            // Call the window for opening stuff?
+        }
+
+        private void ImportSpells(ExportType exportType)
+        {
+            // This will handle ALLLLLLL of the exportation process.
+            try
+            {
+                IsBusy = true;
+
+                // Send over to get the string from factory
+                // Decide the path of exportation
+                string? importString = SpellExportWindowManager.Import();
+                if (importString == null) return;
+
+                List<Spell> SPELLS = _exporter.Import(importString, exportType);
+                foreach (var item in SPELLS)
+                {
+                    ImportSpell(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorHandler.HandleError(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            // Call the window for opening stuff?
         }
 
         #region Commands
@@ -147,11 +229,13 @@ namespace Spellweaver.ViewModel
 
         private void DuplicateSpell(object? parameter)
         {
-            if(SelectedSpell != null)
+            if (SelectedSpell != null)
             {
                 SpellManager.AddToSpellListAfterSelectedSpell(SelectedSpell.Clone() as SpellItemViewModel);
             }
         }
+
+        private bool CanRemove(object? parameter) => SelectedSpell is not null;
 
         private void Remove(object? parameter)
         {
@@ -166,17 +250,17 @@ namespace Spellweaver.ViewModel
                 }
             }
         }
-        // This is binded to the command to open the window and then importSpells from a file.
-        // It import any amount, as it is always exported as an array.
-        private void ImportSpells(object? parameter)
-        {
-            var importResult = SpellExportWindowManager.ImportSpells<Spell>();
-            Log.Information($"Adding {importResult.ToArray().Length} new spells from import mode");
-            foreach (var item in importResult)
-            {
-                ImportSpell(item);
-            }
-        }
+        //// This is binded to the command to open the window and then importSpells from a file.
+        //// It import any amount, as it is always exported as an array.
+        //private void ImportSpells(object? parameter)
+        //{
+        //    var importResult = SpellExportWindowManager.ImportSpells<Spell>();
+        //    Log.Information($"Adding {importResult.ToArray().Length} new spells from import mode");
+        //    foreach (var item in importResult)
+        //    {
+        //        ImportSpell(item);
+        //    }
+        //}
 
         private void ImportSpell(Spell? spell)
         {
@@ -224,7 +308,7 @@ namespace Spellweaver.ViewModel
                 var spellsResult = await ((OnlineDatabaseProvider)_dbProvider).GetALLSpellsAsync();
                 if (spellsResult.Count < 0)
                 {
-                    
+
                     return;
                 }
                 UpdateSpellList(spellsResult);
@@ -238,34 +322,22 @@ namespace Spellweaver.ViewModel
             SpellManager.SetSpellList(spellList);
         }
 
-        private void ExportSpell(object? parameter)
-        {
-            if (SelectedSpell == null) return;
-            SpellExportWindowManager.ExportSpells(new List<Spell>() { SelectedSpell.GetModel.TransformToInternalModel() });
-        }
+        //private void ExportSpell(object? parameter)
+        //{
+        //    if (SelectedSpell == null) return;
+        //    //SpellExportWindowManager.ExportSpells(new List<Spell>() { SelectedSpell.GetModel.TransformToInternalModel() });
+        //}
 
-        private void ExportSpells(object? parameter)
-        {
-            List<Spell> exportables = new List<Spell>();
-            foreach (var item in Spells)
-            {
-                exportables.Add(item.GetModel.TransformToInternalModel());
-            }
-            SpellExportWindowManager.ExportSpells(exportables);
-        }
+        //private void ExportSpells(object? parameter)
+        //{
+        //    List<Spell> exportables = new List<Spell>();
+        //    foreach (var item in Spells)
+        //    {
+        //        exportables.Add(item.GetModel.TransformToInternalModel());
+        //    }
+        //    //SpellExportWindowManager.ExportSpells(exportables);
+        //}
 
-        private bool CanRemove(object? parameter) => SelectedSpell is not null;
-        private void ShowDebugSpell(object? parameter)
-        {
-            if (SelectedSpell is not null)
-            {
-                MessageBox.Show(JsonSerializer.Serialize(SelectedSpell.GetModel), "Debugging Spell");
-            }
-            else
-            {
-                MessageBox.Show("Select a spell first.", "SelectedSpell is null", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
 
         #endregion
     }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Spellweaver.Backend;
 using Spellweaver.Data;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
+using Spellweaver.Services.Backend;
 using Spellweaver.ViewModel;
 using System.Windows;
 
@@ -47,6 +49,10 @@ namespace Spellweaver
             service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
 
             service.AddSingleton<ErrorHandler>();
+
+            service.AddSingleton<Serializer>();
+
+            service.AddSingleton<ExporterFactory>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

@@ -23,23 +23,27 @@ namespace Spellweaver.Managers
             Title = "Import Spells"
         };
 
-        public static void ExportSpells(List<Spell> spellsToExport)
+        public static void Export(string exportString)
         {
             if (saveFileDialog.ShowDialog() == true)
             {
                 // Get the format somehow
                 // Default for now is the Spellweaver format
-                SpellIOService.ExportSpells(saveFileDialog.FileName, spellsToExport);
+
+                FileHandler.WriteFile(saveFileDialog.FileName, exportString);
             }
         }
 
-        public static IEnumerable<Spell> ImportSpells<T>() where T : BaseSpellModel
+        public static string? Import()
         {
             if (importFileDialog.ShowDialog() == true)
             {
-                return SpellIOService.ImportSpells(saveFileDialog.FileName);
+                // Get the format somehow
+                // Default for now is the Spellweaver format
+
+                return FileHandler.ReadFile(saveFileDialog.FileName);
             }
-            return new List<Spell>();
+            return null;
         }
     }
 }
