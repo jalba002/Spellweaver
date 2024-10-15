@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Spellweaver.Data;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
 using Spellweaver.ViewModel;
 using System.Windows;
-using Serilog;
-using Spellweaver.Interfaces;
 
 namespace Spellweaver
 {
@@ -28,7 +27,7 @@ namespace Spellweaver
         private void ConfigureService(ServiceCollection service)
         {
             service.AddSerilog();
-            
+
             service.AddTransient<MainWindow>();
 
             service.AddSingleton<MainViewModel>();
