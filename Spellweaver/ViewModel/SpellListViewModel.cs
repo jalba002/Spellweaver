@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using Spellweaver.Commands;
 using Spellweaver.Data;
+using Spellweaver.Interfaces;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
 using System.Collections.ObjectModel;
@@ -14,17 +15,20 @@ namespace Spellweaver.ViewModel
     public class SpellListViewModel : ViewModelBase
     {
         private DNDDatabase _dbProvider;
-        public SpellListViewModel(DNDDatabase dB)
+        private IErrorHandler _errorHandler;
+        public SpellListViewModel(DNDDatabase dB, ErrorHandler errorHandler)
         {
             _dbProvider = dB;
+            _errorHandler = errorHandler;
 
             // We must register all commands here as they are readonly.
             AddCommand = new DelegateCommand(Add);
+            DuplicateSpellCommand = new DelegateCommand(DuplicateSpell);
             RemoveCommand = new DelegateCommand(Remove, CanRemove);
             ShowSpellDebugCommand = new DelegateCommand(ShowDebugSpell);
             // Download spells
-            DownloadSpellsCommand = new DelegateCommand(DownloadSpells);
-            DownloadAllSpellsCommand = new DelegateCommand(DownloadAllSpells);
+            DownloadSpellsCommand = new AsyncCommand(DownloadSpells, CanExecuteCommand);
+            DownloadAllSpellsCommand = new AsyncCommand(DownloadAllSpells, CanExecuteCommand);
             // Export Spells Commands
             ExportSpellCommand = new DelegateCommand(ExportSpell);
             ExportSpellsCommand = new DelegateCommand(ExportSpells);
@@ -87,6 +91,8 @@ namespace Spellweaver.ViewModel
 
         #endregion
 
+        #region Properties
+
         public SpellItemViewModel? SelectedSpell
         {
             get => SpellManager.CurrentSpell;
@@ -98,7 +104,20 @@ namespace Spellweaver.ViewModel
             }
         }
 
-        
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get => _isBusy;
+            private set
+            {
+                _isBusy = value;
+                RaisePropertyChanged();
+                DownloadSpellsCommand.RaiseCanExecuteChanged();   
+                DownloadAllSpellsCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        #endregion
 
         public async override Task LoadAsync()
         {
@@ -107,19 +126,16 @@ namespace Spellweaver.ViewModel
 
         #region Commands
         public DelegateCommand AddCommand { get; }
+
+        public DelegateCommand DuplicateSpellCommand { get; }
         public DelegateCommand RemoveCommand { get; }
         public DelegateCommand ShowSpellDebugCommand { get; }
-        public DelegateCommand DownloadSpellsCommand { get; }
-        public DelegateCommand DownloadAllSpellsCommand { get; }
+        public IAsyncCommand DownloadSpellsCommand { get; }
+        public IAsyncCommand DownloadAllSpellsCommand { get; }
         public DelegateCommand ExportSpellCommand { get; }
         public DelegateCommand ExportSpellsCommand { get; }
         //public DelegateCommand ImportSpellCommand { get; }
         public DelegateCommand ImportSpellsCommand { get; }
-
-        private void AddToLists(SpellItemViewModel spell)
-        {
-
-        }
 
         private void Add(object? parameter)
         {
@@ -127,6 +143,14 @@ namespace Spellweaver.ViewModel
             var viewModel = new SpellItemViewModel(spell);
             SpellManager.AddToSpellList(viewModel);
             SelectedSpell = viewModel;
+        }
+
+        private void DuplicateSpell(object? parameter)
+        {
+            if(SelectedSpell != null)
+            {
+                SpellManager.AddToSpellListAfterSelectedSpell(SelectedSpell.Clone() as SpellItemViewModel);
+            }
         }
 
         private void Remove(object? parameter)
@@ -164,30 +188,48 @@ namespace Spellweaver.ViewModel
             }
         }
 
-        private async void DownloadSpells(object? parameter)
+        private bool CanExecuteCommand()
         {
-            // Here we call the BACKEND to gather some information for us.
-            //var importedSpells = SpellOnlineImporter.GetAllAsync();
-            var spellsResult = await _dbProvider.GetSpellsAsync();
-            if (spellsResult.Count < 0)
-            {
-                MessageBox.Show("No spells received when importing");
-                return;
-            }
-            UpdateSpellList(spellsResult);
+            return !IsBusy;
         }
 
-        private async void DownloadAllSpells(object? parameter)
+        private async Task DownloadSpells()
         {
             // Here we call the BACKEND to gather some information for us.
             //var importedSpells = SpellOnlineImporter.GetAllAsync();
-            var spellsResult = await ((OnlineDatabaseProvider)_dbProvider).GetALLSpellsAsync();
-            if (spellsResult.Count < 0)
+            try
             {
-                MessageBox.Show("No spells received when importing");
-                return;
+                IsBusy = true;
+                var spellsResult = await _dbProvider.GetSpellsAsync();
+                if (spellsResult.Count < 0)
+                {
+                    MessageBox.Show("No spells received when importing");
+                    return;
+                }
+                UpdateSpellList(spellsResult);
             }
-            UpdateSpellList(spellsResult);
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task DownloadAllSpells()
+        {
+            // Here we call the BACKEND to gather some information for us.
+            //var importedSpells = SpellOnlineImporter.GetAllAsync();
+            try
+            {
+                IsBusy = true;
+                var spellsResult = await ((OnlineDatabaseProvider)_dbProvider).GetALLSpellsAsync();
+                if (spellsResult.Count < 0)
+                {
+                    
+                    return;
+                }
+                UpdateSpellList(spellsResult);
+            }
+            finally { IsBusy = false; }
         }
 
         private void UpdateSpellList(List<Spell> spellList)

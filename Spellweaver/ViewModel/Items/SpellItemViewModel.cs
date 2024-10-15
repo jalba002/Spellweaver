@@ -1,9 +1,8 @@
-﻿using Spellweaver.Backend;
-using Spellweaver.Data;
+﻿using Spellweaver.Data;
 
 namespace Spellweaver.ViewModel
 {
-    public class SpellItemViewModel : ViewModelBase<Spell>
+    public class SpellItemViewModel : ViewModelBase<Spell>, ICloneable
     {
         public SpellItemViewModel(Spell model) : base(model)
         {
@@ -188,8 +187,13 @@ namespace Spellweaver.ViewModel
         {
             get
             {
-                return string.IsNullOrEmpty(Level) ? "" : (Level == "0" ? "Cantrip" : $"{Utils.ToOrdinal(Level)} Level");
+                return string.IsNullOrEmpty(Level) ? "" : (Level == "0" ? "Cantrip" : $"{Spellweaver.Backend.Utils.ToOrdinal(Level)} Level");
             }
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

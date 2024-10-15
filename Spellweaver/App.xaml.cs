@@ -5,6 +5,7 @@ using Spellweaver.Providers;
 using Spellweaver.ViewModel;
 using System.Windows;
 using Serilog;
+using Spellweaver.Interfaces;
 
 namespace Spellweaver
 {
@@ -15,13 +16,13 @@ namespace Spellweaver
         public App()
         {
             Serilog.Log.Logger = new LoggerConfiguration()
-             .WriteTo.File($"Logs/log_{DateTime.UtcNow.ToString().Replace("/","")}.txt")
+             .WriteTo.File($"Logs/log.txt")
              .CreateLogger();
 
             ServiceCollection service = new ServiceCollection();
             ConfigureService(service);
             _serviceProvider = service.BuildServiceProvider();
-            Log.Information($"Starting Log for Version {Spellweaver.MainWindow.SpellweaverVersion}");
+            //Log.Information($"Starting Log for Version {Spellweaver.MainWindow.SpellweaverVersion}");
         }
 
         private void ConfigureService(ServiceCollection service)
@@ -45,6 +46,8 @@ namespace Spellweaver
             service.AddSingleton<SpellCardViewModel>();
 
             service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
+
+            service.AddSingleton<ErrorHandler>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

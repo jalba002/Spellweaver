@@ -132,5 +132,10 @@ namespace Spellweaver.Data
             // Well fuck that.
             // Not doing it yet...
         }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

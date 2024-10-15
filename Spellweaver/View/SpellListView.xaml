@@ -42,7 +42,7 @@
                       Grid.Row="1"
                         ItemsSource="{Binding Path=SpellsView}"
                         SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
-                        ItemTemplate="{StaticResource SpellDataTemplate}" 
+                        ItemTemplate="{StaticResource SpellEditorListDataTemplate}" 
                         ItemContainerStyle="{StaticResource SpellListViewItemStyle}">
                 <ListView.ContextMenu>
                     <ContextMenu>

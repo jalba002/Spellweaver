@@ -51,6 +51,18 @@ namespace Spellweaver.Managers
             SpellList.Add(singleSpell);
         }
 
+        private static void AddToSpellListAtIndex(SpellItemViewModel singleSpell, int index)
+        {
+            if (singleSpell == null) return;
+            SpellList.Insert(index, singleSpell);
+        }
+        
+        public static void AddToSpellListAfterSelectedSpell(SpellItemViewModel singleSpell)
+        {
+            if (singleSpell == null || CurrentSpell == null) return;
+            SpellList.Insert(SpellList.IndexOf(CurrentSpell)+1, singleSpell);
+        }
+
         public static void RemoveSpellFromList(SpellItemViewModel singleSpell)
         {
             if (singleSpell == null) return;

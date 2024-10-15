@@ -1,4 +1,6 @@
-﻿namespace Spellweaver.Data
+﻿using System.Runtime.CompilerServices;
+
+namespace Spellweaver.Data
 {
     // This is my base model class. We use this as a template for everything else.
     // This is a basic DND 5e Spell. Maybe we can split it more...
@@ -36,6 +38,7 @@
             // But structure...
         }
 
+
         public override Spell TransformToInternalModel()
         {
             return this;
@@ -44,6 +47,11 @@
         public override void TransformInternalToCustomExportable(Spell original)
         {
             // Nothing, this is already the same spell?
+        }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

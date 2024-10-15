@@ -121,5 +121,10 @@ namespace Spellweaver.Data
             Ritual = original.IsRitual;
             Concentration = original.IsConcentration;
         }
+
+        public override object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

@@ -1,10 +1,16 @@
-﻿using System.Windows;
+﻿using Spellweaver.Interfaces;
+using System.Windows;
 
 namespace Spellweaver.Managers;
-internal static class ErrorHandler
+public class ErrorHandler : IErrorHandler
 {
-    internal static void ThrowMessageBoxError(string message, string title = "Error")
+    private static void ThrowMessageBoxError(string message, string title = "Error")
     {
         MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    public void HandleError(Exception ex)
+    {
+        ThrowMessageBoxError(ex.Message);
     }
 }
