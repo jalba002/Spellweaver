@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-using Spellweaver.Backend;
+﻿using Serilog;
 using Spellweaver.Data;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
 using Spellweaver.Services.Backend;
 using Spellweaver.ViewModel;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Spellweaver
 {
@@ -16,8 +15,8 @@ namespace Spellweaver
 
         public App()
         {
-            Serilog.Log.Logger = new LoggerConfiguration()
-             .WriteTo.File($"Logs/log.txt")
+            Log.Logger = new LoggerConfiguration()
+             .WriteTo.File($"log_{Spellweaver.MainWindow.SpellweaverVersion}.txt")
              .CreateLogger();
 
             ServiceCollection service = new ServiceCollection();

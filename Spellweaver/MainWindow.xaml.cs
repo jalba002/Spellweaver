@@ -1,4 +1,5 @@
-﻿using Spellweaver.ViewModel;
+﻿using Serilog;
+using Spellweaver.ViewModel;
 using System.Windows;
 
 namespace Spellweaver
@@ -20,6 +21,7 @@ namespace Spellweaver
             _viewModel = viewModel;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
+            Log.Information($"Started main window of Spellweaver");
         }
 
         private static string GetVersion()

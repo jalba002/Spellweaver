@@ -38,7 +38,16 @@ public class ExporterFactory
     {
         // Can we just create 4 default ones?
         _serializer = serializer;
-        _factories.Add(ExportType.Spellweaver, new SpellweaverEAI(_serializer));
+
+        InstantiateDefaultFactories();
+    }
+
+    private void InstantiateDefaultFactories()
+    {
+        RegisterFactory(ExportType.Spellweaver, new SpellweaverEAI(_serializer));
+        RegisterFactory(ExportType.Open5eWebsite, new Open5eWebsiteEAI(_serializer));
+        RegisterFactory(ExportType.SpellbookApp, new SpellbookAppEAI(_serializer));
+        RegisterFactory(ExportType.BookOfSpells, new BookOfSpellsEAI(_serializer));
     }
 
     #region Registration
@@ -52,6 +61,17 @@ public class ExporterFactory
 
         IExporterAndImporter instance = Activator.CreateInstance(typeof(T)) as IExporterAndImporter;
         _factories.Add(dataType, instance);
+    }
+
+    public void RegisterFactory(ExportType dataType, IExporterAndImporter exporter)
+    {
+        if (_factories.ContainsKey(dataType))
+        {
+            Log.Warning($"Exportation factory already contains an exporter of type {dataType.ToString()}. Addition is ignored");
+            return;
+        }
+
+        _factories.Add(dataType, exporter);
     }
 
     public void UnregisterFactory(ExportType dataType)
@@ -87,7 +107,7 @@ public class ExporterFactory
         catch (Exception ex)
         {
             // Return an error if needed.
-            Serilog.Log.Error($"Error when Importing through the ExporterFactory. Error: {ex.Message}");
+            Log.Error($"Error when Importing through the ExporterFactory. Error: {ex.Message}");
             return null;
         }
         finally
@@ -109,7 +129,7 @@ public class ExporterFactory
         catch (Exception ex)
         {
             // Log or something
-            Serilog.Log.Error($"Error when Importing through the ExporterFactory. Error: {ex.Message}");
+            Log.Error($"Error when Importing through the ExporterFactory. Error: {ex.Message}");
             return null;
         }
         finally

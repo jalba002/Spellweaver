@@ -1,4 +1,5 @@
-﻿using Spellweaver.Commands;
+﻿using Serilog;
+using Spellweaver.Commands;
 using Spellweaver.Data;
 using Spellweaver.Interfaces;
 using Spellweaver.Managers;
@@ -190,6 +191,11 @@ namespace Spellweaver.ViewModel
                 if (importString == null) return;
 
                 List<Spell> SPELLS = _exporter.Import(importString, exportType);
+                if (SPELLS == null || SPELLS.Count <= 0)
+                {
+                    Log.Warning($"Exiting import method due to spells being empty or null");
+                    return;
+                }
                 foreach (var item in SPELLS)
                 {
                     ImportSpell(item);

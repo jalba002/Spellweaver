@@ -1,11 +1,10 @@
-﻿using Spellweaver.Backend;
-using Spellweaver.Data;
+﻿using Spellweaver.Data;
 
 namespace Spellweaver.Services.Backend
 {
     internal class Open5eWebsiteEAI : BaseExporterAndImporter
     {
-        List<Spell> mySpells = new List<Spell>();
+        List<O5ESpellModel> mySpells = new List<O5ESpellModel>();
 
         public Open5eWebsiteEAI(Serializer serializer) : base(serializer)
         {
@@ -14,7 +13,10 @@ namespace Spellweaver.Services.Backend
 
         protected override void TransformToCustomList(List<Spell> spells)
         {
-            mySpells = spells;
+            foreach (Spell spell in spells)
+            {
+                mySpells.Add(new O5ESpellModel(spell));
+            }
         }
         protected override void TransformToCustomTable()
         {
@@ -23,7 +25,7 @@ namespace Spellweaver.Services.Backend
         protected override string TransformToString()
         {
             // Modify the returnString variable
-            return _serializer.Serialize();
+            return _serializer.Serialize(mySpells);
         }
     }
 }

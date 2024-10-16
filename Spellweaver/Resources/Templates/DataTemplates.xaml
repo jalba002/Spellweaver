@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:Spellweaver.ViewModel">
 
     <Style x:Key="SpellListEntry" TargetType="DockPanel">
         <Setter Property="TextBlock.FontSize" Value="12"/>
@@ -82,7 +83,7 @@
                         </MenuItem.Header>
                     </MenuItem>
                     <Separator/>
-                    <MenuItem x:Name="ExportationModeMenu">
+                    <MenuItem x:Name="ExportationModeMenu" ItemsSource="{Binding Path=PlacementTarget.Tag.ExportMenuItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
                         <MenuItem.Header>
                             <TextBlock>
                                 <TextBlock.Text>
@@ -92,10 +93,16 @@
                                 </TextBlock.Text>
                             </TextBlock>
                         </MenuItem.Header>
-                        <!--Add here all possible exportation types, or add none and use C# to do so-->
-                        <MenuItem Header="Export as X"/>
-                        <MenuItem Header="Export as Y"/>
-                        <MenuItem Header="Export as Z"/>
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MenuItemBaseStyle}">
+                                <Setter Property="Command" Value="{Binding Command}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                        <MenuItem.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type viewModels:CastingTimeItemViewModel}" ItemsSource="{Binding Path=MenuItems}">
+                                <TextBlock Text="{Binding Header}"/>
+                            </HierarchicalDataTemplate>
+                        </MenuItem.ItemTemplate>
                     </MenuItem>
                 </ContextMenu>
             </DockPanel.ContextMenu>

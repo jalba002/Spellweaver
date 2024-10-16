@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Spellweaver.Backend
+namespace Spellweaver.Services.Backend
 {
     public class Serializer
     {

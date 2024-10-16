@@ -1,5 +1,4 @@
-﻿using Spellweaver.Backend;
-using Spellweaver.Data;
+﻿using Spellweaver.Data;
 
 namespace Spellweaver.Services.Backend;
 public interface IExporterAndImporter
@@ -10,7 +9,6 @@ public interface IExporterAndImporter
 
 public class BaseExporterAndImporter : IExporterAndImporter
 {
-    protected string returnResult = "";
     protected Serializer _serializer;
 
     public BaseExporterAndImporter(Serializer serializer)
@@ -20,7 +18,6 @@ public class BaseExporterAndImporter : IExporterAndImporter
 
     public string Export(List<Spell> spells)
     {
-        returnResult = "";
         TransformToCustomList(spells);
         TransformToCustomTable();
         return TransformToString();
@@ -28,7 +25,13 @@ public class BaseExporterAndImporter : IExporterAndImporter
 
     public List<Spell> Import(string data)
     {
-        throw new NotImplementedException();
+        return TransformStringToSpellList(data);
+    }
+
+    protected virtual List<Spell> TransformStringToSpellList(string data)
+    {
+        // This returns a usable spell list.
+        return new List<Spell>();
     }
 
     // Receive List of Spells
@@ -47,7 +50,6 @@ public class BaseExporterAndImporter : IExporterAndImporter
     protected virtual string TransformToString()
     {
         // Transform to string
-        // use the resurnResult yes or yes, otherwise oof.
-        return returnResult;
+        return string.Empty;
     }
 }
