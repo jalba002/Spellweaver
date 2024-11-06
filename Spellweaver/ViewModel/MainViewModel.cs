@@ -1,43 +1,39 @@
-﻿using Microsoft.VisualBasic.Logging;
-using Serilog;
+﻿using Microsoft.AspNetCore.Components;
 using Spellweaver.Commands;
+using Spellweaver.Managers;
 
 namespace Spellweaver.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ViewModelBase? _selectedViewModel;
+        private readonly SpellListViewModel ListViewModel;
+        private readonly SpellEditorViewModel EditorViewModel;
+        private readonly DownloaderViewModel DownloaderViewModel;
 
-        private readonly TitleViewModel? _titleViewModel;
-        private readonly SpellListViewModel? _listViewModel;
-        private readonly SpellEditorViewModel? _editorViewModel;
-        private readonly ConfigViewModel? _configViewModel;
-        private readonly DownloaderViewModel? _downloaderViewModel;
-        private readonly SpellCardViewModel? _spellCardViewModel;
+        private Lazy<TitleViewModel> TitleViewModel = new Lazy<TitleViewModel>();
+        private Lazy<ConfigViewModel> ConfigViewModel = new Lazy<ConfigViewModel>();
+        private Lazy<SpellCardViewModel> SpellCardViewModel = new Lazy<SpellCardViewModel>();
+        private Lazy<NullSpellViewModel> NullSpellViewModel = new Lazy<NullSpellViewModel>();
+
+        private ViewModelBase _selectedViewModel;
+
+        private bool IsBusy { get; set; } = false;
 
         public MainViewModel(
-            TitleViewModel defaultView, 
-            SpellListViewModel spellList, 
-            SpellEditorViewModel spellEditor, 
-            ConfigViewModel configView,
-            DownloaderViewModel downloaderViewModel,
-            SpellCardViewModel spellCardViewModel)
+            SpellListViewModel spellListVM,
+            SpellEditorViewModel spellEditorVM,
+            DownloaderViewModel downloaderVM)
         {
-            _titleViewModel = defaultView;
-            _listViewModel = spellList;
-            _editorViewModel = spellEditor;
-            _configViewModel = configView;
-            _downloaderViewModel = downloaderViewModel;
-            _spellCardViewModel = spellCardViewModel;
+            this.ListViewModel = spellListVM;
+            this.EditorViewModel = spellEditorVM;
+            this.DownloaderViewModel = downloaderVM;
 
-            SelectedViewModel = _titleViewModel;
-
-            LoadSpellEditorCommand = new DelegateCommand(LoadSpellEditor);
+            LoadSpellEditorCommand = new AsyncCommand(LoadSpellEditor, CanExecute);
             LoadSpellListCommand = new DelegateCommand(LoadSpellList);
             LoadMainMenuCommand = new DelegateCommand(LoadMainMenu);
             LoadConfigCommand = new DelegateCommand(LoadConfig);
             LoadDownloaderControlCommand = new DelegateCommand(LoadDownloader);
-            LoadSpellCardViewCommand = new DelegateCommand(LoadSpellCard);
+            LoadSpellCardViewCommand = new AsyncCommand(LoadSpellCard, CanExecute);
         }
 
         public ViewModelBase? SelectedViewModel
@@ -50,51 +46,59 @@ namespace Spellweaver.ViewModel
             }
         }
 
-        public async override Task LoadAsync()
-        {
-            await _titleViewModel.LoadAsync();
-            await _listViewModel.LoadAsync();
-            await _editorViewModel.LoadAsync();
-            await _configViewModel.LoadAsync();
-            await _downloaderViewModel.LoadAsync();
-            await _spellCardViewModel.LoadAsync();
-        }
-
         #region Commands
 
-        public DelegateCommand LoadSpellEditorCommand { get; }
+        public IAsyncCommand LoadSpellEditorCommand { get; }
         public DelegateCommand LoadSpellListCommand { get; }
         public DelegateCommand LoadMainMenuCommand { get; }
         public DelegateCommand LoadConfigCommand { get; }
         public DelegateCommand LoadDownloaderControlCommand { get; }
-        public DelegateCommand LoadSpellCardViewCommand { get; }
-        private void LoadSpellEditor(object? parameter)
+        public IAsyncCommand LoadSpellCardViewCommand { get; }
+
+        private bool CanExecute() => !IsBusy;
+
+        private async Task LoadSpellEditor()
         {
-            SelectedViewModel = _editorViewModel;
+            if (IsBusy) return;
+            await LoadViewModelIfSpellSelected(EditorViewModel);
         }
 
         private void LoadSpellList(object? parameter)
         {
-            SelectedViewModel = _listViewModel;
+            SelectedViewModel = ListViewModel;
         }
 
         private void LoadMainMenu(object? parameter)
         {
-            SelectedViewModel = _titleViewModel;
+            SelectedViewModel = TitleViewModel.Value;
         }
 
         public void LoadConfig(object? parameter)
         {
-            SelectedViewModel = _configViewModel;
+            SelectedViewModel = ConfigViewModel.Value;
         }
         public void LoadDownloader(object? parameter)
         {
-            SelectedViewModel = _downloaderViewModel;
+            SelectedViewModel = DownloaderViewModel;
         }
 
-        public void LoadSpellCard(object? parameter)
+        public async Task LoadSpellCard()
         {
-            SelectedViewModel = _spellCardViewModel;
+            if (IsBusy) return;
+            await LoadViewModelIfSpellSelected(SpellCardViewModel.Value);
+        }
+
+        private async Task LoadViewModelIfSpellSelected(ViewModelBase newViewModel)
+        {
+            await newViewModel.LoadAsync();
+            if (!SpellManager.IsAnySpellSelected)
+            {
+                SelectedViewModel = NullSpellViewModel.Value;
+            }
+            else
+            {
+                SelectedViewModel = newViewModel;
+            }
         }
 
         #endregion

@@ -1,5 +1,7 @@
-﻿using Spellweaver.Commands;
+﻿using Microsoft.Extensions.Logging;
+using Spellweaver.Commands;
 using Spellweaver.Data;
+using Spellweaver.Interfaces;
 using Spellweaver.Managers;
 using Spellweaver.Providers;
 using System.Collections.ObjectModel;
@@ -31,12 +33,21 @@ namespace Spellweaver.ViewModel
             {
                 _isBusy = value;
                 DownloadSpellsCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged();
             }
         }
 
         private void AddSpell(object? parameter)
         {
-            SpellManager.AddToSpellList(SelectedSpell);
+            var objectList = ((IEnumerable<object>)parameter).Cast<SpellItemViewModel>().ToList();
+            string msg = "Added: ";
+            foreach (SpellItemViewModel item in objectList)
+            {
+                msg += item.Name + ", ";
+            }
+            msg = msg.Remove(msg.Length - 2, 2);
+            //_logger.Log(LogLevel.Information, msg);
+            SpellManager.AddToSpellList(objectList);
         }
 
         private async Task DownloadSpells()

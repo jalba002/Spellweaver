@@ -6,6 +6,7 @@ using Spellweaver.Services.Backend;
 using Spellweaver.ViewModel;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using Spellweaver.Interfaces;
 
 namespace Spellweaver
 {
@@ -20,6 +21,7 @@ namespace Spellweaver
              .CreateLogger();
 
             ServiceCollection service = new ServiceCollection();
+            service.AddLogging();
             ConfigureService(service);
             _serviceProvider = service.BuildServiceProvider();
             //Log.Information($"Starting Log for Version {Spellweaver.MainWindow.SpellweaverVersion}");
@@ -31,23 +33,16 @@ namespace Spellweaver
 
             service.AddTransient<MainWindow>();
 
-            service.AddSingleton<MainViewModel>();
+            // Needed windows because it needs a Database Provider.
+            service.AddTransient<DownloaderViewModel>();
+            service.AddTransient<SpellEditorViewModel>();
+            service.AddTransient<SpellListViewModel>();
 
-            service.AddSingleton<TitleViewModel>();
-
-            service.AddSingleton<SpellEditorViewModel>();
-
-            service.AddSingleton<SpellListViewModel>();
-
-            service.AddSingleton<DownloaderViewModel>();
-
-            service.AddSingleton<ConfigViewModel>();
-
-            service.AddSingleton<SpellCardViewModel>();
+            service.AddTransient<MainViewModel>();
 
             service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
 
-            service.AddSingleton<ErrorHandler>();
+            service.AddTransient<IErrorHandler, BoxErrorHandler>();
 
             service.AddSingleton<Serializer>();
 

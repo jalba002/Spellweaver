@@ -1,6 +1,4 @@
-﻿using Spellweaver.Data;
-using Spellweaver.Managers;
-using System.Security.Cryptography.X509Certificates;
+﻿using Spellweaver.Managers;
 
 namespace Spellweaver.ViewModel
 {
@@ -8,7 +6,7 @@ namespace Spellweaver.ViewModel
     {
         public SpellCardViewModel()
         {
-           
+
         }
 
         public SpellItemViewModel? CurrentSpell

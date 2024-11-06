@@ -1,4 +1,5 @@
-﻿using Spellweaver.Data;
+﻿using HandyControl.Tools.Extension;
+using Spellweaver.Data;
 using Spellweaver.ViewModel;
 using System.Collections.ObjectModel;
 
@@ -29,6 +30,8 @@ namespace Spellweaver.Managers
             }
         }
 
+        public static bool IsAnySpellSelected => CurrentSpell != null;
+
         public static void SetSpellList(List<Spell> spellList)
         {
             if (spellList == null || spellList.Count <= 0) return;
@@ -50,6 +53,11 @@ namespace Spellweaver.Managers
             if (singleSpell == null) return;
             SpellList.Add(singleSpell);
         }
+        public static void AddToSpellList(List<SpellItemViewModel> spells)
+        {
+            if (spells == null || spells.Count <= 0) return;
+            SpellList.AddRange(spells);
+        }
 
         private static void AddToSpellListAtIndex(SpellItemViewModel singleSpell, int index)
         {
@@ -69,6 +77,17 @@ namespace Spellweaver.Managers
             if (!SpellList.Contains(singleSpell)) return;
 
             SpellList.Remove(singleSpell);
+        }
+
+        public static void RemoveSpellFromList(List<SpellItemViewModel> spells)
+        {
+            if (spells == null) return;
+            if (spells.Count <= 0) return;
+
+            foreach (SpellItemViewModel spell in spells)
+            {
+                RemoveSpellFromList(spell);
+            }
         }
     }
 }

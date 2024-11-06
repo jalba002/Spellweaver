@@ -26,17 +26,17 @@
             <!--Mouse over button-->
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Margin" Value="0,0,0,5"/>
-                <Setter Property="Background" Value="{StaticResource Color1}"/>
-                <Setter Property="Foreground" Value="{StaticResource Color3}"/>
-                <Setter Property="BorderBrush" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="Background" Value="LightBlue"/>
+                <Setter Property="Foreground" Value="{StaticResource DarkBluePaletteColor_06}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BlueTone01}"/>
             </Trigger>
 
             <!--Active button-->
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Margin" Value="0,0,0,5"/>
-                <Setter Property="Background" Value="{StaticResource Color6}"/>
-                <Setter Property="Foreground" Value="{StaticResource Color3}"/>
-                <Setter Property="BorderBrush" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
+                <!--<Setter Property="Background" Value="{StaticResource BlueTone01}"/>-->
+                <Setter Property="Foreground" Value="{StaticResource DarkBluePaletteColor_06}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource DarkPurplePaletteColor_01}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -47,6 +47,11 @@
         <Setter Property="Width" Value="22"/>
         <Setter Property="Height" Value="22"/>
         <Setter Property="Margin" Value="35,0,22,0"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="fa:Awesome.Spin" Value="True"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <!--Menu button text-->
@@ -57,8 +62,22 @@
         <Setter Property="FontFamily" Value="16"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-    
-    
+
+    <!--Info message Icon-->
+    <Style x:Key="InfoMessageIcon" TargetType="fa:IconImage">
+        <Setter Property="Width" Value="22"/>
+        <Setter Property="Height" Value="22"/>
+    </Style>
+
+    <!--Info Message-->
+    <Style x:Key="InfoMessageText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Montserrat"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontFamily" Value="16"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+
     <!--Control bar button-->
     <Style x:Key="ControlBarButton" TargetType="Button">
         <!--Button on rest-->

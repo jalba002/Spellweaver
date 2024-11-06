@@ -10,7 +10,9 @@
         xmlns:admin="clr-namespace:Spellweaver.Commands"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        d:DesignWidth="900" d:DesignHeight="600"
+        d:DesignWidth="800" d:DesignHeight="500"
+        MinHeight="500"
+        MinWidth="800"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Icon="/Images/BookIcon.png">
@@ -36,6 +38,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type ViewModels:SpellCardViewModel}">
             <Views:SpellCardView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:NullSpellViewModel}">
+            <Views:NullSpellView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

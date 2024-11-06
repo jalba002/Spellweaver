@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Microsoft.Extensions.Logging;
+using Serilog;
 using Spellweaver.Commands;
 using Spellweaver.Data;
 using Spellweaver.Interfaces;
@@ -20,7 +21,7 @@ namespace Spellweaver.ViewModel
         private ExporterFactory _exporter;
         public SpellListViewModel(
             DNDDatabase dB,
-            ErrorHandler errorHandler,
+            IErrorHandler errorHandler,
             ExporterFactory exporter)
         {
             _dbProvider = dB;
@@ -245,15 +246,22 @@ namespace Spellweaver.ViewModel
 
         private void Remove(object? parameter)
         {
-            if (SelectedSpell is not null)
+            if (parameter == null) return;
+            var objectList = ((IEnumerable<object>)parameter).Cast<SpellItemViewModel>().ToList();
+            if (objectList != null && objectList.Count > 0)
             {
-                MessageBoxResult m = MessageBox.Show("Are you sure you want to remove " + SelectedSpell.Name + " from the list?", "Removing Spell", MessageBoxButton.OKCancel);
+                var allSpellsNames = String.Concat(objectList.Select(x => x.Name));
+                MessageBoxResult m = MessageBox.Show($"Are you sure you want to remove [{allSpellsNames}] from the list?", "Removing Spell", MessageBoxButton.OKCancel);
                 if (m == MessageBoxResult.OK)
                 {
                     //Spells.Remove(SelectedSpell);
-                    SpellManager.RemoveSpellFromList(SelectedSpell);
+                    SpellManager.RemoveSpellFromList(objectList);
                     SelectedSpell = null;
                 }
+            }
+            else
+            {
+                // Logger?
             }
         }
         //// This is binded to the command to open the window and then importSpells from a file.
