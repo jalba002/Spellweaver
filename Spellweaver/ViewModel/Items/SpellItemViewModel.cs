@@ -193,7 +193,26 @@ namespace Spellweaver.ViewModel
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return new SpellItemViewModel(GetModel.Clone() as Spell)
+            {
+                Name = this.Name,
+                Level = this.Level,
+                School = this.School,
+                CastingTime = this.CastingTime,
+                Target = this.Target,
+                Range = this.Range,
+                IsVocal = this.IsVocal,
+                IsSomatic = this.IsSomatic,
+                IsMaterial = this.IsMaterial,
+                IsConcentration = this.IsConcentration,
+                IsRitual = this.IsRitual,
+                Description = this.Description,
+                DescriptionMaterials = this.DescriptionMaterials,
+                Duration = this.Duration,
+                UpcastDescription = this.UpcastDescription,
+                Source = this.Source,
+                Classes = this.Classes
+            };
         }
     }
 }

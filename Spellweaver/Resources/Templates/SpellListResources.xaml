@@ -186,10 +186,14 @@
                 <TextBlock Text="{Binding Source}" Foreground="Blue" DockPanel.Dock="Top"/>
             </DockPanel>
             <UniformGrid Grid.Column="1" FlowDirection="LeftToRight" Rows="2" Columns="2">
-                <Button Style="{StaticResource SpellList_SpellCard_View_Options_Button}">
+                <Button Style="{StaticResource SpellList_SpellCard_View_Options_Button}"
+                        Command="{Binding Path=DataContext.LoadSpellToEditView, RelativeSource={RelativeSource AncestorType=ListView}}"
+                        CommandParameter="{Binding}">
                     <fa:IconImage Icon="Pen" Style="{StaticResource SpellList_SpellCard_Options_Icons}"/>
                 </Button>
-                <Button Style="{StaticResource SpellList_SpellCard_View_Options_Button}">
+                <Button Style="{StaticResource SpellList_SpellCard_View_Options_Button}"
+                        Command="{Binding Path=DataContext.LoadSpellToCardView, RelativeSource={RelativeSource AncestorType=ListView}}"
+                        CommandParameter="{Binding}">
                     <fa:IconImage Icon="Eye" Style="{StaticResource SpellList_SpellCard_Options_Icons}"/>
                 </Button>
                 <Button Style="{StaticResource SpellList_SpellCard_View_Options_Button}"

@@ -7,7 +7,7 @@ namespace Spellweaver.Data
     // If we wanted to choose other RPGs we could implement interface-oriented models.
     // For example an spell could have description, a name, a custom level too.
     // Maybe the max level is not the same as others...
-    public class Spell : BaseSpellModel
+    public class Spell : BaseSpellModel, ICloneable
     {
         public string? Name { get; set; } = string.Empty;
         public string? School { get; set; } = string.Empty;

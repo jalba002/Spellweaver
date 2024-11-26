@@ -32,6 +32,11 @@ namespace Spellweaver.ViewModel
             DuplicateSpellCommand = new DelegateCommand(DuplicateSpell);
             RemoveCommand = new DelegateCommand(Remove, CanRemove);
             RemoveSingleSpellCommand = new DelegateCommand(RemoveSingle);
+
+            // Shortcuts
+            LoadSpellToCardView = new DelegateCommand(LoadCardView);
+            LoadSpellToEditView = new DelegateCommand(LoadEditView);
+
             // Download spells
             DownloadSpellsCommand = new AsyncCommand(DownloadSpells, CanExecuteCommand);
             DownloadAllSpellsCommand = new AsyncCommand(DownloadAllSpells, CanExecuteCommand);
@@ -219,6 +224,11 @@ namespace Spellweaver.ViewModel
         public DelegateCommand RemoveSingleSpellCommand { get; }
         public DelegateCommand RemoveCommand { get; }
         public DelegateCommand ShowSpellDebugCommand { get; }
+
+        // Shortcuts Command
+        public DelegateCommand LoadSpellToCardView { get; }
+        public DelegateCommand LoadSpellToEditView { get; }
+
         public IAsyncCommand DownloadSpellsCommand { get; }
         public IAsyncCommand DownloadAllSpellsCommand { get; }
         public DelegateCommand ExportSpellCommand { get; }
@@ -292,6 +302,28 @@ namespace Spellweaver.ViewModel
                 // Logger?
                 // Error Logger
             }
+        }
+
+        private void LoadCardView(object? parameter)
+        {
+            // The object is now selected
+            if (parameter == null) return;
+
+            SpellItemViewModel spellModel = (SpellItemViewModel)parameter;
+
+            SelectedSpell = spellModel;
+            MainViewModel.Instance.LoadSpellCardViewCommand.Execute(null);
+        }
+
+        private void LoadEditView(object? parameter)
+        {
+            // The object is now selected
+            if (parameter == null) return;
+
+            SpellItemViewModel spellModel = (SpellItemViewModel)parameter;
+
+            SelectedSpell = spellModel;
+            MainViewModel.Instance.LoadSpellEditorCommand.Execute(null);
         }
 
         //// This is binded to the command to open the window and then importSpells from a file.

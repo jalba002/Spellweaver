@@ -6,6 +6,17 @@ namespace Spellweaver.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        private static MainViewModel instance;
+        public static MainViewModel Instance
+        {
+            get => instance;
+            set
+            {
+                if(instance == null)
+                    instance = value;
+            }
+        }
+
         private readonly SpellListViewModel ListViewModel;
         private readonly SpellEditorViewModel EditorViewModel;
         private readonly DownloaderViewModel DownloaderViewModel;
@@ -27,6 +38,8 @@ namespace Spellweaver.ViewModel
             DownloaderViewModel downloaderVM,
             ExporterFactory exporterFactory)
         {
+            Instance = this;
+
             _userConfigManager = new UserConfigManager(exporterFactory);
 
             _statusBarManager = new StatusBarManager();
@@ -41,7 +54,6 @@ namespace Spellweaver.ViewModel
             LoadConfigCommand = new DelegateCommand(LoadConfig);
             LoadDownloaderControlCommand = new DelegateCommand(LoadDownloader);
             LoadSpellCardViewCommand = new AsyncCommand(LoadSpellCard, CanExecute);
-
         }
 
         private ViewModelBase _selectedViewModel;
