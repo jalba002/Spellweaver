@@ -31,7 +31,7 @@ namespace Spellweaver.ViewModel
             AddCommand = new DelegateCommand(Add);
             DuplicateSpellCommand = new DelegateCommand(DuplicateSpell);
             RemoveCommand = new DelegateCommand(Remove, CanRemove);
-
+            RemoveSingleSpellCommand = new DelegateCommand(RemoveSingle);
             // Download spells
             DownloadSpellsCommand = new AsyncCommand(DownloadSpells, CanExecuteCommand);
             DownloadAllSpellsCommand = new AsyncCommand(DownloadAllSpells, CanExecuteCommand);
@@ -216,6 +216,7 @@ namespace Spellweaver.ViewModel
         public DelegateCommand AddCommand { get; }
 
         public DelegateCommand DuplicateSpellCommand { get; }
+        public DelegateCommand RemoveSingleSpellCommand { get; }
         public DelegateCommand RemoveCommand { get; }
         public DelegateCommand ShowSpellDebugCommand { get; }
         public IAsyncCommand DownloadSpellsCommand { get; }
@@ -227,7 +228,17 @@ namespace Spellweaver.ViewModel
 
         private void Add(object? parameter)
         {
-            var spell = new Spell { Name = "Default Spell", Level = "0", CastingTime = "1 action" };
+            var spell = new Spell 
+            { 
+                Name = "Default Spell", 
+                Level = "0", 
+                CastingTime = "1 action", 
+                Classes = "Wizard", 
+                Description = "Default Spell for Testing", 
+                School = "Evocation", 
+                Range = "60ft",
+                Source = "Spellweaver"
+            };
             var viewModel = new SpellItemViewModel(spell);
             SpellManager.AddToSpellList(viewModel);
             SelectedSpell = viewModel;
@@ -235,13 +246,31 @@ namespace Spellweaver.ViewModel
 
         private void DuplicateSpell(object? parameter)
         {
-            if (SelectedSpell != null)
-            {
-                SpellManager.AddToSpellListAfterSelectedSpell(SelectedSpell.Clone() as SpellItemViewModel);
-            }
+            if (parameter == null) return;
+            //if (SelectedSpell != null)
+            //{
+            //    SpellManager.AddToSpellListAfterSelectedSpell(SelectedSpell.Clone() as SpellItemViewModel);
+            //}
+            SpellItemViewModel objectList = (SpellItemViewModel)parameter;
+            SpellManager.AddToSpellListAfterSelectedSpell(objectList.Clone() as SpellItemViewModel);
         }
 
         private bool CanRemove(object? parameter) => SelectedSpell is not null;
+
+        private void RemoveSingle(object? parameter)
+        {
+            if (parameter == null) return;
+            var objectList = parameter as SpellItemViewModel;
+            if (objectList != null)
+            {
+                MessageBoxResult m = MessageBox.Show($"Are you sure you want to remove <{objectList.Name}> from the list?", "Removing Spell(s)", MessageBoxButton.OKCancel);
+                if (m == MessageBoxResult.OK)
+                {
+                    SpellManager.RemoveSpellFromList(objectList);
+                    SelectedSpell = null;
+                }
+            }
+        }
 
         private void Remove(object? parameter)
         {
@@ -264,6 +293,7 @@ namespace Spellweaver.ViewModel
                 // Error Logger
             }
         }
+
         //// This is binded to the command to open the window and then importSpells from a file.
         //// It import any amount, as it is always exported as an array.
         //private void ImportSpells(object? parameter)

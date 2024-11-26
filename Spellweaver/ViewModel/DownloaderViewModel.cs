@@ -47,6 +47,7 @@ namespace Spellweaver.ViewModel
             }
             msg = msg.Remove(msg.Length - 2, 2);
             //_logger.Log(LogLevel.Information, msg);
+            StatusBarManager.Instance.SetInfo(msg);
             SpellManager.AddToSpellList(objectList);
         }
 

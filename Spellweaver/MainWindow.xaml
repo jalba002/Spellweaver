@@ -127,7 +127,8 @@
                         <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
                                  Command="{Binding LoadConfigCommand}"
                                  Grid.Row="1"
-                                 GroupName="MenuButtons">
+                                 GroupName="MenuButtons"
+                                     Margin="0,0,0,0">
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="Wheelchair" Style="{StaticResource MenuButtonIcon}"/>
                                 <TextBlock Text="Configuration" Style="{StaticResource MenuButtonText}"/>
@@ -163,5 +164,10 @@
             </Grid>
 
         </Grid>
+        <StatusBar Grid.Row="1" Height="24">
+            <StatusBarItem x:Name="GeneralInformation" Content="{Binding Path=StatusBarMessage, UpdateSourceTrigger=PropertyChanged}"
+                           VerticalAlignment="Stretch"
+                           FontSize="10"/>
+        </StatusBar>
     </Grid>
 </Window>

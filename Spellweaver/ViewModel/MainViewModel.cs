@@ -15,9 +15,9 @@ namespace Spellweaver.ViewModel
         private Lazy<SpellCardViewModel> SpellCardViewModel = new Lazy<SpellCardViewModel>();
         private Lazy<NullSpellViewModel> NullSpellViewModel = new Lazy<NullSpellViewModel>();
 
-        private ViewModelBase _selectedViewModel;
-
         private UserConfigManager _userConfigManager;
+
+        private StatusBarManager _statusBarManager;
 
         private bool IsBusy { get; set; } = false;
 
@@ -28,6 +28,8 @@ namespace Spellweaver.ViewModel
             ExporterFactory exporterFactory)
         {
             _userConfigManager = new UserConfigManager(exporterFactory);
+
+            _statusBarManager = new StatusBarManager();
 
             this.ListViewModel = spellListVM;
             this.EditorViewModel = spellEditorVM;
@@ -42,12 +44,23 @@ namespace Spellweaver.ViewModel
 
         }
 
+        private ViewModelBase _selectedViewModel;
         public ViewModelBase? SelectedViewModel
         {
             get => _selectedViewModel;
             set
             {
                 _selectedViewModel = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string StatusBarMessage
+        {
+            get => _statusBarManager.GetInfo();
+            set
+            {
+                _statusBarManager.SetInfo(value);
                 RaisePropertyChanged();
             }
         }
@@ -111,10 +124,11 @@ namespace Spellweaver.ViewModel
 
         #endregion
 
-        #region
+        #region Load
         public override async Task LoadAsync()
         {
             _userConfigManager.Initialize();
+            StatusBarMessage = "Loaded Main Window";
         }
         #endregion
     }

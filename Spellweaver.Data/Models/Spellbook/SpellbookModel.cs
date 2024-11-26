@@ -2,18 +2,21 @@
 {
     public class SpellbookModel
     {
+        //
+        List<Spell> AllSpells = new List<Spell>();
+
         // Spellbook model for containing the needed data.
-        List<Spell> cantripSpells = new List<Spell>();
-        List<Spell> levelOneSpells = new List<Spell>();
-        List<Spell> levelTwoSpells = new List<Spell>();
-        List<Spell> levelThreeSpells = new List<Spell>();
-        List<Spell> levelFourSpells = new List<Spell>();
-        List<Spell> levelFiveSpells = new List<Spell>();
-        List<Spell> levelSixSpells = new List<Spell>();
-        List<Spell> levelSevenSpells = new List<Spell>();
-        List<Spell> levelEightSpells = new List<Spell>();
-        List<Spell> levelNineSpells = new List<Spell>();
-        List<Spell> otherSpells = new List<Spell>();
+        List<Spell> cantripSpells => AllSpells.Where(x => x.Level == "Cantrip").ToList();
+        List<Spell> levelOneSpells => AllSpells.Where(x => x.Level == "1").ToList();
+        List<Spell> levelTwoSpells => AllSpells.Where(x => x.Level == "2").ToList();
+        List<Spell> levelThreeSpells => AllSpells.Where(x => x.Level == "3").ToList();
+        List<Spell> levelFourSpells => AllSpells.Where(x => x.Level == "4").ToList();
+        List<Spell> levelFiveSpells => AllSpells.Where(x => x.Level == "5").ToList();
+        List<Spell> levelSixSpells => AllSpells.Where(x => x.Level == "6").ToList();
+        List<Spell> levelSevenSpells => AllSpells.Where(x => x.Level == "7").ToList();
+        List<Spell> levelEightSpells => AllSpells.Where(x => x.Level == "8").ToList();
+        List<Spell> levelNineSpells => AllSpells.Where(x => x.Level == "9").ToList();
+        List<Spell> otherSpells => AllSpells.Where(x => Int32.TryParse(x.Level, out int num) && num >= 10).ToList();
 
         #region API
         public void AddSpellToList(Spell spell)

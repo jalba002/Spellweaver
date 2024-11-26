@@ -22,10 +22,10 @@
                     VerticalAlignment="Stretch">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                        <Setter Property="Content" Value="{StaticResource DownloadSpellButtonContent}"/>
+                        <Setter Property="Content" Value="{StaticResource Downloader_SearchButton_Content}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsBusy, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                <Setter Property="Content" Value="{StaticResource DownloadingSpellButtonContent}"/>
+                                <Setter Property="Content" Value="{StaticResource Downloader_SearchButton_Content_Loading}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -40,7 +40,7 @@
             Margin="5,0,5,5" Grid.Row="1" Grid.ColumnSpan="2"
                     ItemsSource="{Binding Path=DownloadedSpells}"
                     SelectedItem="{Binding SelectedSpell, UpdateSourceTrigger=PropertyChanged}"
-                    ItemTemplate="{StaticResource SpellViewTemplate}"
+                    ItemTemplate="{StaticResource Downloader_SpellList_Item_View}"
                   ItemContainerStyle="{StaticResource SpellListViewItemStyle}"/>
         <!--end-->
         <Button Grid.Row="2" Margin="5,0,5,5" 

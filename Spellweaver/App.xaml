@@ -16,6 +16,8 @@
                 <ResourceDictionary Source="Resources/Templates/DataTemplates.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/ExpandTemplates.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/SpellbookTemplates.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/DownloaderViewResources.xaml"/>
+                <ResourceDictionary Source="Resources/Templates/SpellListResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

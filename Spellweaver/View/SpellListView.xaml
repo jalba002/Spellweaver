@@ -38,13 +38,13 @@
             <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
                 <TextBox Style="{StaticResource SearchBar}" Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <ListView x:Name="SpellListViewObject"
-                Margin="5,0,5,5"
-                      Grid.Row="1"
+            <ListView Margin="5,0,5,5"
+                        Grid.Row="1"
                         ItemsSource="{Binding Path=SpellsView}"
                         SelectedItem="{Binding SelectedSpell, Mode=TwoWay}"
-                        ItemTemplate="{StaticResource SpellEditorListDataTemplate}" 
-                        ItemContainerStyle="{StaticResource SpellListViewItemStyle}">
+                        ItemTemplate="{StaticResource SpellListEntryTemplate}" 
+                        ItemContainerStyle="{StaticResource SpellListViewItemStyle}"
+                        Style="{StaticResource SpellListStyle}">
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add new Spell" Command="{Binding AddCommand}"/>
