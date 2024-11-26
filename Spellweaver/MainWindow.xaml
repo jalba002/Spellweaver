@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spellweaver" 
+        xmlns:localExtensions="clr-namespace:Spellweaver.Extensions"
         xmlns:Controls="clr-namespace:Spellweaver.Controls"
         xmlns:Views="clr-namespace:Spellweaver.View"
         xmlns:ViewModels="clr-namespace:Spellweaver.ViewModel"
@@ -14,7 +15,10 @@
         MinHeight="500"
         MinWidth="800"
         ResizeMode="CanResizeWithGrip"
-        WindowStartupLocation="CenterScreen"
+        Height="{localExtensions:SettingBinding Height}"
+        Width="{localExtensions:SettingBinding Width}"
+        Left="{localExtensions:SettingBinding Left}"
+        Top="{localExtensions:SettingBinding Top}"
         Icon="/Images/BookIcon.png">
     <!--<Window.InputBindings>
         <KeyBinding Gesture="CTRL+N"

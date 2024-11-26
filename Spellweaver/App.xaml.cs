@@ -16,9 +16,9 @@ namespace Spellweaver
 
         public App()
         {
-            Log.Logger = new LoggerConfiguration()
-             .WriteTo.File($"log_{Spellweaver.MainWindow.SpellweaverVersion}.txt")
-             .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            // .WriteTo.File($"log_{Spellweaver.MainWindow.SpellweaverVersion}.txt")
+            // .CreateLogger();
 
             ServiceCollection service = new ServiceCollection();
             service.AddLogging();
@@ -38,6 +38,8 @@ namespace Spellweaver
             service.AddTransient<SpellEditorViewModel>();
             service.AddTransient<SpellListViewModel>();
 
+            service.AddTransient<UserConfigManager>();
+
             service.AddTransient<MainViewModel>();
 
             service.AddSingleton<DNDDatabase, OnlineDatabaseProvider>();
@@ -55,6 +57,11 @@ namespace Spellweaver
 
             var mainWindow = _serviceProvider.GetService<MainWindow>();
             mainWindow?.Show();
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            Spellweaver.Properties.Settings.Default.Save();
         }
     }
 }

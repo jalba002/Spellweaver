@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using Spellweaver.ViewModel;
+using System.Configuration;
 using System.Windows;
 
 namespace Spellweaver
@@ -13,15 +14,26 @@ namespace Spellweaver
             get => _spellweaverVersion;
         }
 
+        Configuration AppConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
+
+            // Get the Window Settings?
+            LoadSettings();
+
             // We do this to set the global DataContext
             _spellweaverVersion = GetVersion();
             _viewModel = viewModel;
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
             Log.Information($"Started main window of Spellweaver");
+        }
+
+        private void LoadSettings()
+        {
+
         }
 
         private static string GetVersion()

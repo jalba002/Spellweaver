@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Serilog;
+﻿using Serilog;
 using Spellweaver.Commands;
 using Spellweaver.Data;
 using Spellweaver.Interfaces;
@@ -250,8 +249,8 @@ namespace Spellweaver.ViewModel
             var objectList = ((IEnumerable<object>)parameter).Cast<SpellItemViewModel>().ToList();
             if (objectList != null && objectList.Count > 0)
             {
-                var allSpellsNames = String.Concat(objectList.Select(x => x.Name));
-                MessageBoxResult m = MessageBox.Show($"Are you sure you want to remove [{allSpellsNames}] from the list?", "Removing Spell", MessageBoxButton.OKCancel);
+                var allSpellsNames = String.Join("\n", objectList.Select(x => x.Name));
+                MessageBoxResult m = MessageBox.Show($"Are you sure you want to remove:\n\n{allSpellsNames}\n\n from the list?", "Removing Spell(s)", MessageBoxButton.OKCancel);
                 if (m == MessageBoxResult.OK)
                 {
                     //Spells.Remove(SelectedSpell);
@@ -262,6 +261,7 @@ namespace Spellweaver.ViewModel
             else
             {
                 // Logger?
+                // Error Logger
             }
         }
         //// This is binded to the command to open the window and then importSpells from a file.

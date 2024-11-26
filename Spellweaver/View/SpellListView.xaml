@@ -48,6 +48,8 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add new Spell" Command="{Binding AddCommand}"/>
+                        <MenuItem Header="Remove selected Spells" Command="{Binding RemoveCommand}" 
+                                  CommandParameter="{Binding Path=PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                         <Separator/>
                         <MenuItem Header="Export Spells as..." ItemsSource="{Binding ExportMenuItems}">
                             <MenuItem.ItemContainerStyle>

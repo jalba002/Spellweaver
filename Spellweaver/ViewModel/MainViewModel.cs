@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
-using Spellweaver.Commands;
+﻿using Spellweaver.Commands;
 using Spellweaver.Managers;
+using Spellweaver.Services.Backend;
 
 namespace Spellweaver.ViewModel
 {
@@ -17,23 +17,29 @@ namespace Spellweaver.ViewModel
 
         private ViewModelBase _selectedViewModel;
 
+        private UserConfigManager _userConfigManager;
+
         private bool IsBusy { get; set; } = false;
 
         public MainViewModel(
             SpellListViewModel spellListVM,
             SpellEditorViewModel spellEditorVM,
-            DownloaderViewModel downloaderVM)
+            DownloaderViewModel downloaderVM,
+            ExporterFactory exporterFactory)
         {
+            _userConfigManager = new UserConfigManager(exporterFactory);
+
             this.ListViewModel = spellListVM;
             this.EditorViewModel = spellEditorVM;
             this.DownloaderViewModel = downloaderVM;
 
             LoadSpellEditorCommand = new AsyncCommand(LoadSpellEditor, CanExecute);
-            LoadSpellListCommand = new DelegateCommand(LoadSpellList);
+            LoadSpellListCommand = new AsyncCommand(LoadSpellList, CanExecute);
             LoadMainMenuCommand = new DelegateCommand(LoadMainMenu);
             LoadConfigCommand = new DelegateCommand(LoadConfig);
             LoadDownloaderControlCommand = new DelegateCommand(LoadDownloader);
             LoadSpellCardViewCommand = new AsyncCommand(LoadSpellCard, CanExecute);
+
         }
 
         public ViewModelBase? SelectedViewModel
@@ -49,7 +55,7 @@ namespace Spellweaver.ViewModel
         #region Commands
 
         public IAsyncCommand LoadSpellEditorCommand { get; }
-        public DelegateCommand LoadSpellListCommand { get; }
+        public IAsyncCommand LoadSpellListCommand { get; }
         public DelegateCommand LoadMainMenuCommand { get; }
         public DelegateCommand LoadConfigCommand { get; }
         public DelegateCommand LoadDownloaderControlCommand { get; }
@@ -61,11 +67,6 @@ namespace Spellweaver.ViewModel
         {
             if (IsBusy) return;
             await LoadViewModelIfSpellSelected(EditorViewModel);
-        }
-
-        private void LoadSpellList(object? parameter)
-        {
-            SelectedViewModel = ListViewModel;
         }
 
         private void LoadMainMenu(object? parameter)
@@ -80,6 +81,13 @@ namespace Spellweaver.ViewModel
         public void LoadDownloader(object? parameter)
         {
             SelectedViewModel = DownloaderViewModel;
+        }
+
+        private async Task LoadSpellList()
+        {
+            if (IsBusy) return;
+            await ListViewModel.LoadAsync();
+            SelectedViewModel = ListViewModel;
         }
 
         public async Task LoadSpellCard()
@@ -101,6 +109,13 @@ namespace Spellweaver.ViewModel
             }
         }
 
+        #endregion
+
+        #region
+        public override async Task LoadAsync()
+        {
+            _userConfigManager.Initialize();
+        }
         #endregion
     }
 }

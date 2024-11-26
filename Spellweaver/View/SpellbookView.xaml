@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Spellweaver.View.SpellbookView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Spellweaver.View"
+             xmlns:localViewModel="clr-namespace:Spellweaver.ViewModel"
+             xmlns:converter="clr-namespace:Spellweaver.Converter"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="400" d:Background="LightGray">
+    <!--controls all the lists-->
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+        <ContentControl x:Name="Level1" Template="{StaticResource SpellbookSingleEntry}" Tag="Cantrips"/>
+        <ContentControl x:Name="Level2" Template="{StaticResource SpellbookSingleEntry}" Tag="Level 1"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 2"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 3"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 4"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 5"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 6"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 7"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 8"/>
+        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 9"/>
+    </StackPanel>
+</UserControl>

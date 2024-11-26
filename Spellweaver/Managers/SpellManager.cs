@@ -89,5 +89,10 @@ namespace Spellweaver.Managers
                 RemoveSpellFromList(spell);
             }
         }
+
+        public static IEnumerable<Spell> GetSpellList()
+        {
+            return SpellList.Select(x => x.GetModel);
+        }
     }
 }
