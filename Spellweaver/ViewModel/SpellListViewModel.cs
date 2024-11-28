@@ -3,6 +3,7 @@ using Spellweaver.Commands;
 using Spellweaver.Data;
 using Spellweaver.Interfaces;
 using Spellweaver.Managers;
+using Spellweaver.Other;
 using Spellweaver.Providers;
 using Spellweaver.Services.Backend;
 using System.Collections.ObjectModel;
@@ -55,6 +56,8 @@ namespace Spellweaver.ViewModel
             {
                 new SortingEntry("Name Asc.", new SortDescription("Name", ListSortDirection.Ascending)),
                 new SortingEntry("Name Desc.", new SortDescription("Name", ListSortDirection.Descending)),
+                new SortingEntry("Level Asc.", new SortDescription("Level", ListSortDirection.Ascending)),
+                new SortingEntry("Level Desc.", new SortDescription("Level", ListSortDirection.Descending)),
                 new SortingEntry("School Asc.", new SortDescription("School", ListSortDirection.Ascending)),
                 new SortingEntry("School Desc.", new SortDescription("School", ListSortDirection.Descending)),
             };
@@ -69,11 +72,11 @@ namespace Spellweaver.ViewModel
         #region Collections
         // This collection is to only visualize.
         // The realone should be at SpellManager
-        private ICollectionView _spellsView;
         public ObservableCollection<MenuItemViewModel> ExportMenuItems { get; set; }
         public ObservableCollection<MenuItemViewModel> ImportMenuItems { get; set; }
         public ObservableCollection<SpellItemViewModel> Spells { get { return SpellManager.SpellList; } }
 
+        private ICollectionView _spellsView;
         public ICollectionView SpellsView
         {
             get
@@ -150,7 +153,7 @@ namespace Spellweaver.ViewModel
                 RaisePropertyChanged();
             }
         }
-
+        
         private string? _schoolFilter;
         public string? SchoolFilter
         {
@@ -167,19 +170,6 @@ namespace Spellweaver.ViewModel
 
         #region Sorting Properties
         public ObservableCollection<SortingEntry> SortingList { get; private set; }
-
-        [System.Serializable]
-        public class SortingEntry
-        {
-            public SortingEntry(string name, SortDescription sortingMethod)
-            {
-                Name = name;
-                SortingMethod = sortingMethod;
-            }
-
-            public string Name { get; set; }
-            public SortDescription SortingMethod { get; set; }
-        }
 
         private SortingEntry _selectedSortingMethod;
         public SortingEntry SortingMethod

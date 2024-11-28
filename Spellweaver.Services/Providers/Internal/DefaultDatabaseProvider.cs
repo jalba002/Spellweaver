@@ -57,5 +57,10 @@ namespace Spellweaver.Providers
         {
             return (List<Spell>?)await new SpellDataProvider().GetAllAsync();
         }
+
+        public override Task<List<Spell>> GetSpellsWithParameters(Dictionary<string, string> parameters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

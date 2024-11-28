@@ -9,17 +9,49 @@
               d:DesignWidth="900" d:DesignHeight="600"
              Width="auto"
              Height="auto">
-    <Grid Grid.Row="0">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White">
+        <Grid.Resources>
+            <Style x:Key="FilterBox_Title" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBaseStyle}">
+                <Setter Property="FontFamily" Value="Montserrat"/>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DockPanel>
-            <Button Command="{Binding DownloadSpellsCommand}" DockPanel.Dock="Right" Width="200"
-                    Height="50"
-                    Margin="0,0,5,0"
-                    VerticalAlignment="Stretch">
+        <!--search bar-->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" LastChildFill="False" HorizontalAlignment="Stretch" Width="auto"
+               Margin="7,7,7,0">
+            <DockPanel.Resources>
+                <Style TargetType="DockPanel">
+                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="DockPanel.Dock" Value="Left"/>
+                    <Setter Property="Margin" Value="0,0,7,0"/>
+                </Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource FilterBox_Title}">
+                    <Setter Property="Margin" Value="2,0,0,0"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+            </DockPanel.Resources>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Name"/>
+                <TextBox DockPanel.Dock="Bottom" Text="{Binding Path=NameFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Level"/>
+                <TextBox DockPanel.Dock="Bottom" Text="{Binding Path=LevelFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Class"/>
+                <TextBox DockPanel.Dock="Bottom" Text="{Binding Path=ClassFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="School"/>
+                <TextBox DockPanel.Dock="Bottom" Text="{Binding Path=SchoolFilter, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+            <Button Command="{Binding DownloadSpellsCommand}" DockPanel.Dock="Right"
+                    MinWidth="150" Width="150" Height="40">
                 <Button.Style>
                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                         <Setter Property="Content" Value="{StaticResource Downloader_SearchButton_Content}"/>
@@ -27,35 +59,48 @@
                             <DataTrigger Binding="{Binding Path=IsBusy, UpdateSourceTrigger=PropertyChanged}" Value="True">
                                 <Setter Property="Content" Value="{StaticResource Downloader_SearchButton_Content_Loading}"/>
                             </DataTrigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="{DynamicResource BluePaletteColor_01}"/>
+                            </Trigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
             </Button>
+            <!--<Button Command="{Binding AddSpellCommand}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="22" Margin="5,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Text="Add Spell to List"/>
+                    </StackPanel>
+                </Button.Content>
+                <Button.CommandParameter>
+                    <Binding ElementName="SpellsListView" Path="SelectedItems"/>
+                </Button.CommandParameter>
+            </Button>-->
+        </DockPanel>
+        <DockPanel Grid.Row="1" LastChildFill="True" Margin="7,10,7,10">
+            <TextBlock Style="{StaticResource FilterBox_Title}" Text="{Binding ElementName=DownloadedSpellsListView, Path=Items.Count, StringFormat={}Downloaded Spells ({0}), UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Left" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <ComboBox DockPanel.Dock="Right" Width="150" HorizontalAlignment="Right"
+                      DisplayMemberPath="Name"
+                      ItemsSource="{Binding SortingList}"
+                      SelectedItem ="{Binding SortingMethod, Mode=TwoWay}">
+            </ComboBox>
+            <Rectangle DockPanel.Dock="Left" RadiusX="1" RadiusY="1" Height="1" HorizontalAlignment="Stretch" Fill="DarkGray" Margin="7,0,7,0"/>
+        </DockPanel>
+        <!--<DockPanel Grid.Row="2">
+            
             <TextBox Style="{StaticResource SearchBar}"
                      Text="{Binding Path=MatchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             </TextBox>
-        </DockPanel>
+        </DockPanel>-->
         <!--Space for the found and downloaded spells-->
-        <ListView x:Name="SpellsListView"
-            Margin="5,0,5,5" Grid.Row="1" Grid.ColumnSpan="2"
-                    ItemsSource="{Binding Path=DownloadedSpells}"
+        <ListView x:Name="DownloadedSpellsListView"
+            Margin="5,0,5,5" Grid.Row="2"
+                    ItemsSource="{Binding Path=SpellsView}"
                     SelectedItem="{Binding SelectedSpell, UpdateSourceTrigger=PropertyChanged}"
                     ItemTemplate="{StaticResource Downloader_SpellList_Item_View}"
-                  ItemContainerStyle="{StaticResource SpellListViewItemStyle}"/>
+                    ItemContainerStyle="{StaticResource SpellListViewItemStyle}"
+                    Style="{StaticResource SpellListStyle}"/>
         <!--end-->
-        <Button Grid.Row="2" Margin="5,0,5,5" 
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch"
-                Height="50"
-                Command="{Binding AddSpellCommand}">
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock FontSize="22" Margin="5,0,0,0" TextAlignment="Center" VerticalAlignment="Center" Text="Add Spell to List"/>
-                </StackPanel>
-            </Button.Content>
-            <Button.CommandParameter>
-                <Binding ElementName="SpellsListView" Path="SelectedItems"/>
-            </Button.CommandParameter>
-        </Button>
+        
     </Grid>
 </UserControl>

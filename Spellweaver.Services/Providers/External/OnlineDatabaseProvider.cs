@@ -48,5 +48,19 @@ namespace Spellweaver.Providers
             }
             return spells;
         }
+
+        public override async Task<List<Spell>> GetSpellsWithParameters(Dictionary<string, string> parameters)
+        {
+            var result = await new O5ESpellDataProvider().GetSpellWithMultipleParameters(parameters);
+            List<Spell> spells = new List<Spell>();
+            // Return an empty
+            if (result == null || result?.Results.Length <= 0) return spells;
+
+            foreach (var item in result.Results)
+            {
+                spells.Add(item.TransformToInternalModel());
+            }
+            return spells;
+        }
     }
 }

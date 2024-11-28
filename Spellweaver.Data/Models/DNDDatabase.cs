@@ -15,5 +15,6 @@
         public abstract Task<List<CastingTime>> GetCastingTimesAsync();
         public abstract Task<List<Spell>> GetALLSpellsAsync();
         public abstract Task<List<Spell>> GetAllSpellsThatMatch(string match);
+        public abstract Task<List<Spell>> GetSpellsWithParameters(Dictionary<string, string> parameters);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Serilog;
 using Spellweaver.Data;
 using Spellweaver.Data.Models.Structures;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace Spellweaver.Services
@@ -69,7 +70,22 @@ namespace Spellweaver.Services
         public async Task<O5ERequestResponse?> GetSpellMatch(string match)
         {
             match = match.Replace("\n", "%20");
-            string newUrl = $"v1/spells/?search={match}";
+            string newUrl = $"v1/spells/?dnd_class={match}&limit=5";
+            return await GetData(newUrl);
+        }
+
+        public async Task<O5ERequestResponse?> GetSpellWithMultipleParameters(Dictionary<string, string> keyValueParameters)
+        {
+            string newUrl = "v1/spells/?";
+            List<string> parameterList = new List<string>();
+            foreach (var entry in keyValueParameters)
+            {
+                var valueEntry = entry.Value.Replace("\n", "%20");
+                var keyEntry = entry.Key;
+                parameterList.Add($"{keyEntry}={valueEntry}");
+            }
+            newUrl += string.Join("&", parameterList);
+            Trace.WriteLine(newUrl);
             return await GetData(newUrl);
         }
 
