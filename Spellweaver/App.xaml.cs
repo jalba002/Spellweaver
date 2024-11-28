@@ -37,6 +37,7 @@ namespace Spellweaver
             service.AddTransient<DownloaderViewModel>();
             service.AddTransient<SpellEditorViewModel>();
             service.AddTransient<SpellListViewModel>();
+            service.AddTransient<SpellbookViewModel>();
 
             service.AddTransient<UserConfigManager>();
 

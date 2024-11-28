@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Spellweaver.View"
              xmlns:converter="clr-namespace:Spellweaver.Converter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:Background="LightGray">
+             d:DesignHeight="550" d:DesignWidth="800" d:Background="LightGray">
     <UserControl.Resources>
         <converter:NumericalLevelToStringConverter x:Key="LevelStringToIntConverter"/>
         <DataTemplate x:Key="SpellDataTemplate">
@@ -177,16 +177,9 @@
     AllowDrop="{Binding SelectedSpell.IsMaterial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </ContentControl>
                     <TextBox Padding="5"
-    TextWrapping="Wrap"
-    Text="{Binding SelectedSpell.DescriptionMaterials, Mode=TwoWay}"
-    IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Material, TargetNullValue=False}"/>
-                    <ContentControl Content="Upcasted" x:Name="Checkbox_Upcasted"
-    Template="{StaticResource BaseCheckboxLabeled}">
-                    </ContentControl>
-                    <TextBox Padding="5"
-    TextWrapping="Wrap"
-    Text="{Binding SelectedSpell.UpcastDescription, Mode=TwoWay}"
-    IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Upcasted, TargetNullValue=False}"/>
+                            TextWrapping="Wrap"
+                            Text="{Binding SelectedSpell.DescriptionMaterials, Mode=TwoWay}"
+                            IsEnabled="{Binding AllowDrop, ElementName=Checkbox_Material, TargetNullValue=False}"/>
                 </StackPanel>
             </Grid>
 
@@ -198,6 +191,9 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Padding="8,0,0,0"
                     Text="Description"
@@ -205,15 +201,22 @@
                            FontFamily="Montserrat"
                            />
                 <Separator Grid.Row="1"/>
-                <ContentControl Grid.Row="2" Margin="0,5,0,0"
+                <ContentControl Grid.Row="2" Margin="0,5,0,5"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 VerticalContentAlignment="Top"
                                 HorizontalContentAlignment="Left"
-                    Template="{StaticResource BaseText}"
-                    Tag="{Binding Path=SelectedSpell.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    >
-                </ContentControl>
+                                Template="{StaticResource BaseText}"
+                                Tag="{Binding Path=SelectedSpell.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="3" Margin="0,5,0,0" Padding="8,0,0,0" Text="At higher levels:" FontSize="14" FontFamily="Montserrat"/>
+                <Separator Grid.Row="4"/>
+                <ContentControl Grid.Row="5" Margin="0,5,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Top"
+                                HorizontalContentAlignment="Left"
+                                Template="{StaticResource BaseText}"
+                                Tag="{Binding Path=SelectedSpell.UpcastDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Border>
     </Grid>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Spellweaver.View"
+             xmlns:converter="clr-namespace:Spellweaver.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="500">
     <Grid Background="White" DataContext="{Binding Path=CurrentSpell}">
@@ -29,14 +30,17 @@
                 <Style x:Key="SpellTitleCard" BasedOn="{StaticResource BaseTextBlock}" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5"/>
                     <Setter Property="FontSize" Value="24"/>
-                    
+
                 </Style>
                 <Style x:Key="SpellSmallEntries" BasedOn="{StaticResource BaseTextBlock}" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5"/>
                     <Setter Property="FontSize" Value="12"/>
                 </Style>
             </Grid.Resources>
-            <TextBlock Style="{StaticResource SpellTitleCard}" Grid.Row="0" Text="{Binding Name}"/>
+            <DockPanel Grid.Row="0" LastChildFill="False" HorizontalAlignment="Stretch">
+                <TextBlock Style="{StaticResource SpellTitleCard}" DockPanel.Dock="Left" Text="{Binding Name}"/>
+                <TextBlock Style="{StaticResource SpellSmallEntries}" DockPanel.Dock="RIght" Text="{Binding Tags}"/>
+            </DockPanel>
             <TextBlock  Margin="5,0,0,-5" Style="{StaticResource SpellSmallEntries}" Grid.Row="1">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} {1}">
@@ -52,47 +56,64 @@
         </Grid>
         <!--Grid for the stats and description-->
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.Resources>
+                <Style x:Key="Base_TextBlock" TargetType="TextBlock">
+                    <Setter Property="FontFamily" Value="Montserrat"/>
+                    <Setter Property="DockPanel.Dock" Value="Top"/>
+                    <Setter Property="FontSize" Value="14"/>
+                </Style>
                 <Style x:Key="SampleDockpanel" TargetType="DockPanel">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
                 </Style>
-                <Style x:Key="TitleDockPanel" TargetType="TextBlock">
-                    <Setter Property="FontFamily" Value="Montserrat"/>
+                <Style x:Key="TitleDockPanel" TargetType="TextBlock" BasedOn="{StaticResource Base_TextBlock}">
                     <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="Margin" Value="0,3,0,0"/>
                 </Style>
-                <ControlTemplate x:Key="TitleDockPanelPrefab" TargetType="ContentControl">
-                    <DockPanel Style="{StaticResource SampleDockpanel}">
-                        <TextBlock Style="{StaticResource TitleDockPanel}" Margin="0,3,0,0" DockPanel.Dock="Top" Text="{Binding Name, RelativeSource={RelativeSource TemplatedParent}}"></TextBlock>
-                        <TextBlock DockPanel.Dock="Top" Text="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}" TextWrapping="Wrap"/>
-                    </DockPanel>
-                </ControlTemplate>
+                <Style x:Key="DescriptionPanelPrefab" TargetType="TextBlock" BasedOn="{StaticResource Base_TextBlock}">
+                    <Setter Property="FontSize" Value="14"/>
+                </Style>
             </Grid.Resources>
-            <ContentControl Name="CASTING_TIME" Grid.Row="0" Grid.Column="0" Tag="{Binding CastingTime}" Template="{StaticResource TitleDockPanelPrefab}"/>
-            <ContentControl Name="RANGE" Grid.Row="0" Grid.Column="1" Tag="{Binding Range}" Template="{StaticResource TitleDockPanelPrefab}"/>
-            <ContentControl Name="COMPONENTS" Grid.Row="1" Grid.Column="0" Tag="{Binding ComponentsString}" Template="{StaticResource TitleDockPanelPrefab}"/>
-            <ContentControl Name="DURATION" Grid.Row="1" Grid.Column="1" Tag="{Binding Duration}" Template="{StaticResource TitleDockPanelPrefab}"/>
-            
-            <DockPanel Grid.ColumnSpan="2" Grid.Row="2" Margin="5" LastChildFill="True">
+            <!--Details-->
+            <UniformGrid Grid.Row="0" Columns="2" Rows="2" Margin="5">
+                <UniformGrid.Resources>
+                    <Style TargetType="DockPanel" BasedOn="{StaticResource SampleDockpanel}">
+                        <Setter Property="Margin" Value="0,0,0,5"/>
+                        <Setter Property="DockPanel.Dock" Value="Top"/>
+                    </Style>
+                </UniformGrid.Resources>
+                <DockPanel>
+                    <TextBlock Style="{DynamicResource TitleDockPanel}" Text="CASTING TIME"/>
+                    <TextBlock Style="{DynamicResource DescriptionPanelPrefab}" Text="{Binding CastingTime}" TextWrapping="Wrap"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Style="{DynamicResource TitleDockPanel}" Text="RANGE"/>
+                    <TextBlock Style="{DynamicResource DescriptionPanelPrefab}" Text="{Binding Range}" TextWrapping="Wrap"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Style="{DynamicResource TitleDockPanel}" Text="COMPONENTS"/>
+                    <TextBlock Style="{DynamicResource DescriptionPanelPrefab}" Text="{Binding ComponentsString}" TextWrapping="Wrap"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Style="{DynamicResource TitleDockPanel}" Text="DURATION"/>
+                    <TextBlock Style="{DynamicResource DescriptionPanelPrefab}" Text="{Binding Duration}" TextWrapping="Wrap"/>
+                </DockPanel>
+            </UniformGrid>
+            <!--Normal description-->
+            <DockPanel Grid.Row="1" Margin="5" LastChildFill="True">
                 <Separator DockPanel.Dock="Top"/>
                 <Separator DockPanel.Dock="Bottom"/>
                 <ScrollViewer DockPanel.Dock="Top" Margin="5">
-                    <TextBlock Name="Description" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Padding="2" Text="{Binding Description}" TextWrapping="Wrap">
-                    </TextBlock>
+                    <TextBlock Name="Description" Style="{StaticResource Base_TextBlock}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Padding="2" Text="{Binding Description}" TextWrapping="Wrap"/>
                 </ScrollViewer>
             </DockPanel>
-            <TextBlock Grid.ColumnSpan="2" Grid.Row="3" Margin="5,0,5,5" Text="{Binding UpcastDescription}">
-            </TextBlock>
+            <TextBlock Name="UpcastDescription" Style="{StaticResource Base_TextBlock}" Grid.Row="2" Margin="5,0,5,5" Text="{Binding UpcastDescription}" TextWrapping="Wrap"/>
+            <!--Upcasting description-->
         </Grid>
     </Grid>
 </UserControl>

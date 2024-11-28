@@ -119,6 +119,7 @@ namespace Spellweaver.Data
                 Duration = this.Duration,
                 Classes = this.DndClass,
                 Description = this.Desc,
+                UpcastDescription = this.HigherLevel,
                 Source = this.DocumentTitle,
                 IsRitual = this.CanBeCastAsRitual,
                 IsConcentration = this.RequiresConcentration

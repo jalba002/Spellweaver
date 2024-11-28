@@ -46,6 +46,9 @@
         <DataTemplate DataType="{x:Type ViewModels:NullSpellViewModel}">
             <Views:NullSpellView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:SpellbookViewModel}">
+            <Views:SpellbookView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.Resources>
@@ -110,6 +113,16 @@
                             <StackPanel Orientation="Horizontal">
                                 <fa:IconImage Icon="eye" Style="{StaticResource MenuButtonIcon}"/>
                                 <TextBlock Text="Spell Card" Style="{StaticResource MenuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"
+                                     Command="{Binding LoadSpellbookViewCommand}"
+                                     DockPanel.Dock="Top"
+                                     GroupName="MenuButtons"
+                                     Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="BookOpen" Style="{StaticResource MenuButtonIcon}"/>
+                                <TextBlock Text="Spell Books" Style="{StaticResource MenuButtonText}"/>
                             </StackPanel>
                         </RadioButton>
                         <RadioButton Style="{StaticResource MenuButton}" Tag="{StaticResource Color5}"

@@ -172,13 +172,14 @@ namespace Spellweaver.ViewModel
             get
             {
                 string finalString = "";
-                finalString += IsVocal ? "V," : "";
-                finalString += IsSomatic ? "S," : "";
-                finalString += IsMaterial ? $"M" : "";
+                List<string> concatString = new List<string>();
+                if (IsVocal) concatString.Add("V");
+                if (IsSomatic) concatString.Add("S");
+                if (IsMaterial) concatString.Add("M");
+
+                finalString = string.Join(", ", concatString);
                 if (IsMaterial && !string.IsNullOrEmpty(DescriptionMaterials)) finalString += $" ({DescriptionMaterials})";
-                if (!IsMaterial && finalString.Length > 0)
-                    finalString = finalString.Remove(finalString.Length - 1, 1);
-                if (finalString.Length <= 1) return "";
+
                 return finalString;
             }
         }
@@ -188,6 +189,19 @@ namespace Spellweaver.ViewModel
             get
             {
                 return string.IsNullOrEmpty(Level) ? "" : (Level == "0" ? "Cantrip" : $"{Spellweaver.Backend.Utils.ToOrdinal(Level)} Level");
+            }
+        }
+
+        public string Tags
+        {
+            get
+            {
+                List<string> tags = new List<string>();
+                if (IsRitual) tags.Add("Ritual");
+                if (IsConcentration) tags.Add("Concentration");
+                if (tags.Count > 1) return string.Join(", ", tags);
+                else if (tags.Count <= 0) return string.Empty;
+                return tags[0];
             }
         }
 

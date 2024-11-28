@@ -56,7 +56,11 @@ namespace Spellweaver.Managers
         public static void AddToSpellList(List<SpellItemViewModel> spells)
         {
             if (spells == null || spells.Count <= 0) return;
-            SpellList.AddRange(spells);
+            foreach (var item in spells)
+            {
+                SpellList.Add(item.Clone() as SpellItemViewModel);
+            }
+            //SpellList.AddRange(spells);
         }
 
         private static void AddToSpellListAtIndex(SpellItemViewModel singleSpell, int index)

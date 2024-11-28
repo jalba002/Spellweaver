@@ -5,21 +5,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Spellweaver.View"
              xmlns:localViewModel="clr-namespace:Spellweaver.ViewModel"
-             xmlns:converter="clr-namespace:Spellweaver.Converter"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400" d:Background="LightGray">
     <!--controls all the lists-->
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
-        <ContentControl x:Name="Level1" Template="{StaticResource SpellbookSingleEntry}" Tag="Cantrips"/>
-        <ContentControl x:Name="Level2" Template="{StaticResource SpellbookSingleEntry}" Tag="Level 1"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 2"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 3"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 4"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 5"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 6"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 7"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 8"/>
-        <ContentControl Template="{StaticResource SpellbookSingleEntry}" Tag="Level 9"/>
-    </StackPanel>
+    <DockPanel>
+        <ScrollViewer HorizontalAlignment="Stretch">
+            <StackPanel>
+                <ContentControl x:Name="Cantrips" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_1" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_2" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_3" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_4" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_5" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_6" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_7" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_8" Template="{StaticResource SpellbookSingleEntry}"/>
+                <ContentControl x:Name="Level_9" Template="{StaticResource SpellbookSingleEntry}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>

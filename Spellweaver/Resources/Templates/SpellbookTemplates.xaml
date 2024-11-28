@@ -5,19 +5,20 @@
     <ControlTemplate x:Key="SpellbookSingleEntry" TargetType="ContentControl">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
             <DockPanel HorizontalAlignment="Stretch" Height="30" Background="Black">
-                <TextBlock Text="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                <TextBlock Text="{Binding Path=Name, RelativeSource={RelativeSource TemplatedParent}}"
                            Foreground="White"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                            Margin="10,0,0,0">
                 </TextBlock>
+                
                 <TextBlock>
 
                 </TextBlock>
             </DockPanel>
-            <ListView ItemsSource="{Binding Path=DataContext, RelativeSource={RelativeSource TemplatedParent}}">
+            <!--<ListView ItemsSource="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}">
 
-            </ListView>
+            </ListView>-->
         </StackPanel>
     </ControlTemplate>
 </ResourceDictionary>

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
+using System.Xml.Linq;
 using static Spellweaver.Services.Backend.ExporterFactory;
 
 namespace Spellweaver.ViewModel
@@ -41,9 +42,28 @@ namespace Spellweaver.ViewModel
             DownloadSpellsCommand = new AsyncCommand(DownloadSpells, CanExecuteCommand);
             DownloadAllSpellsCommand = new AsyncCommand(DownloadAllSpells, CanExecuteCommand);
 
+            FilterList = new Dictionary<string, Func<string?>>()
+            {
+                { "Name", () => NameFilter },
+                { "Classes", () => ClassFilter },
+                { "Level", () => LevelFilter },
+                { "Description", () => DescriptionFilter },
+                { "Source", () => SourceFilter }
+            };
+
+            SortingList = new ObservableCollection<SortingEntry>()
+            {
+                new SortingEntry("Name Asc.", new SortDescription("Name", ListSortDirection.Ascending)),
+                new SortingEntry("Name Desc.", new SortDescription("Name", ListSortDirection.Descending)),
+                new SortingEntry("School Asc.", new SortDescription("School", ListSortDirection.Ascending)),
+                new SortingEntry("School Desc.", new SortDescription("School", ListSortDirection.Descending)),
+            };
+
             // Load view!
             _spellsView = CollectionViewSource.GetDefaultView(SpellManager.SpellList);
-            _spellsView.Filter = x => FilterSpell(x, Filter);
+            _spellsView.Filter = FilterSpell;
+
+            SortingMethod = SortingList[0];
         }
 
         #region Collections
@@ -67,34 +87,138 @@ namespace Spellweaver.ViewModel
             }
         }
 
-        private string _filter;
-        public string Filter
+        #region Filter Properties
+
+        private Dictionary<string, Func<string?>> FilterList = new Dictionary<string, Func<string?>>();
+
+        private string? _nameFilter;
+        public string? NameFilter
         {
-            get { return _filter; }
+            get { return _nameFilter; }
             set
             {
-                _filter = value;
+                _nameFilter = value;
                 _spellsView.Refresh();
                 RaisePropertyChanged();
             }
         }
 
-        private bool FilterSpell(object? spell, string filter)
+        private string? _levelFilter;
+        public string? LevelFilter
         {
-            if (String.IsNullOrEmpty(Filter)) return true;
-            bool contains = false;
+            get { return _levelFilter; }
+            set
+            {
+                _levelFilter = value;
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        private string? _classFilter;
+        public string? ClassFilter
+        {
+            get { return _classFilter; }
+            set
+            {
+                _classFilter = value;
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        private string? _descriptionFilter;
+        public string? DescriptionFilter
+        {
+            get { return _descriptionFilter; }
+            set
+            {
+                _descriptionFilter = value;
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        private string? _sourceFilter;
+        public string? SourceFilter
+        {
+            get { return _sourceFilter; }
+            set
+            {
+                _sourceFilter = value;
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        private string? _schoolFilter;
+        public string? SchoolFilter
+        {
+            get { return _schoolFilter; }
+            set
+            {
+                _schoolFilter = value;
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region Sorting Properties
+        public ObservableCollection<SortingEntry> SortingList { get; private set; }
+
+        [System.Serializable]
+        public class SortingEntry
+        {
+            public SortingEntry(string name, SortDescription sortingMethod)
+            {
+                Name = name;
+                SortingMethod = sortingMethod;
+            }
+
+            public string Name { get; set; }
+            public SortDescription SortingMethod { get; set; }
+        }
+
+        private SortingEntry _selectedSortingMethod;
+        public SortingEntry SortingMethod
+        {
+            get => _selectedSortingMethod;
+            set
+            {
+                _selectedSortingMethod = value;
+                ApplySort(value);
+                _spellsView.Refresh();
+                RaisePropertyChanged();
+            }
+        }
+
+        public void ApplySort(SortingEntry sortingEntry)
+        {
+            if (sortingEntry == null) return;
+            _spellsView.SortDescriptions.Clear();
+            _spellsView.SortDescriptions.Add(sortingEntry.SortingMethod);
+        }
+
+        #endregion
+
+        private bool FilterSpell(object? spell)
+        {
             SpellItemViewModel modelSpell = (SpellItemViewModel)spell;
 
-            filter = filter.Replace(" ", "");
-
-            contains = modelSpell.Name.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-            modelSpell.Description.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-            modelSpell.Classes.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-            modelSpell.LevelFormatted.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-            modelSpell.ComponentsString.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-            modelSpell.Source.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ||
-            modelSpell.School.Contains(filter, StringComparison.InvariantCultureIgnoreCase);
-
+            bool contains = true;
+            foreach (var entry in FilterList)
+            {
+                string entryValue = entry.Value?.Invoke();
+                if (!string.IsNullOrEmpty(entryValue))
+                {
+                    // Analyzing entry.Key!
+                    var propertyInfo = typeof(SpellItemViewModel).GetProperty(entry.Key);
+                    contains = ((string)propertyInfo.GetValue(modelSpell)).Contains(entryValue, StringComparison.CurrentCultureIgnoreCase);
+                    if (!contains) return false;
+                }
+            }
             return contains;
         }
 
@@ -238,14 +362,14 @@ namespace Spellweaver.ViewModel
 
         private void Add(object? parameter)
         {
-            var spell = new Spell 
-            { 
-                Name = "Default Spell", 
-                Level = "0", 
-                CastingTime = "1 action", 
-                Classes = "Wizard", 
-                Description = "Default Spell for Testing", 
-                School = "Evocation", 
+            var spell = new Spell
+            {
+                Name = "Default Spell",
+                Level = "0",
+                CastingTime = "1 action",
+                Classes = "Wizard",
+                Description = "Default Spell for Testing",
+                School = "Evocation",
                 Range = "60ft",
                 Source = "Spellweaver"
             };

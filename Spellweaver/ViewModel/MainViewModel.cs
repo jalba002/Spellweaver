@@ -20,6 +20,7 @@ namespace Spellweaver.ViewModel
         private readonly SpellListViewModel ListViewModel;
         private readonly SpellEditorViewModel EditorViewModel;
         private readonly DownloaderViewModel DownloaderViewModel;
+        private readonly SpellbookViewModel SpellbookViewModel;
 
         private Lazy<TitleViewModel> TitleViewModel = new Lazy<TitleViewModel>();
         private Lazy<ConfigViewModel> ConfigViewModel = new Lazy<ConfigViewModel>();
@@ -36,6 +37,7 @@ namespace Spellweaver.ViewModel
             SpellListViewModel spellListVM,
             SpellEditorViewModel spellEditorVM,
             DownloaderViewModel downloaderVM,
+            SpellbookViewModel spellbookVM,
             ExporterFactory exporterFactory)
         {
             Instance = this;
@@ -47,13 +49,18 @@ namespace Spellweaver.ViewModel
             this.ListViewModel = spellListVM;
             this.EditorViewModel = spellEditorVM;
             this.DownloaderViewModel = downloaderVM;
+            this.SpellbookViewModel = spellbookVM;
 
+            // Async commands
             LoadSpellEditorCommand = new AsyncCommand(LoadSpellEditor, CanExecute);
             LoadSpellListCommand = new AsyncCommand(LoadSpellList, CanExecute);
+            LoadSpellCardViewCommand = new AsyncCommand(LoadSpellCard, CanExecute);
+
+            // Sync ones
             LoadMainMenuCommand = new DelegateCommand(LoadMainMenu);
             LoadConfigCommand = new DelegateCommand(LoadConfig);
             LoadDownloaderControlCommand = new DelegateCommand(LoadDownloader);
-            LoadSpellCardViewCommand = new AsyncCommand(LoadSpellCard, CanExecute);
+            LoadSpellbookViewCommand = new DelegateCommand(LoadSpellbook);
         }
 
         private ViewModelBase _selectedViewModel;
@@ -84,6 +91,7 @@ namespace Spellweaver.ViewModel
         public DelegateCommand LoadMainMenuCommand { get; }
         public DelegateCommand LoadConfigCommand { get; }
         public DelegateCommand LoadDownloaderControlCommand { get; }
+        public DelegateCommand LoadSpellbookViewCommand { get; }
         public IAsyncCommand LoadSpellCardViewCommand { get; }
 
         private bool CanExecute() => !IsBusy;
@@ -106,6 +114,10 @@ namespace Spellweaver.ViewModel
         public void LoadDownloader(object? parameter)
         {
             SelectedViewModel = DownloaderViewModel;
+        }
+        public void LoadSpellbook(object? parameter)
+        {
+            SelectedViewModel = SpellbookViewModel;
         }
 
         private async Task LoadSpellList()
